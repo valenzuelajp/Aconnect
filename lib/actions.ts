@@ -16,7 +16,7 @@ const registerSchema = z.object({
     graduation_year: z.string().min(1, "Graduation year is required"),
     degree: z.string().min(1, "Degree is required"),
     degree_other: z.string().optional(),
-    gender: z.string().min(1, "Gender is required"),
+    sex: z.string().min(1, "Sex is required"),
 });
 
 export async function registerAction(prevState: any, formData: FormData) {
@@ -43,7 +43,7 @@ export async function registerAction(prevState: any, formData: FormData) {
         graduation_year,
         degree,
         degree_other,
-        gender
+        sex
     } = validatedFields.data;
 
     try {
@@ -67,12 +67,12 @@ export async function registerAction(prevState: any, formData: FormData) {
             `INSERT INTO alumni (
                 student_number, password, first_name, last_name, email, 
                 alternative_email, phone, telephone, graduation_year, 
-                degree, gender, year_admitted, status, email_verified
+                degree, sex, year_admitted, status, email_verified
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 student_number, hashedPassword, first_name, last_name, email,
                 alternative_email, phone, telephone || null, parseInt(graduation_year),
-                finalDegree, gender.toLowerCase(), yearAdmitted, "active", true
+                finalDegree, sex.toLowerCase(), yearAdmitted, "active", true
             ]
         );
 

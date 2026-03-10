@@ -175,7 +175,7 @@ export default function ProfilePage() {
 
     const getImagePath = () => {
         if (alumni?.profile_image) return `/assets/uploads/alumni/${alumni.profile_image}`;
-        return `/assets/images/person-${alumni?.gender?.toLowerCase() === "female" ? "female" : "male"}.png`;
+        return `/assets/images/person-${alumni?.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
     };
 
     const isCredly = (url: string) => {

@@ -24,8 +24,6 @@ export async function GET(req: Request) {
             [currentAlumniId]
         );
 
-        const alumni = alumniRows[0];
-
         const [jobsList]: any = await db.query(
             `SELECT * FROM jobs 
              WHERE (job_title LIKE ? OR company LIKE ?) 

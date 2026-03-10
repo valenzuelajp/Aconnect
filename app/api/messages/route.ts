@@ -30,7 +30,7 @@ export async function GET(req: Request) {
         } else {
             
             const [friends]: any = await db.query(
-                `SELECT id, first_name, last_name, profile_image, gender 
+                `SELECT id, first_name, last_name, profile_image, sex 
                  FROM alumni 
                  WHERE id IN (
                     SELECT CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import { sendVerificationEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest) {
             graduation_year,
             student_number,
             degree,
-            gender,
+            sex,
             degree_other,
         } = body;
 
@@ -43,7 +42,7 @@ export async function POST(req: NextRequest) {
             `INSERT INTO alumni (
                 first_name, last_name, email, password, phone, telephone, 
                 alternative_email, graduation_year, student_number, degree, 
-                gender, status, email_verified, verification_token, year_admitted
+                sex, status, email_verified, verification_token, year_admitted
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 first_name,
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
                 graduation_year ? parseInt(graduation_year) : null,
                 student_number,
                 finalDegree,
-                gender,
+                sex,
                 "active",
                 false, // email_verified
                 token, // verification_token

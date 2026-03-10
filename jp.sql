@@ -70,7 +70,7 @@ CREATE TABLE `alumni` (
   `first_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `middle_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` enum('male','female','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sex` enum('male','female','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `alternative_email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE `alumni` (
 -- Dumping data for table `alumni`
 --
 
-INSERT INTO `alumni` (`id`, `alumni_number`, `first_name`, `middle_name`, `last_name`, `gender`, `email`, `alternative_email`, `password`, `phone`, `alternative_phone`, `telephone`, `year_admitted`, `graduation_year`, `degree`, `profile_image`, `student_number`, `last_login`, `status`, `current_job`, `current_job_organization`, `current_job_length`, `soft_skills`, `technical_skills`, `school`, `created_at`, `email_verified`, `verification_token`, `verification_sent_at`) VALUES
+INSERT INTO `alumni` (`id`, `alumni_number`, `first_name`, `middle_name`, `last_name`, `sex`, `email`, `alternative_email`, `password`, `phone`, `alternative_phone`, `telephone`, `year_admitted`, `graduation_year`, `degree`, `profile_image`, `student_number`, `last_login`, `status`, `current_job`, `current_job_organization`, `current_job_length`, `soft_skills`, `technical_skills`, `school`, `created_at`, `email_verified`, `verification_token`, `verification_sent_at`) VALUES
 (2, NULL, 'Paul', NULL, 'Atreides', 'male', 'mixeer19@gmail.com', 'mixeer19@gmail.com', '$2b$10$TWfnoAL816XGXyHZiXtFxuoesMMOC/3olfANM3D0TsYuT5fHRy1EG', '9988994071', '', '0464183181', 202000170, 2017, 'BS in Information Technology', '1770072106875_paul.jpg', '202000170', '2026-02-01 16:27:48', 'active', NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-01 16:27:48', 1, NULL, NULL),
 (3, NULL, 'Jp', NULL, 'Valenzuela', 'male', 'jp.agustin.valenzuela.19@gmail.com', 'jp.agustin.valenzuela.19@gmail.com', '$2b$10$56gEZrxaUtsyDc95D1FYs.bFg5cHkQiD/rVnKna.JQlG7jnk6ma.S', '9988994071', '', '0464183181', 202000163, 2026, 'BS in Information Technology', '1770075163640_6d1db58c-1325-4cdf-bffc-be26c7408ab5.jpg', '202000163', '2026-02-02 22:32:24', 'active', NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-02 22:32:24', 1, '366473', NULL);
 

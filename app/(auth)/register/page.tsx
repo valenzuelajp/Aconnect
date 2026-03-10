@@ -2,11 +2,9 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { registerAction } from "@/lib/actions";
 import { SubmitButton } from "@/components/ui/SubmitButton";
-import EmailVerificationModal from "@/components/modals/EmailVerificationModal";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -225,16 +223,16 @@ export default function RegisterPage() {
 
                             <div>
                                 <select
-                                    name="gender"
-                                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.gender ? 'border-red-500' : 'border-[#ddd]'}`}
+                                    name="sex"
+                                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.sex ? 'border-red-500' : 'border-[#ddd]'}`}
                                     required
                                 >
-                                    <option value="">Gender</option>
+                                    <option value="">Sex</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
-                                {state?.error?.gender && <p className="text-red-500 text-xs mt-1">{state.error.gender[0]}</p>}
+                                {state?.error?.sex && <p className="text-red-500 text-xs mt-1">{state.error.sex[0]}</p>}
                             </div>
 
                             <div>

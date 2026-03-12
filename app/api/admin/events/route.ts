@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import db from "@/lib/db";
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       const uploadDir = path.join(process.cwd(), "public", "assets", "uploads", "events");
       try {
         await mkdir(uploadDir, { recursive: true });
-      } catch (e) {
+      } catch {
         console.log("Upload directory already exists or created");
       }
 

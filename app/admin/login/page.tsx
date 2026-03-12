@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
 
     return (
         <div className="flex min-h-screen bg-[#f7f7f7]">
-            {}
+            { }
             <div className="hidden md:flex flex-1 items-center justify-center overflow-hidden bg-[#920E0E]">
                 <img
                     src="/assets/images/welcome.png"
@@ -74,7 +74,7 @@ export default function AdminLoginPage() {
                 />
             </div>
 
-            {}
+            { }
             <div className="flex flex-1 flex-col items-center justify-center p-8 bg-white">
                 <div className="w-full max-w-[350px]">
                     <div className="text-center mb-2">

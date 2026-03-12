@@ -1,14 +1,13 @@
 "use client";
 
-import { useActionState, useEffect, useState, Suspense } from "react";
+import { useActionState, useEffect, Suspense } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 
 function LoginForm() {
-    const { data: session, status } = useSession();
+    const { status } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -18,7 +17,6 @@ function LoginForm() {
         }
     }, [status, router]);
 
-    const verified = searchParams.get("verified");
 
     async function loginHandler(prevState: any, formData: FormData) {
         const student_number = formData.get("student_number") as string;

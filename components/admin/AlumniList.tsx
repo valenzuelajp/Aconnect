@@ -1,6 +1,5 @@
 "use client";
 
-import db from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,7 +11,7 @@ interface AlumniListProps {
 }
 
 export default function AlumniList({ initialAlumni }: AlumniListProps) {
-    const [alumni, setAlumni] = useState(initialAlumni);
+    const [alumni] = useState(initialAlumni);
     const [selectedAlumni, setSelectedAlumni] = useState<any>(null);
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [showResendConfirm, setShowResendConfirm] = useState(false);
@@ -190,8 +189,8 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                                     <p className="text-gray-900">{selectedAlumni.graduation_year || "N/A"}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs font-bold text-gray-400 uppercase">Gender</label>
-                                    <p className="text-gray-900 capitalize">{selectedAlumni.gender || "N/A"}</p>
+                                    <label className="text-xs font-bold text-gray-400 uppercase">Sex</label>
+                                    <p className="text-gray-900 capitalize">{selectedAlumni.sex || "N/A"}</p>
                                 </div>
                                 <div>
                                     <label className="text-xs font-bold text-gray-400 uppercase">Status</label>

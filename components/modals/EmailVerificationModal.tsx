@@ -9,7 +9,7 @@ interface EmailVerificationModalProps {
     onVerified: () => void;
 }
 
-export default function EmailVerificationModal({ email, isOpen, onClose, onVerified }: EmailVerificationModalProps) {
+export default function EmailVerificationModal({ email, isOpen, onVerified }: Omit<EmailVerificationModalProps, "onClose">) {
     const [code, setCode] = useState(["", "", "", "", "", ""]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ export default function EmailVerificationModal({ email, isOpen, onClose, onVerif
             } else {
                 setError(data.error || "Verification failed. Please try again.");
             }
-        } catch (err) {
+        } catch {
             setError("Something went wrong. Please try again.");
         } finally {
             setLoading(false);

@@ -68,7 +68,7 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
 
     const getImagePath = (f: any) => {
         if (f.profile_image) return `/assets/uploads/alumni/${f.profile_image}`;
-        return `/assets/images/person-${f.gender?.toLowerCase() === "female" ? "female" : "male"}.png`;
+        return `/assets/images/person-${f.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
     };
 
     return (

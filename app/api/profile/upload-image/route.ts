@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         // Ensure directory exists
         try {
             await mkdir(uploadDir, { recursive: true });
-        } catch (e) { }
+        } catch { }
 
         const filePath = path.join(uploadDir, fileName);
         await writeFile(filePath, buffer);

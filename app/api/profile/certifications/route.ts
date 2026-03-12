@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import db from "@/lib/db";
-import { writeFile, mkdir, unlink } from "fs/promises";
+import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 
 export async function GET() {
@@ -31,7 +31,7 @@ async function handleImageUpload(file: File): Promise<string | null> {
 
     try {
         await mkdir(uploadDir, { recursive: true });
-    } catch (e) {
+    } catch {
         // Directory exists
     }
 

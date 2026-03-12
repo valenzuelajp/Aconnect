@@ -58,7 +58,7 @@ export default function PeerProfilePage() {
 
     const getImagePath = () => {
         if (alumnus?.profile_image) return `/assets/uploads/alumni/${alumnus.profile_image}`;
-        return `/assets/images/person-${alumnus?.gender?.toLowerCase() === "female" ? "female" : "male"}.png`;
+        return `/assets/images/person-${alumnus?.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
     };
 
     if (loading || !alumnus) {
@@ -74,7 +74,7 @@ export default function PeerProfilePage() {
     return (
         <div className="bg-[#FAFAF8] min-h-screen font-sans pb-20 pt-10 px-4">
             <div className="max-w-[900px] mx-auto">
-                {}
+                { }
                 <Link
                     href="/alumni"
                     className="inline-flex items-center gap-2 text-sm font-bold text-[#6B7280] hover:text-[#8B1538] mb-6 transition-colors"
@@ -82,12 +82,12 @@ export default function PeerProfilePage() {
                     <i className="fas fa-arrow-left"></i> Back to Network
                 </Link>
 
-                {}
+                { }
                 <div className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] h-[180px] rounded-t-2xl relative shadow-md overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:20px_20px]"></div>
                 </div>
 
-                {}
+                { }
                 <div className="bg-white p-6 md:p-10 rounded-b-2xl shadow-md relative mb-6">
                     <div className="absolute -top-[70px] left-6 md:left-10 w-[140px] h-[140px] rounded-full border-[6px] border-white shadow-xl overflow-hidden bg-white">
                         <img
@@ -116,7 +116,7 @@ export default function PeerProfilePage() {
                             </div>
                         </div>
 
-                        {}
+                        { }
                         <div className="flex gap-3">
                             {alumnus.connectionStatus === "accepted" ? (
                                 <button className="bg-emerald-50 text-emerald-700 px-6 py-3 rounded-xl font-bold text-sm border-2 border-emerald-100 flex items-center gap-2">
@@ -163,9 +163,9 @@ export default function PeerProfilePage() {
                     </div>
                 </div>
 
-                {}
+                { }
                 <div className="grid grid-cols-1 gap-6">
-                    {}
+                    { }
                     <section className="bg-white p-8 rounded-2xl shadow-sm border border-[#E5E7EB]">
                         <h3 className="text-xl font-bold text-[#1F2937] mb-6 pb-4 border-b-2 border-[#D4A574] flex items-center gap-3">
                             <i className="fas fa-briefcase text-[#8B1538]"></i> Career Summary
@@ -188,7 +188,7 @@ export default function PeerProfilePage() {
                         )}
                     </section>
 
-                    {}
+                    { }
                     <section className="bg-white p-8 rounded-2xl shadow-sm border border-[#E5E7EB]">
                         <h3 className="text-xl font-bold text-[#1F2937] mb-6 pb-4 border-b-2 border-[#D4A574] flex items-center gap-3">
                             <i className="fas fa-award text-[#8B1538]"></i> Professional Certifications
@@ -224,7 +224,7 @@ export default function PeerProfilePage() {
                         </div>
                     </section>
 
-                    {}
+                    { }
                     <section className="bg-white p-8 rounded-2xl shadow-sm border border-[#E5E7EB]">
                         <h3 className="text-xl font-bold text-[#1F2937] mb-6 pb-4 border-b-2 border-[#D4A574] flex items-center gap-3">
                             <i className="fas fa-shapes text-[#8B1538]"></i> Areas of Expertise

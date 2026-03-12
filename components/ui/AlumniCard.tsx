@@ -39,7 +39,7 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
 
     const getImagePath = () => {
         if (alumnus.profile_image) return `/assets/uploads/alumni/${alumnus.profile_image}`;
-        return `/assets/images/person-${alumnus.gender?.toLowerCase() === "female" ? "female" : "male"}.png`;
+        return `/assets/images/person-${alumnus.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
     };
 
     return (

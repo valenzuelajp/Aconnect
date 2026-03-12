@@ -16,7 +16,7 @@ export async function GET() {
     try {
         const [alumniList]: any = await db.query(
             `SELECT id, first_name, last_name, degree, graduation_year, 
-                    profile_image, gender, current_job, email, technical_skills 
+                    profile_image, sex, current_job, email, technical_skills 
              FROM alumni 
              WHERE id != ? AND status = 'active'`,
             [currentAlumniId]

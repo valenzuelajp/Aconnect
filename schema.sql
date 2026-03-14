@@ -52,12 +52,6 @@ CREATE TABLE `admin_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `admin_users`
---
-
-INSERT INTO `admin_users` (`id`, `username`, `email`, `password`, `created_at`, `last_login`, `first_name`, `last_name`) VALUES
-(1, 'admin', 'admin@aconnect.com', '$2b$10$N87ZnCDodPZI7DrOJ1N7NObgS.1HOSlVQ/22Q53F/.akqVs07DdX2', '2026-02-01 16:10:50', NULL, 'Admin', 'User');
-
 -- --------------------------------------------------------
 
 --
@@ -97,13 +91,6 @@ CREATE TABLE `alumni` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `alumni`
---
-
-INSERT INTO `alumni` (`id`, `alumni_number`, `first_name`, `middle_name`, `last_name`, `sex`, `email`, `alternative_email`, `password`, `phone`, `alternative_phone`, `telephone`, `year_admitted`, `graduation_year`, `degree`, `profile_image`, `student_number`, `last_login`, `status`, `current_job`, `current_job_organization`, `current_job_length`, `soft_skills`, `technical_skills`, `school`, `created_at`, `email_verified`, `verification_token`, `verification_sent_at`) VALUES
-(2, NULL, 'Paul', NULL, 'Atreides', 'male', 'mixeer19@gmail.com', 'mixeer19@gmail.com', '$2b$10$TWfnoAL816XGXyHZiXtFxuoesMMOC/3olfANM3D0TsYuT5fHRy1EG', '9988994071', '', '0464183181', 202000170, 2017, 'BS in Information Technology', '1770072106875_paul.jpg', '202000170', '2026-02-01 16:27:48', 'active', NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-01 16:27:48', 1, NULL, NULL),
-(3, NULL, 'Jp', NULL, 'Valenzuela', 'male', 'jp.agustin.valenzuela.19@gmail.com', 'jp.agustin.valenzuela.19@gmail.com', '$2b$10$56gEZrxaUtsyDc95D1FYs.bFg5cHkQiD/rVnKna.JQlG7jnk6ma.S', '9988994071', '', '0464183181', 202000163, 2026, 'BS in Information Technology', '1770075163640_6d1db58c-1325-4cdf-bffc-be26c7408ab5.jpg', '202000163', '2026-02-02 22:32:24', 'active', NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-02 22:32:24', 1, '366473', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -119,16 +106,6 @@ CREATE TABLE `carousel_photos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `carousel_photos`
---
-
-INSERT INTO `carousel_photos` (`id`, `title`, `description`, `file_name`, `uploaded_at`) VALUES
-(1, 'SDCA PIKEMEN VS MTC TITANS', 'POTG AMANTE!', '1769995887196_593797691_1253850743433827_8145659159601600677_n.jpg', '2026-02-02 01:31:27'),
-(2, 'NEW PARTNERSHIP!!', '', '1769995909434_592478475_1253344626817772_2003878753869414974_n.jpg', '2026-02-02 01:31:49'),
-(3, 'NEW PARTNERSHIP!!!', '', '1769995927376_592870180_1251823443636557_7173718303323690655_n.jpg', '2026-02-02 01:32:07'),
-(4, 'ALUMNI HOMECOMMING!', '', '1769995938995_1750071509_BALIK_DOMINIC.jpg', '2026-02-02 01:32:18'),
-(5, 'THE 11TH WORLD CONEFERENCE ON MEDCOM 2026', 'richardson.mojica@sdca.edu.ph for more details or Visit for more mediaconference.tiikm.com', '1769995997478_594385736_1253251896827045_1105487790885287703_n.jpg', '2026-02-02 01:33:17');
-
 -- --------------------------------------------------------
 
 --
@@ -150,12 +127,6 @@ CREATE TABLE `certification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `certification`
---
-
-INSERT INTO `certification` (`id`, `alumni_id`, `name`, `issuing_org`, `issue_date`, `expiration_date`, `credential_id`, `credential_url`, `certification_image`, `created_at`, `updated_at`) VALUES
-(2, 3, 'Cybersecurity Essentials', 'Issued by Cisco', NULL, NULL, '', 'https://www.credly.com/badges/e5daf322-a28c-4a4f-9eaa-f9f048cfa7b4/public_url', NULL, '2026-02-02 23:54:16', '2026-02-02 23:54:16');
-
 -- --------------------------------------------------------
 
 --
@@ -242,12 +213,6 @@ CREATE TABLE `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`id`, `event_name`, `event_date`, `event_time_duration`, `location`, `contact_person`, `description`, `event_image`, `image`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'EXAM 2025', '2026-03-07 08:00:00', '2 HOURS', ' DIGITAL CAMPUS', 'MR KRABS', 'MR KRABS  DIGITAL CAMPUS EXAM 2025', '1770073519245_68182e3d1da90_careertalk.jpg', NULL, NULL, NULL, '2026-02-03 07:05:19', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -311,12 +276,6 @@ CREATE TABLE `jp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `jp`
---
-
-INSERT INTO `jp` (`id`, `name`, `createdAt`) VALUES
-(1, 'Verification Test 2026-02-02T00:09:15.676Z', '2026-02-02 00:09:17.921');
-
 -- --------------------------------------------------------
 
 --
@@ -351,16 +310,6 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `post`
---
-
-INSERT INTO `post` (`id`, `title`, `content`, `post_type`, `image`, `recipient_batch`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(2, 'ALUMNI HOMECOMMING', 'ALUMNI', 'announcements', '1770011112812_1765605712_ALUMNI_EXTENSION_SERVICE.jpg', '2025', 1, NULL, '2026-02-02 05:45:12', NULL),
-(3, 'EXAM 2025', 'EXAM 2025', 'announcements', '1770072363290_68182e3d1da90_careertalk.jpg', '2025', 1, NULL, '2026-02-02 22:46:03', NULL),
-(4, 'STUDY TIME', 'STUDY TIME', 'announcements', '1770072381001_68142b3d4497e_undraw_book-writer_ri5u.png', '', 1, NULL, '2026-02-02 22:46:21', NULL),
-(5, 'REST DAY', 'REST DAY IS THE BEST DAY', 'news', '1770076542026_8f7c1d21-1f15-46c6-a4d4-37eddcacd183.jpg', '2024', 1, NULL, '2026-02-02 23:55:42', NULL),
-(6, '2026 MICROSOFT BILL GATES', '2026 MICROSOFT BILL GATES', 'stories', '1770076634185_693cd03e438d2_MICROSOFT.jpeg', '2025', 1, NULL, '2026-02-02 23:57:14', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -412,13 +361,6 @@ CREATE TABLE `_prisma_migrations` (
   `started_at` datetime(3) NOT NULL DEFAULT current_timestamp(3),
   `applied_steps_count` int(10) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `_prisma_migrations`
---
-
-INSERT INTO `_prisma_migrations` (`id`, `checksum`, `finished_at`, `migration_name`, `logs`, `rolled_back_at`, `started_at`, `applied_steps_count`) VALUES
-('ae51a909-a61c-403d-a213-4024d05428fe', 'c9fc8be4e26b02e52e395ea43adb79f629daf86fce1b0f34435d7613bece16d1', '2026-02-02 00:07:03.638', '20260202000404_create_jp_table', NULL, NULL, '2026-02-02 00:07:02.124', 1);
 
 --
 -- Indexes for dumped tables

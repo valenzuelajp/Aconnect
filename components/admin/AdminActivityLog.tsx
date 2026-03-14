@@ -26,9 +26,12 @@ export default function AdminActivityLog() {
     }
   }
 
-  const filteredLogs = logs.filter(log =>
-    (log.alumni?.first_name + " " + log.alumni?.last_name).toLowerCase().includes(search.toLowerCase()) ||
-    log.activity.toLowerCase().includes(search.toLowerCase())
+  const filteredLogs = logs.filter(
+    (log) =>
+      (log.alumni?.first_name + " " + log.alumni?.last_name)
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      log.activity.toLowerCase().includes(search.toLowerCase()),
   );
 
   if (loading) {
@@ -46,7 +49,9 @@ export default function AdminActivityLog() {
           <i className="fas fa-history text-[#700A0A]"></i>
           Activity <span className="text-[#700A0A]">Log</span>
         </h1>
-        <p className="text-slate-500 mt-2">Monitor system actions and user interactions</p>
+        <p className="text-slate-500 mt-2">
+          Monitor system actions and user interactions
+        </p>
       </div>
 
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
@@ -73,29 +78,40 @@ export default function AdminActivityLog() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Timestamp</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">User Involved</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Activity Description</th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Timestamp
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  User Involved
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Activity Description
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {filteredLogs.length > 0 ? (
                 filteredLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr
+                    key={log.id}
+                    className="hover:bg-slate-50/50 transition-colors"
+                  >
                     <td className="py-4 px-6 text-sm text-slate-500 font-medium">
-                      {new Date(log.created_at).toLocaleString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
+                      {new Date(log.created_at).toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </td>
                     <td className="py-4 px-6">
                       <div className="font-bold text-slate-800">
                         {log.alumni?.first_name} {log.alumni?.last_name}
                       </div>
-                      <div className="text-[10px] text-slate-400 uppercase font-black tracking-tighter">ALUMNI ID: {log.alumni_id}</div>
+                      <div className="text-[10px] text-slate-400 uppercase font-black tracking-tighter">
+                        ALUMNI ID: {log.alumni_id}
+                      </div>
                     </td>
                     <td className="py-4 px-6">
                       <span className="text-sm text-slate-700 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">
@@ -106,7 +122,10 @@ export default function AdminActivityLog() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="text-center py-20 text-slate-400 italic font-medium">
+                  <td
+                    colSpan={3}
+                    className="text-center py-20 text-slate-400 italic font-medium"
+                  >
                     No logs found matching your search.
                   </td>
                 </tr>

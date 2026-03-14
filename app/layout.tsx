@@ -11,7 +11,8 @@ const nunito = Nunito({
 
 export const metadata: Metadata = {
   title: "AConnect | Alumni & Career Platform",
-  description: "Connect with your fellow alumni and unlock exclusive career opportunities.",
+  description:
+    "Connect with your fellow alumni and unlock exclusive career opportunities.",
 };
 
 export default function RootLayout({

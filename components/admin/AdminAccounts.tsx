@@ -31,18 +31,25 @@ export default function AdminAccounts() {
       const res = await fetch(`/api/admin/accounts?id=${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({ status: newStatus }),
       });
       if (res.ok) {
-        setAccounts(accounts.map(acc => acc.id === id ? { ...acc, status: newStatus } : acc));
+        setAccounts(
+          accounts.map((acc) =>
+            acc.id === id ? { ...acc, status: newStatus } : acc,
+          ),
+        );
       }
     } catch (error) {
       console.error(error);
     }
   }
 
-  const filteredAccounts = accounts.filter(acc => {
-    const nameMatch = (acc.first_name + " " + acc.last_name).toLowerCase().includes(search.toLowerCase()) ||
+  const filteredAccounts = accounts.filter((acc) => {
+    const nameMatch =
+      (acc.first_name + " " + acc.last_name)
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
       acc.email.toLowerCase().includes(search.toLowerCase());
     const statusMatch = statusFilter === "all" || acc.status === statusFilter;
     return nameMatch && statusMatch;
@@ -63,7 +70,9 @@ export default function AdminAccounts() {
           <i className="fas fa-users-cog text-[#700A0A]"></i>
           Manage <span className="text-[#700A0A]">Accounts</span>
         </h1>
-        <p className="text-slate-500 mt-2">Oversee alumni registrations and system access</p>
+        <p className="text-slate-500 mt-2">
+          Oversee alumni registrations and system access
+        </p>
       </div>
 
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
@@ -79,14 +88,15 @@ export default function AdminAccounts() {
             />
           </div>
           <div className="flex gap-2">
-            {['all', 'active', 'inactive'].map(f => (
+            {["all", "active", "inactive"].map((f) => (
               <button
                 key={f}
                 onClick={() => setStatusFilter(f)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${statusFilter === f
-                    ? 'bg-[#700A0A] text-white'
-                    : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50'
-                  }`}
+                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
+                  statusFilter === f
+                    ? "bg-[#700A0A] text-white"
+                    : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
+                }`}
               >
                 {f}
               </button>
@@ -98,41 +108,64 @@ export default function AdminAccounts() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Alumni</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">ID / Student No.</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Joined Date</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Status</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Alumni
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  ID / Student No.
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Joined Date
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Status
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {filteredAccounts.map((acc) => (
-                <tr key={acc.id} className="hover:bg-slate-50/50 transition-colors">
+                <tr
+                  key={acc.id}
+                  className="hover:bg-slate-50/50 transition-colors"
+                >
                   <td className="py-4 px-6">
-                    <div className="font-bold text-slate-800">{acc.first_name} {acc.last_name}</div>
+                    <div className="font-bold text-slate-800">
+                      {acc.first_name} {acc.last_name}
+                    </div>
                     <div className="text-xs text-slate-500">{acc.email}</div>
                   </td>
                   <td className="py-4 px-6">
-                    <div className="text-sm font-medium text-slate-600">{acc.student_number || 'N/A'}</div>
+                    <div className="text-sm font-medium text-slate-600">
+                      {acc.student_number || "N/A"}
+                    </div>
                   </td>
                   <td className="py-4 px-6 text-sm text-slate-500">
                     {new Date(acc.created_at).toLocaleDateString()}
                   </td>
                   <td className="py-4 px-6">
-                    <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${acc.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
-                      }`}>
+                    <span
+                      className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${
+                        acc.status === "active"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
                       {acc.status}
                     </span>
                   </td>
                   <td className="py-4 px-6 text-right">
                     <button
                       onClick={() => toggleStatus(acc.id, acc.status)}
-                      className={`text-xs font-bold px-4 py-2 rounded-lg border transition-all ${acc.status === 'active'
-                          ? 'border-red-200 text-red-600 hover:bg-red-50'
-                          : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50'
-                        }`}
+                      className={`text-xs font-bold px-4 py-2 rounded-lg border transition-all ${
+                        acc.status === "active"
+                          ? "border-red-200 text-red-600 hover:bg-red-50"
+                          : "border-emerald-200 text-emerald-600 hover:bg-emerald-50"
+                      }`}
                     >
-                      {acc.status === 'active' ? 'Deactivate' : 'Activate'}
+                      {acc.status === "active" ? "Deactivate" : "Activate"}
                     </button>
                   </td>
                 </tr>

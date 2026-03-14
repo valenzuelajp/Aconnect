@@ -3,40 +3,42 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import db from "@/lib/db";
 
-
 export async function GET(req: Request) {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-    if (!session || !session.user) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!session || !session.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-    const { searchParams } = new URL(req.url);
-    const search = searchParams.get("search") || "";
-    const location = searchParams.get("location") || "";
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search") || "";
+  const location = searchParams.get("location") || "";
 
-    const user = session.user as any;
-    const currentAlumniId = parseInt(user.id);
+  const user = session.user as any;
+  const currentAlumniId = parseInt(user.id);
 
-    try {
-        const [alumniRows]: any = await db.query(
-            "SELECT * FROM alumni WHERE id = ?",
-            [currentAlumniId]
-        );
+  try {
+    const [alumniRows]: any = await db.query(
+      "SELECT * FROM alumni WHERE id = ?",
+      [currentAlumniId],
+    );
 
-        const [jobsList]: any = await db.query(
-            `SELECT * FROM jobs 
-             WHERE (job_title LIKE ? OR company LIKE ?) 
-             AND location LIKE ? 
-             ORDER BY created_at DESC`,
-            [`%${search}%`, `%${search}%`, `%${location}%`]
-        );
+    const [jobsList]: any = await db.query(
+      `SELECT * FROM jobs 
+       WHERE (job_title LIKE ? OR company LIKE ?) 
+       AND location LIKE ? 
+       ORDER BY created_at DESC`,
+      [`%${search}%`, `%${search}%`, `%${location}%`],
+    );
 
-        const jobsWithMatch = jobsList;
+    const jobsWithMatch = jobsList;
 
-        return NextResponse.json(jobsWithMatch);
-    } catch (error) {
-        console.error("Error fetching jobs:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-    }
+    return NextResponse.json(jobsWithMatch);
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 }

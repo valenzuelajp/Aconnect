@@ -33,17 +33,30 @@ export default function UserSupport() {
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Support</h1>
       <form className="mb-6" onSubmit={handleSubmit}>
-        <textarea className="block mb-2 border p-2 w-full" placeholder="Type your message..." value={form.message} onChange={e => setForm({ message: e.target.value })} required />
-        <button className="px-4 py-2 bg-blue-600 text-white rounded" type="submit">Send</button>
+        <textarea
+          className="block mb-2 border p-2 w-full"
+          placeholder="Type your message..."
+          value={form.message}
+          onChange={(e) => setForm({ message: e.target.value })}
+          required
+        />
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+          type="submit"
+        >
+          Send
+        </button>
       </form>
       {loading ? (
         <div>Loading...</div>
       ) : (
         <ul>
-          {messages.map(msg => (
+          {messages.map((msg) => (
             <li key={msg.id} className="mb-2 border-b pb-2">
               <div>{msg.message}</div>
-              <div className="text-xs text-gray-500">{new Date(msg.created_at).toLocaleString()}</div>
+              <div className="text-xs text-gray-500">
+                {new Date(msg.created_at).toLocaleString()}
+              </div>
             </li>
           ))}
         </ul>

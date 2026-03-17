@@ -107,17 +107,17 @@ body {
 -------------------------------------------------- */
 @supports (-ms-ime-align: auto) {
   .form-label-group {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column-reverse;
-    flex-direction: column-reverse;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column-reverse;
+  flex-direction: column-reverse;
   }
 
   .form-label-group label {
-    position: static;
+  position: static;
   }
 
   .form-label-group input::-ms-input-placeholder {
-    color: #777;
+  color: #777;
   }
 }

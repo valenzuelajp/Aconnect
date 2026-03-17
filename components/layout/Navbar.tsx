@@ -3,7 +3,7 @@
 import AppHeader from "./AppHeader";
 
 const Navbar = () => {
-    return <AppHeader />;
+  return <AppHeader />;
 };
 
 export default Navbar;

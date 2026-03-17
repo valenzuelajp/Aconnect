@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import db from "@/lib/db";
@@ -9,7 +9,9 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [events]: any = await db.query("SELECT * FROM events ORDER BY event_date DESC");
+  const [events]: any = await db.query(
+    "SELECT * FROM events ORDER BY event_date DESC",
+  );
   return NextResponse.json(events);
 }
 
@@ -41,7 +43,13 @@ export async function POST(request: Request) {
       const { writeFile, mkdir } = await import("fs/promises");
       const path = await import("path");
 
-      const uploadDir = path.join(process.cwd(), "public", "assets", "uploads", "events");
+      const uploadDir = path.join(
+        process.cwd(),
+        "public",
+        "assets",
+        "uploads",
+        "events",
+      );
       try {
         await mkdir(uploadDir, { recursive: true });
       } catch {
@@ -55,14 +63,34 @@ export async function POST(request: Request) {
     console.log("Inserting into database...");
     const [result]: any = await db.query(
       "INSERT INTO events (event_name, event_date, event_time_duration, location, contact_person, description, event_image) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [event_name, new Date(event_date), event_time_duration, location, contact_person, description, eventImageName]
+      [
+        event_name,
+        new Date(event_date),
+        event_time_duration,
+        location,
+        contact_person,
+        description,
+        eventImageName,
+      ],
     );
 
     console.log("Event created successfully with ID:", result.insertId);
-    return NextResponse.json({ id: result.insertId, event_name, event_date, event_time_duration, location, contact_person, description, event_image: eventImageName });
+    return NextResponse.json({
+      id: result.insertId,
+      event_name,
+      event_date,
+      event_time_duration,
+      location,
+      contact_person,
+      description,
+      event_image: eventImageName,
+    });
   } catch (error: any) {
     console.error("Error creating event:", error);
-    return NextResponse.json({ error: error.message || "Failed to create event" }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message || "Failed to create event" },
+      { status: 500 },
+    );
   }
 }
 
@@ -97,18 +125,43 @@ export async function PATCH(request: Request) {
   if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
   const body = await request.json();
-  const { event_name, event_date, event_time_duration, location, contact_person, description } = body;
+  const {
+    event_name,
+    event_date,
+    event_time_duration,
+    location,
+    contact_person,
+    description,
+  } = body;
 
   try {
     let sql = "UPDATE events SET id = id";
     const params: any[] = [];
 
-    if (event_name) { sql += ", event_name = ?"; params.push(event_name); }
-    if (event_date) { sql += ", event_date = ?"; params.push(new Date(event_date)); }
-    if (event_time_duration) { sql += ", event_time_duration = ?"; params.push(event_time_duration); }
-    if (location) { sql += ", location = ?"; params.push(location); }
-    if (contact_person) { sql += ", contact_person = ?"; params.push(contact_person); }
-    if (description) { sql += ", description = ?"; params.push(description); }
+    if (event_name) {
+      sql += ", event_name = ?";
+      params.push(event_name);
+    }
+    if (event_date) {
+      sql += ", event_date = ?";
+      params.push(new Date(event_date));
+    }
+    if (event_time_duration) {
+      sql += ", event_time_duration = ?";
+      params.push(event_time_duration);
+    }
+    if (location) {
+      sql += ", location = ?";
+      params.push(location);
+    }
+    if (contact_person) {
+      sql += ", contact_person = ?";
+      params.push(contact_person);
+    }
+    if (description) {
+      sql += ", description = ?";
+      params.push(description);
+    }
 
     sql += " WHERE id = ?";
     params.push(parseInt(id));

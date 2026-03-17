@@ -15,11 +15,17 @@ export default function AdminEvents() {
     event_time_duration: "",
     location: "",
     contact_person: "",
-    description: ""
+    description: "",
   });
   const [eventImage, setEventImage] = useState<File | null>(null);
-  const [confirmDelete, setConfirmDelete] = useState<{ show: boolean, id: number | null }>({ show: false, id: null });
-  const [showSuccess, setShowSuccess] = useState<{ show: boolean, message: string }>({ show: false, message: "" });
+  const [confirmDelete, setConfirmDelete] = useState<{
+    show: boolean;
+    id: number | null;
+  }>({ show: false, id: null });
+  const [showSuccess, setShowSuccess] = useState<{
+    show: boolean;
+    message: string;
+  }>({ show: false, message: "" });
 
   useEffect(() => {
     fetchEvents();
@@ -54,18 +60,25 @@ export default function AdminEvents() {
 
       const res = await fetch("/api/admin/events", {
         method: "POST",
-        body: data
+        body: data,
       });
 
       if (res.ok) {
         setShowModal(false);
         fetchEvents();
-        setFormData({ event_name: "", event_date: "", event_time_duration: "", location: "", contact_person: "", description: "" });
+        setFormData({
+          event_name: "",
+          event_date: "",
+          event_time_duration: "",
+          location: "",
+          contact_person: "",
+          description: "",
+        });
         setEventImage(null);
         setShowSuccess({ show: true, message: "Event created successfully!" });
       } else {
         const errorData = await res.json();
-        alert(`Error creating event: ${errorData.error || 'Unknown error'}`);
+        alert(`Error creating event: ${errorData.error || "Unknown error"}`);
         console.error("Server error:", errorData);
       }
     } catch (error) {
@@ -81,7 +94,9 @@ export default function AdminEvents() {
   async function confirmDeleteEvent() {
     if (!confirmDelete.id) return;
     try {
-      const res = await fetch(`/api/admin/events?id=${confirmDelete.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/events?id=${confirmDelete.id}`, {
+        method: "DELETE",
+      });
       if (res.ok) {
         fetchEvents();
         setConfirmDelete({ show: false, id: null });
@@ -92,9 +107,10 @@ export default function AdminEvents() {
     }
   }
 
-  const filteredEvents = events.filter(e =>
-    e.event_name.toLowerCase().includes(search.toLowerCase()) ||
-    e.location.toLowerCase().includes(search.toLowerCase())
+  const filteredEvents = events.filter(
+    (e) =>
+      e.event_name.toLowerCase().includes(search.toLowerCase()) ||
+      e.location.toLowerCase().includes(search.toLowerCase()),
   );
 
   if (loading) {
@@ -113,7 +129,9 @@ export default function AdminEvents() {
             <i className="fas fa-calendar-alt text-[#700A0A]"></i>
             Manage <span className="text-[#700A0A]">Events</span>
           </h1>
-          <p className="text-slate-500 mt-2">Create and organize community gatherings</p>
+          <p className="text-slate-500 mt-2">
+            Create and organize community gatherings
+          </p>
         </div>
         <button
           onClick={() => setShowModal(true)}
@@ -141,26 +159,46 @@ export default function AdminEvents() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Event</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Date & Duration</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">Location</th>
-                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Event
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Date & Duration
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest">
+                  Location
+                </th>
+                <th className="py-4 px-6 text-xs font-black text-slate-400 uppercase tracking-widest text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {filteredEvents.map((event) => (
-                <tr key={event.id} className="hover:bg-slate-50/50 transition-colors">
+                <tr
+                  key={event.id}
+                  className="hover:bg-slate-50/50 transition-colors"
+                >
                   <td className="py-4 px-6">
-                    <div className="font-bold text-slate-800">{event.event_name}</div>
-                    <div className="text-xs text-slate-500 line-clamp-1 max-w-xs">{event.description}</div>
+                    <div className="font-bold text-slate-800">
+                      {event.event_name}
+                    </div>
+                    <div className="text-xs text-slate-500 line-clamp-1 max-w-xs">
+                      {event.description}
+                    </div>
                   </td>
                   <td className="py-4 px-6">
-                    <div className="text-sm font-bold text-slate-700">{new Date(event.event_date).toLocaleDateString()}</div>
-                    <div className="text-xs text-slate-400 font-medium">{event.event_time_duration}</div>
+                    <div className="text-sm font-bold text-slate-700">
+                      {new Date(event.event_date).toLocaleDateString()}
+                    </div>
+                    <div className="text-xs text-slate-400 font-medium">
+                      {event.event_time_duration}
+                    </div>
                   </td>
                   <td className="py-4 px-6">
                     <div className="text-sm text-slate-600 font-medium flex items-center gap-1">
-                      <i className="fas fa-map-marker-alt text-rose-500"></i> {event.location}
+                      <i className="fas fa-map-marker-alt text-rose-500"></i>{" "}
+                      {event.location}
                     </div>
                   </td>
                   <td className="py-4 px-6 text-right">
@@ -178,77 +216,112 @@ export default function AdminEvents() {
         </div>
       </div>
 
-      { }
+      {}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="bg-[#700A0A] p-6 text-white flex justify-between items-center">
               <h2 className="text-xl font-bold">Create New Event</h2>
-              <button onClick={() => setShowModal(false)} className="hover:opacity-75 transition-opacity">
+              <button
+                onClick={() => setShowModal(false)}
+                className="hover:opacity-75 transition-opacity"
+              >
                 <i className="fas fa-times text-2xl"></i>
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form
+              onSubmit={handleSubmit}
+              className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
               <div className="md:col-span-2">
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Event Name</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Event Name
+                </label>
                 <input
                   required
                   type="text"
                   className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#700A0A]/20 focus:border-[#700A0A] outline-none"
                   value={formData.event_name}
-                  onChange={(e) => setFormData({ ...formData, event_name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, event_name: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Date</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Date
+                </label>
                 <input
                   required
                   type="date"
                   className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#700A0A]/20 focus:border-[#700A0A] outline-none"
                   value={formData.event_date}
-                  onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, event_date: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Duration</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Duration
+                </label>
                 <input
                   type="text"
                   placeholder="e.g. 2 hours"
                   className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#700A0A]/20 focus:border-[#700A0A] outline-none"
                   value={formData.event_time_duration}
-                  onChange={(e) => setFormData({ ...formData, event_time_duration: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      event_time_duration: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Location</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Location
+                </label>
                 <input
                   required
                   type="text"
                   className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#700A0A]/20 focus:border-[#700A0A] outline-none"
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Contact Person</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Contact Person
+                </label>
                 <input
                   type="text"
                   className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#700A0A]/20 focus:border-[#700A0A] outline-none"
                   value={formData.contact_person}
-                  onChange={(e) => setFormData({ ...formData, contact_person: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, contact_person: e.target.value })
+                  }
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Description</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Description
+                </label>
                 <textarea
                   rows={4}
                   className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#700A0A]/20 focus:border-[#700A0A] outline-none resize-none"
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                 ></textarea>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Event Image (Optional)</label>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Event Image (Optional)
+                </label>
                 <input
                   type="file"
                   accept="image/*"

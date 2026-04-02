@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Alumni, Certification, Employment } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -14,31 +14,24 @@ export async function GET() {
   const currentAlumniId = parseInt(user.id);
 
   try {
-    const [alumniRows]: any = await db.query(
-      "SELECT * FROM alumni WHERE id = ?",
-      [currentAlumniId],
-    );
-
-    const alumni = alumniRows[0];
+    const alumni = await Alumni.findByPk(currentAlumniId);
 
     if (!alumni) {
       return NextResponse.json({ error: "Alumni not found" }, { status: 404 });
     }
 
-    const [employmentRows]: any = await db.query(
-      "SELECT * FROM employment WHERE alumni_id = ?",
-      [currentAlumniId],
-    );
+    const employmentRows = await Employment.findAll({
+      where: { alumni_id: currentAlumniId },
+    });
 
-    const [certificationRows]: any = await db.query(
-      "SELECT * FROM Certification WHERE alumni_id = ?",
-      [currentAlumniId],
-    );
+    const certificationRows = await Certification.findAll({
+      where: { alumni_id: currentAlumniId },
+    });
 
     return NextResponse.json({
-      ...alumni,
-      employment: employmentRows,
-      certifications: certificationRows,
+      ...alumni.toJSON(),
+      employment: employmentRows.map((entry) => entry.toJSON()),
+      certifications: certificationRows.map((entry) => entry.toJSON()),
     });
   } catch (error) {
     console.error("Error fetching profile:", error);

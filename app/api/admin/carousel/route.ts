@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { writeFile } from "fs/promises";
 import path from "path";
+import { CarouselPhoto } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -12,10 +12,10 @@ export async function GET() {
   }
 
   try {
-    const [photos]: any = await db.query(
-      "SELECT * FROM carousel_photos ORDER BY uploaded_at DESC",
-    );
-    return NextResponse.json(photos);
+    const photos = await CarouselPhoto.findAll({
+      order: [["uploaded_at", "DESC"]],
+    });
+    return NextResponse.json(photos.map((photo) => photo.toJSON()));
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -50,13 +50,14 @@ export async function POST(request: NextRequest) {
 
     await writeFile(filePath, buffer);
 
-    const [result]: any = await db.query(
-      "INSERT INTO carousel_photos (title, description, file_name) VALUES (?, ?, ?)",
-      [title, description, fileName],
-    );
+    const photo = await CarouselPhoto.create({
+      title,
+      description,
+      file_name: fileName,
+    });
 
     return NextResponse.json({
-      id: result.insertId,
+      id: photo.id,
       title,
       description,
       file_name: fileName,
@@ -80,7 +81,7 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
   try {
-    await db.query("DELETE FROM carousel_photos WHERE id = ?", [parseInt(id)]);
+    await CarouselPhoto.destroy({ where: { id: parseInt(id) } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

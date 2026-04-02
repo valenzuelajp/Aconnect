@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Alumni, Certification, Connection, ConnectionRequest, Employment } from "@/lib/models";
+import { Op } from "sequelize";
 
 export async function GET(
   request: Request,
@@ -14,52 +15,40 @@ export async function GET(
 
   const { id } = await params;
   const currentUserId = parseInt((session.user as any).id);
+  const targetId = parseInt(id);
 
   try {
-    const [alumnusRows]: any = await db.query(
-      "SELECT * FROM alumni WHERE id = ?",
-      [parseInt(id)],
-    );
-
-    const alumnus = alumnusRows[0];
+    const alumnus = await Alumni.findByPk(targetId);
 
     if (!alumnus) {
       return NextResponse.json({ error: "Alumni not found" }, { status: 404 });
     }
 
-    const [employmentRows]: any = await db.query(
-      "SELECT * FROM employment WHERE alumni_id = ?",
-      [parseInt(id)],
-    );
+    const employmentRows = await Employment.findAll({
+      where: { alumni_id: targetId },
+    });
 
-    const [certificationRows]: any = await db.query(
-      "SELECT * FROM Certification WHERE alumni_id = ? ORDER BY created_at DESC",
-      [parseInt(id)],
-    );
+    const certificationRows = await Certification.findAll({
+      where: { alumni_id: targetId },
+      order: [["created_at", "DESC"]],
+    });
 
-    alumnus.employment = employmentRows;
-    alumnus.certifications = certificationRows;
+    const sentRequest = await ConnectionRequest.findOne({
+      where: { sender_id: currentUserId, receiver_id: targetId },
+    });
 
-    const [sentRequestRows]: any = await db.query(
-      "SELECT id FROM connection_requests WHERE sender_id = ? AND receiver_id = ? LIMIT 1",
-      [currentUserId, parseInt(id)],
-    );
+    const receivedRequest = await ConnectionRequest.findOne({
+      where: { sender_id: targetId, receiver_id: currentUserId },
+    });
 
-    const [receivedRequestRows]: any = await db.query(
-      "SELECT id FROM connection_requests WHERE sender_id = ? AND receiver_id = ? LIMIT 1",
-      [parseInt(id), currentUserId],
-    );
-
-    const [connectionRows]: any = await db.query(
-      `SELECT id FROM connections 
-             WHERE (sender_id = ? AND receiver_id = ?) 
-             OR (sender_id = ? AND receiver_id = ?) LIMIT 1`,
-      [currentUserId, parseInt(id), parseInt(id), currentUserId],
-    );
-
-    const sentRequest = sentRequestRows[0];
-    const receivedRequest = receivedRequestRows[0];
-    const connection = connectionRows[0];
+    const connection = await Connection.findOne({
+      where: {
+        [Op.or]: [
+          { sender_id: currentUserId, receiver_id: targetId },
+          { sender_id: targetId, receiver_id: currentUserId },
+        ],
+      },
+    });
 
     let connectionStatus = "connectable";
     let requestId: any = null;
@@ -75,10 +64,12 @@ export async function GET(
     }
 
     return NextResponse.json({
-      ...alumnus,
+      ...alumnus.toJSON(),
+      employment: employmentRows.map((entry) => entry.toJSON()),
+      certifications: certificationRows.map((entry) => entry.toJSON()),
       connectionStatus,
       requestId,
-      isOwnProfile: currentUserId === parseInt(id),
+      isOwnProfile: currentUserId === targetId,
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

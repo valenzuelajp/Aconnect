@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Event } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -9,10 +9,8 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [events]: any = await db.query(
-    "SELECT * FROM events ORDER BY event_date DESC",
-  );
-  return NextResponse.json(events);
+  const events = await Event.findAll({ order: [["event_date", "DESC"]] });
+  return NextResponse.json(events.map((event) => event.toJSON()));
 }
 
 export async function POST(request: Request) {
@@ -60,23 +58,18 @@ export async function POST(request: Request) {
       console.log("Image saved:", eventImageName);
     }
 
-    console.log("Inserting into database...");
-    const [result]: any = await db.query(
-      "INSERT INTO events (event_name, event_date, event_time_duration, location, contact_person, description, event_image) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [
-        event_name,
-        new Date(event_date),
-        event_time_duration,
-        location,
-        contact_person,
-        description,
-        eventImageName,
-      ],
-    );
+    const event = await Event.create({
+      event_name,
+      event_date: new Date(event_date),
+      event_time_duration,
+      location,
+      contact_person,
+      description,
+      event_image: eventImageName,
+    });
 
-    console.log("Event created successfully with ID:", result.insertId);
     return NextResponse.json({
-      id: result.insertId,
+      id: event.id,
       event_name,
       event_date,
       event_time_duration,
@@ -106,7 +99,7 @@ export async function DELETE(request: Request) {
   if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
   try {
-    await db.query("DELETE FROM events WHERE id = ?", [parseInt(id)]);
+    await Event.destroy({ where: { id: parseInt(id) } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -135,38 +128,17 @@ export async function PATCH(request: Request) {
   } = body;
 
   try {
-    let sql = "UPDATE events SET id = id";
-    const params: any[] = [];
-
-    if (event_name) {
-      sql += ", event_name = ?";
-      params.push(event_name);
-    }
-    if (event_date) {
-      sql += ", event_date = ?";
-      params.push(new Date(event_date));
-    }
-    if (event_time_duration) {
-      sql += ", event_time_duration = ?";
-      params.push(event_time_duration);
-    }
-    if (location) {
-      sql += ", location = ?";
-      params.push(location);
-    }
-    if (contact_person) {
-      sql += ", contact_person = ?";
-      params.push(contact_person);
-    }
-    if (description) {
-      sql += ", description = ?";
-      params.push(description);
-    }
-
-    sql += " WHERE id = ?";
-    params.push(parseInt(id));
-
-    await db.query(sql, params);
+    await Event.update(
+      {
+        ...(event_name ? { event_name } : {}),
+        ...(event_date ? { event_date: new Date(event_date) } : {}),
+        ...(event_time_duration ? { event_time_duration } : {}),
+        ...(location ? { location } : {}),
+        ...(contact_person ? { contact_person } : {}),
+        ...(description ? { description } : {}),
+      },
+      { where: { id: parseInt(id) } },
+    );
     return NextResponse.json({ success: true, id, ...body });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

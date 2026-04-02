@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/db";
+import { Alumni } from "@/lib/models";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -10,20 +10,18 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const [userRows]: any = await db.query(
-      "SELECT id FROM alumni WHERE verification_token = ? LIMIT 1",
-      [token],
-    );
-
-    const user = userRows[0];
+    const user = await Alumni.findOne({
+      where: { verification_token: token },
+      attributes: ["id"],
+    });
 
     if (!user) {
       return new NextResponse("Invalid or expired token.", { status: 400 });
     }
 
-    await db.query(
-      "UPDATE alumni SET email_verified = ?, status = ?, verification_token = ? WHERE id = ?",
-      [true, "active", null, user.id],
+    await Alumni.update(
+      { email_verified: true, status: "active", verification_token: null },
+      { where: { id: user.id } },
     );
 
     return NextResponse.redirect(new URL("/login?verified=true", req.url));

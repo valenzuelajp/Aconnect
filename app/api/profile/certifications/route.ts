@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Certification } from "@/lib/models";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 
@@ -12,11 +12,11 @@ export async function GET() {
   }
 
   try {
-    const [certifications]: any = await db.query(
-      "SELECT * FROM Certification WHERE alumni_id = ? ORDER BY created_at DESC",
-      [parseInt((session.user as any).id)],
-    );
-    return NextResponse.json(certifications);
+    const certifications = await Certification.findAll({
+      where: { alumni_id: parseInt((session.user as any).id) },
+      order: [["created_at", "DESC"]],
+    });
+    return NextResponse.json(certifications.map((cert) => cert.toJSON()));
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -63,22 +63,16 @@ export async function POST(request: Request) {
 
     const imageName = await handleImageUpload(certification_image);
 
-    await db.query(
-      `INSERT INTO Certification (
-        alumni_id, name, issuing_org, issue_date, 
-        expiration_date, credential_id, credential_url, certification_image
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        parseInt((session.user as any).id),
-        name,
-        issuing_org,
-        issue_date ? new Date(issue_date) : null,
-        expiration_date ? new Date(expiration_date) : null,
-        credential_id,
-        credential_url,
-        imageName,
-      ],
-    );
+    await Certification.create({
+      alumni_id: parseInt((session.user as any).id),
+      name,
+      issuing_org,
+      issue_date: issue_date ? new Date(issue_date) : null,
+      expiration_date: expiration_date ? new Date(expiration_date) : null,
+      credential_id,
+      credential_url,
+      certification_image: imageName,
+    });
 
     return NextResponse.json({ message: "Certification added" });
   } catch (error: any) {
@@ -114,28 +108,23 @@ export async function PUT(request: Request) {
     }
 
     // Build query dynamically based on whether image is updated
-    let query = `UPDATE Certification SET 
-      name = ?, issuing_org = ?, issue_date = ?, 
-      expiration_date = ?, credential_id = ?, credential_url = ?`;
-
-    const params: any[] = [
-      name,
-      issuing_org,
-      issue_date ? new Date(issue_date) : null,
-      expiration_date ? new Date(expiration_date) : null,
-      credential_id,
-      credential_url,
-    ];
-
-    if (imageName) {
-      query += `, certification_image = ?`;
-      params.push(imageName);
-    }
-
-    query += ` WHERE id = ? AND alumni_id = ?`;
-    params.push(id, parseInt((session.user as any).id));
-
-    await db.query(query, params);
+    await Certification.update(
+      {
+        name,
+        issuing_org,
+        issue_date: issue_date ? new Date(issue_date) : null,
+        expiration_date: expiration_date ? new Date(expiration_date) : null,
+        credential_id,
+        credential_url,
+        ...(imageName ? { certification_image: imageName } : {}),
+      },
+      {
+        where: {
+          id: parseInt(id),
+          alumni_id: parseInt((session.user as any).id),
+        },
+      },
+    );
 
     return NextResponse.json({ message: "Certification updated" });
   } catch (error: any) {
@@ -158,10 +147,12 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Missing ID" }, { status: 400 });
     }
 
-    await db.query("DELETE FROM Certification WHERE id = ? AND alumni_id = ?", [
-      parseInt(id),
-      parseInt((session.user as any).id),
-    ]);
+    await Certification.destroy({
+      where: {
+        id: parseInt(id),
+        alumni_id: parseInt((session.user as any).id),
+      },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

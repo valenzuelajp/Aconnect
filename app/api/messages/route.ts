@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Alumni, Connection, Message } from "@/lib/models";
+import { Op } from "sequelize";
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
@@ -18,32 +19,45 @@ export async function GET(req: Request) {
 
   try {
     if (friendId) {
-      const [messages]: any = await db.query(
-        `SELECT * FROM messages 
-         WHERE (sender_id = ? AND receiver_id = ?) 
-         OR (sender_id = ? AND receiver_id = ?) 
-         ORDER BY sent_at ASC`,
-        [
-          currentAlumniId,
-          parseInt(friendId),
-          parseInt(friendId),
-          currentAlumniId,
-        ],
-      );
-      return NextResponse.json(messages);
+        const messages = await Message.findAll({
+          where: {
+            [Op.or]: [
+              { sender_id: currentAlumniId, receiver_id: parseInt(friendId) },
+              { sender_id: parseInt(friendId), receiver_id: currentAlumniId },
+            ],
+          },
+          order: [["sent_at", "ASC"]],
+        });
+        return NextResponse.json(messages.map((entry) => entry.toJSON()));
     } else {
-      const [friends]: any = await db.query(
-        `SELECT id, first_name, last_name, profile_image, sex 
-         FROM alumni 
-         WHERE id IN (
-          SELECT CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END
-          FROM connections
-          WHERE (sender_id = ? OR receiver_id = ?) AND status = 'accepted'
-         )`,
-        [currentAlumniId, currentAlumniId, currentAlumniId],
-      );
+        const connections = await Connection.findAll({
+          where: {
+            [Op.and]: [
+              { status: "accepted" },
+              {
+                [Op.or]: [
+                  { sender_id: currentAlumniId },
+                  { receiver_id: currentAlumniId },
+                ],
+              },
+            ],
+          },
+        });
 
-      return NextResponse.json(friends);
+        const friendIds = connections
+          .map((entry) => entry.toJSON())
+          .map((connection) =>
+            connection.sender_id === currentAlumniId
+              ? connection.receiver_id
+              : connection.sender_id,
+          );
+
+        const friends = await Alumni.findAll({
+          attributes: ["id", "first_name", "last_name", "profile_image", "sex"],
+          where: { id: friendIds },
+        });
+
+        return NextResponse.json(friends.map((entry) => entry.toJSON()));
     }
   } catch (error) {
     console.error("Error fetching messages/friends:", error);

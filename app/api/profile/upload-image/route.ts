@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import { Alumni } from "@/lib/models";
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
     await writeFile(filePath, buffer);
 
     // Update database
-    await db.query("UPDATE alumni SET profile_image = ? WHERE id = ?", [
-      fileName,
-      userId,
-    ]);
+    await Alumni.update({ profile_image: fileName }, { where: { id: userId } });
 
     return NextResponse.json({
       success: true,

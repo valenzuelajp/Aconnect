@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Message } from "@/lib/models";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -15,13 +15,14 @@ export async function POST(req: Request) {
   const { receiverId, message } = await req.json();
 
   try {
-    const [result]: any = await db.query(
-      "INSERT INTO messages (sender_id, receiver_id, message) VALUES (?, ?, ?)",
-      [currentAlumniId, parseInt(receiverId), message],
-    );
+    const saved = await Message.create({
+      sender_id: currentAlumniId,
+      receiver_id: parseInt(receiverId),
+      message,
+    });
 
     const newMessage = {
-      id: result.insertId,
+      id: saved.id,
       sender_id: currentAlumniId,
       receiver_id: parseInt(receiverId),
       message,

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { AdminUser, Post } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -10,13 +10,23 @@ export async function GET() {
   }
 
   try {
-    const [posts]: any = await db.query(
-      `SELECT p.*, a.first_name, a.last_name 
-       FROM post p 
-       LEFT JOIN admin_users a ON p.created_by = a.id 
-       ORDER BY p.created_at DESC`,
+    const posts = await Post.findAll({ order: [["created_at", "DESC"]] });
+    const adminIds = [...new Set(posts.map((post) => post.created_by))];
+    const admins = await AdminUser.findAll({
+      attributes: ["id", "first_name", "last_name"],
+      where: { id: adminIds },
+    });
+    const adminMap = new Map(
+      admins.map((admin) => [admin.id, admin.toJSON()]),
     );
-    return NextResponse.json(posts);
+
+    return NextResponse.json(
+      posts.map((post) => ({
+        ...post.toJSON(),
+        first_name: adminMap.get(post.created_by)?.first_name || null,
+        last_name: adminMap.get(post.created_by)?.last_name || null,
+      })),
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -55,30 +65,16 @@ export async function POST(request: Request) {
       await writeFile(filePath, buffer);
     }
 
-    const [result]: any = await db.query(
-      "INSERT INTO post (title, content, post_type, image, recipient_batch, created_by) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        title,
-        content,
-        post_type,
-        imageName,
-        recipient_batch,
-        (session.user as any).id,
-      ],
-    );
-
-    const post = {
-      id: result.insertId,
+    const post = await Post.create({
       title,
       content,
       post_type,
       image: imageName,
       recipient_batch,
       created_by: (session.user as any).id,
-      created_at: new Date(),
-    };
+    });
 
-    return NextResponse.json(post);
+    return NextResponse.json(post.toJSON());
   } catch (error: any) {
     console.error("Post creation error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -97,7 +93,7 @@ export async function DELETE(request: Request) {
   if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
   try {
-    await db.query("DELETE FROM post WHERE id = ?", [parseInt(id)]);
+    await Post.destroy({ where: { id: parseInt(id) } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

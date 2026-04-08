@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Alumni, SupportMessage } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -10,23 +10,26 @@ export async function GET() {
   }
 
   try {
-    const [rows]: any = await db.query(
-      `SELECT sm.*, a.first_name, a.last_name, a.email 
-     FROM support_messages sm 
-     LEFT JOIN alumni a ON sm.sender_id = a.id 
-     ORDER BY sm.created_at DESC`,
+    const messages = await SupportMessage.findAll({
+      order: [["created_at", "DESC"]],
+    });
+
+    const alumniIds = [...new Set(messages.map((message) => message.sender_id))];
+    const alumniRows = await Alumni.findAll({
+      attributes: ["id", "first_name", "last_name", "email"],
+      where: { id: alumniIds },
+    });
+
+    const alumniMap = new Map(
+      alumniRows.map((alumni) => [alumni.id, alumni.toJSON()]),
     );
 
-    const messages = rows.map((row: any) => ({
-      ...row,
-      alumni: {
-        first_name: row.first_name,
-        last_name: row.last_name,
-        email: row.email,
-      },
+    const payload = messages.map((message) => ({
+      ...message.toJSON(),
+      alumni: alumniMap.get(message.sender_id) || null,
     }));
 
-    return NextResponse.json(messages);
+    return NextResponse.json(payload);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -47,10 +50,10 @@ export async function PATCH(request: Request) {
   const { status } = body;
 
   try {
-    await db.query("UPDATE support_messages SET status = ? WHERE id = ?", [
-      status,
-      parseInt(id),
-    ]);
+    await SupportMessage.update(
+      { status },
+      { where: { id: parseInt(id) } },
+    );
     return NextResponse.json({ success: true, id, status });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

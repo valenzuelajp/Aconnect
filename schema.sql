@@ -51,6 +51,9 @@ CREATE TABLE `admin_users` (
   `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `admin_users` (`id`, `username`, `email`, `password`, `created_at`, `last_login`, `first_name`, `last_name`) VALUES
+(1, 'admin', 'admin@aconnect.local', '$2b$10$B61.X68vzLGK4MgNgVotFOHYyE36Sc84u5tsuj3oxKQtL1OeK4jym', CURRENT_TIMESTAMP, NULL, 'Admin', 'User');
+
 --
 -- --------------------------------------------------------
 

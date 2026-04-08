@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import db from "@/lib/db";
+import { AdminUser, Alumni, Event, Job, Post } from "@/lib/models";
 import AlumniDashboard from "@/components/ui/AlumniDashboard";
 import AdminDashboard from "@/components/admin/AdminDashboard";
 
@@ -15,38 +15,26 @@ export default async function DashboardPage() {
   const user = session.user as any;
 
   if (user.role === "administrator") {
-    const [eventResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM events",
-    );
-    const [postResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM post",
-    );
-    const [jobResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM jobs",
-    );
-    const [alumniResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM alumni",
-    );
-    const [adminResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM admin_users",
-    );
-    const [activeResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM alumni WHERE status = 'active'",
-    );
-    const [inactiveResult]: any = await db.query(
-      "SELECT COUNT(*) as count FROM alumni WHERE status = 'inactive'",
-    );
+    const [totalEvents, totalPosts, totalJobs, totalAlumni, totalAccounts, activeUsers, inactiveUsers] = await Promise.all([
+      Event.count(),
+      Post.count(),
+      Job.count(),
+      Alumni.count(),
+      AdminUser.count(),
+      Alumni.count({ where: { status: "active" } }),
+      Alumni.count({ where: { status: "inactive" } }),
+    ]);
 
     return (
       <AdminDashboard
         stats={{
-          totalEvents: eventResult[0].count,
-          totalPosts: postResult[0].count,
-          totalJobs: jobResult[0].count,
-          totalAlumni: alumniResult[0].count,
-          totalAccounts: adminResult[0].count,
-          activeUsers: activeResult[0].count,
-          inactiveUsers: inactiveResult[0].count,
+          totalEvents,
+          totalPosts,
+          totalJobs,
+          totalAlumni,
+          totalAccounts,
+          activeUsers,
+          inactiveUsers,
         }}
       />
     );

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Job } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -9,10 +9,8 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [jobs]: any = await db.query(
-    "SELECT * FROM jobs ORDER BY created_at DESC",
-  );
-  return NextResponse.json(jobs);
+  const jobs = await Job.findAll({ order: [["created_at", "DESC"]] });
+  return NextResponse.json(jobs.map((job) => job.toJSON()));
 }
 
 export async function POST(req: NextRequest) {
@@ -33,21 +31,18 @@ export async function POST(req: NextRequest) {
   } = data;
 
   try {
-    const [result]: any = await db.query(
-      "INSERT INTO jobs (job_title, company, description, location, salary_range, qualifications, contact_details, posted_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      [
-        job_title,
-        company,
-        description,
-        location,
-        salary_range,
-        qualifications,
-        contact_details,
-        (session.user as any).id,
-      ],
-    );
+    const job = await Job.create({
+      job_title,
+      company,
+      description,
+      location,
+      salary_range,
+      qualifications,
+      contact_details,
+      posted_by: (session.user as any).id,
+    });
 
-    return NextResponse.json({ id: result.insertId, ...data });
+    return NextResponse.json({ id: job.id, ...data });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -72,7 +67,7 @@ export async function DELETE(req: NextRequest) {
   if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
   try {
-    await db.query("DELETE FROM jobs WHERE id = ?", [parseInt(id as string)]);
+    await Job.destroy({ where: { id: parseInt(id as string) } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -98,12 +93,8 @@ export async function PUT(req: NextRequest) {
   } = data;
 
   try {
-    await db.query(
-      `UPDATE jobs SET 
-    job_title = ?, company = ?, description = ?, location = ?, 
-    salary_range = ?, qualifications = ?, contact_details = ?, updated_by = ?, updated_at = NOW()
-     WHERE id = ?`,
-      [
+    await Job.update(
+      {
         job_title,
         company,
         description,
@@ -111,9 +102,10 @@ export async function PUT(req: NextRequest) {
         salary_range,
         qualifications,
         contact_details,
-        (session.user as any).id,
-        id,
-      ],
+        updated_by: (session.user as any).id,
+        updated_at: new Date(),
+      },
+      { where: { id } },
     );
 
     return NextResponse.json({ success: true, id });

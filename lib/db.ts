@@ -1,14 +1,18 @@
-import mysql from "mysql2/promise";
+import { Sequelize } from "sequelize";
 
-const pool = mysql.createPool({
+const db = new Sequelize({
+  dialect: "mysql",
   host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
+  username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "jp",
-  port: parseInt(process.env.DB_PORT || "3306"),
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  port: Number.parseInt(process.env.DB_PORT || "3306", 10),
+  logging: false,
+  define: {
+    freezeTableName: true,
+    underscored: true,
+    timestamps: false,
+  },
 });
 
-export default pool;
+export default db;

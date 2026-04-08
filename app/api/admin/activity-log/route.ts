@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { ActivityLog, Alumni } from "@/lib/models";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -11,20 +11,23 @@ export async function GET() {
   }
 
   try {
-    const [rows]: any = await db.query(
-      `SELECT al.*, a.first_name, a.last_name 
-     FROM activity_logs al 
-     LEFT JOIN alumni a ON al.alumni_id = a.id 
-     ORDER BY al.created_at DESC 
-     LIMIT 100`,
+    const rows = await ActivityLog.findAll({
+      order: [["created_at", "DESC"]],
+      limit: 100,
+    });
+
+    const alumniIds = [...new Set(rows.map((row) => row.alumni_id))];
+    const alumniRows = await Alumni.findAll({
+      attributes: ["id", "first_name", "last_name"],
+      where: { id: alumniIds },
+    });
+    const alumniMap = new Map(
+      alumniRows.map((alumni) => [alumni.id, alumni.toJSON()]),
     );
 
-    const logs = rows.map((row: any) => ({
-      ...row,
-      alumni: {
-        first_name: row.first_name,
-        last_name: row.last_name,
-      },
+    const logs = rows.map((row) => ({
+      ...row.toJSON(),
+      alumni: alumniMap.get(row.alumni_id) || null,
     }));
 
     return NextResponse.json(logs);

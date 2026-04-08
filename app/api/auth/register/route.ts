@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/lib/email";
+import { Alumni } from "@/lib/models";
+import { Op } from "sequelize";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,12 +22,13 @@ export async function POST(req: NextRequest) {
       degree_other,
     } = body;
 
-    const [existingUserRows]: any = await db.query(
-      "SELECT id FROM alumni WHERE email = ? OR student_number = ? LIMIT 1",
-      [email, student_number],
-    );
+    const existingUser = await Alumni.findOne({
+      where: {
+        [Op.or]: [{ email }, { student_number }],
+      },
+    });
 
-    if (existingUserRows.length > 0) {
+    if (existingUser) {
       return NextResponse.json(
         { message: "Email or Student Number already registered" },
         { status: 400 },
@@ -37,30 +39,23 @@ export async function POST(req: NextRequest) {
     const token = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
     const finalDegree = degree === "Other" ? degree_other : degree;
 
-    await db.query(
-      `INSERT INTO alumni (
-        first_name, last_name, email, password, phone, telephone, 
-        alternative_email, graduation_year, student_number, degree, 
-        sex, status, email_verified, verification_token, year_admitted
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        first_name,
-        last_name,
-        email,
-        hashedPassword,
-        phone,
-        telephone,
-        alternative_email,
-        graduation_year ? parseInt(graduation_year) : null,
-        student_number,
-        finalDegree,
-        sex,
-        "active",
-        false, // email_verified
-        token, // verification_token
-        0,
-      ],
-    );
+    await Alumni.create({
+      first_name,
+      last_name,
+      email,
+      password: hashedPassword,
+      phone,
+      telephone,
+      alternative_email,
+      graduation_year: graduation_year ? parseInt(graduation_year) : null,
+      student_number,
+      degree: finalDegree,
+      sex,
+      status: "active",
+      email_verified: false,
+      verification_token: token,
+      year_admitted: 0,
+    });
 
     try {
       await sendVerificationEmail(email, token);

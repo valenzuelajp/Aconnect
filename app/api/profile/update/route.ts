@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { Alumni, Employment } from "@/lib/models";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -18,76 +18,71 @@ export async function POST(req: Request) {
     const { type, ...payload } = data;
 
     if (type === "basic") {
-      await db.query(
-        `UPDATE alumni SET 
-          first_name = ?, last_name = ?, degree = ?, 
-          graduation_year = ?, year_admitted = ?, phone = ?, 
-          alternative_phone = ?, email = ?, alternative_email = ? 
-         WHERE id = ?`,
-        [
-          payload.first_name,
-          payload.last_name,
-          payload.degree,
-          payload.graduation_year ? parseInt(payload.graduation_year) : null,
-          payload.year_admitted ? parseInt(payload.year_admitted) : 0,
-          payload.phone,
-          payload.alternative_phone,
-          payload.email,
-          payload.alternative_email,
-          currentAlumniId,
-        ],
+      await Alumni.update(
+        {
+          first_name: payload.first_name,
+          last_name: payload.last_name,
+          degree: payload.degree,
+          graduation_year: payload.graduation_year
+            ? parseInt(payload.graduation_year)
+            : null,
+          year_admitted: payload.year_admitted
+            ? parseInt(payload.year_admitted)
+            : 0,
+          phone: payload.phone,
+          alternative_phone: payload.alternative_phone,
+          email: payload.email,
+          alternative_email: payload.alternative_email,
+        },
+        { where: { id: currentAlumniId } },
       );
     } else if (type === "employment") {
-      const [existingRows]: any = await db.query(
-        "SELECT id FROM employment WHERE alumni_id = ? LIMIT 1",
-        [currentAlumniId],
-      );
+      const existingRow = await Employment.findOne({
+        where: { alumni_id: currentAlumniId },
+      });
 
-      if (existingRows.length > 0) {
-        await db.query(
-          `UPDATE employment SET 
-            employment_status = ?, job_title = ?, company_name = ?, 
-            job_description = ?, year_of_service = ?, promotion_count = ? 
-           WHERE id = ?`,
-          [
-            payload.employment_status,
-            payload.job_title,
-            payload.company_name,
-            payload.job_description,
-            payload.year_of_service ? parseInt(payload.year_of_service) : 0,
-            payload.promotion_count ? parseInt(payload.promotion_count) : 0,
-            existingRows[0].id,
-          ],
+      if (existingRow) {
+        await Employment.update(
+          {
+            employment_status: payload.employment_status,
+            job_title: payload.job_title,
+            company_name: payload.company_name,
+            job_description: payload.job_description,
+            year_of_service: payload.year_of_service
+              ? parseInt(payload.year_of_service)
+              : 0,
+            promotion_count: payload.promotion_count
+              ? parseInt(payload.promotion_count)
+              : 0,
+          },
+          { where: { id: existingRow.id } },
         );
       } else {
-        await db.query(
-          `INSERT INTO employment (
-            alumni_id, employment_status, job_title, company_name, 
-            job_description, year_of_service, promotion_count
-          ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          [
-            currentAlumniId,
-            payload.employment_status,
-            payload.job_title,
-            payload.company_name,
-            payload.job_description,
-            payload.year_of_service ? parseInt(payload.year_of_service) : 0,
-            payload.promotion_count ? parseInt(payload.promotion_count) : 0,
-          ],
-        );
+        await Employment.create({
+          alumni_id: currentAlumniId,
+          employment_status: payload.employment_status,
+          job_title: payload.job_title,
+          company_name: payload.company_name,
+          job_description: payload.job_description,
+          year_of_service: payload.year_of_service
+            ? parseInt(payload.year_of_service)
+            : 0,
+          promotion_count: payload.promotion_count
+            ? parseInt(payload.promotion_count)
+            : 0,
+        });
       }
     } else if (type === "skills") {
-      await db.query(
-        "UPDATE alumni SET soft_skills = ?, technical_skills = ? WHERE id = ?",
-        [
-          Array.isArray(payload.soft_skills)
+      await Alumni.update(
+        {
+          soft_skills: Array.isArray(payload.soft_skills)
             ? payload.soft_skills.join(",")
             : payload.soft_skills,
-          Array.isArray(payload.technical_skills)
+          technical_skills: Array.isArray(payload.technical_skills)
             ? payload.technical_skills.join(",")
             : payload.technical_skills,
-          currentAlumniId,
-        ],
+        },
+        { where: { id: currentAlumniId } },
       );
     }
 

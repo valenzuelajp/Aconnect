@@ -1,7 +1,10 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import db from "@/lib/db";
 import bcrypt from "bcryptjs";
+import { AdminUser, Alumni } from "@/lib/models";
+
+const authSecret =
+  process.env.NEXTAUTH_SECRET || "aconnect-development-secret";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -15,31 +18,27 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.student_number || !credentials?.password) return null;
 
-        const [rows]: any = await db.query(
-          "SELECT * FROM alumni WHERE student_number = ?",
-          [credentials.student_number],
-        );
-
-        const user = rows[0];
+        const user = await Alumni.findOne({
+          where: { student_number: credentials.student_number },
+        });
 
         if (!user) {
           throw new Error("Unregistered Student Number");
         }
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password,
-        );
+        const alumni = user.get({ plain: true }) as any;
+
+        const isValid = await bcrypt.compare(credentials.password, alumni.password);
         if (!isValid) {
           throw new Error("Invalid Password");
         }
 
         return {
-          id: user.id.toString(),
-          name: `${user.first_name} ${user.last_name}`,
-          email: user.email,
+          id: alumni.id.toString(),
+          name: `${alumni.first_name} ${alumni.last_name}`,
+          email: alumni.email,
           role: "alumni",
-          student_number: user.student_number,
+          student_number: alumni.student_number,
         };
       },
     }),
@@ -53,29 +52,25 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
 
-        const [rows]: any = await db.query(
-          "SELECT * FROM admin_users WHERE username = ?",
-          [credentials.username],
-        );
-
-        const user = rows[0];
+        const user = await AdminUser.findOne({
+          where: { username: credentials.username },
+        });
 
         if (!user) {
           throw new Error("Unregistered Admin Username");
         }
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password,
-        );
+        const admin = user.get({ plain: true }) as any;
+
+        const isValid = await bcrypt.compare(credentials.password, admin.password);
         if (!isValid) {
           throw new Error("Invalid Password");
         }
 
         return {
-          id: user.id.toString(),
-          name: `${user.first_name} ${user.last_name}`,
-          email: user.email,
+          id: admin.id.toString(),
+          name: `${admin.first_name} ${admin.last_name}`,
+          email: admin.email,
           role: "administrator",
         };
       },
@@ -102,5 +97,5 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: authSecret,
 };

@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["sequelize"],
   async redirects() {
     return [
+      {
+        source: "/",
+        destination: "/login",
+        permanent: false,
+      },
       {
         source: "/admin/accounts",
         destination: "/admin/alumni",

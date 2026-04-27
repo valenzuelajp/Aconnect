@@ -8,20 +8,9 @@ interface JobCardProps {
 
 const JobCard = ({ job }: JobCardProps) => {
   const [showModal, setShowModal] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-
-  const handleApply = async (e: React.FormEvent) => {
+  const handleApply = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
-
-    setUploading(true);
-
-    setTimeout(() => {
-      alert("Application submitted successfully! (Demo Mode)");
-      setUploading(false);
-      setShowModal(false);
-    }, 1500);
   };
 
   return (
@@ -124,20 +113,19 @@ const JobCard = ({ job }: JobCardProps) => {
                     <p className="text-xs text-[#6B7280] mt-1">PDF ONLY</p>
                   </label>
 
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                    <p className="text-xs text-amber-700 font-medium flex items-center gap-2">
+                      <i className="fas fa-info-circle"></i> Online applications
+                      are currently handled through external portals or direct
+                      contact.
+                    </p>
+                  </div>
+
                   <button
-                    disabled={!file || uploading}
-                    className="w-full bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white py-4 rounded-xl font-bold text-sm shadow-sm hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
+                    disabled
+                    className="w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-bold text-sm cursor-not-allowed transition-all flex items-center justify-center gap-3"
                   >
-                    {uploading ? (
-                      <>
-                        <i className="fas fa-spinner fa-spin"></i> Submitting...
-                      </>
-                    ) : (
-                      <>
-                        <i className="fas fa-paper-plane"></i> Submit
-                        Application
-                      </>
-                    )}
+                    <i className="fas fa-paper-plane"></i> Application Disabled
                   </button>
                 </form>
               </div>

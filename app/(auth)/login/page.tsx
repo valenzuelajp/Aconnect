@@ -2,14 +2,13 @@
 
 import { useActionState, useEffect, Suspense } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 
 function LoginForm() {
   const { status } = useSession();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -107,17 +106,6 @@ function LoginForm() {
               />
             </div>
 
-            <div className="flex items-center text-[0.9rem]">
-              <input
-                type="checkbox"
-                id="remember"
-                name="remember"
-                className="mr-2 w-4 h-4 cursor-pointer"
-              />
-              <label htmlFor="remember" className="cursor-pointer text-[#333]">
-                Keep me signed in
-              </label>
-            </div>
 
             <SubmitButton>Log in to AConnect</SubmitButton>
           </form>

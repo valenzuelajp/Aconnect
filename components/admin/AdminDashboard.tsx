@@ -186,9 +186,6 @@ const AdminDashboard = ({ stats }: AdminDashboardProps) => {
                   <span className="text-4xl font-black text-slate-800 tracking-tighter">
                     {widget.value}
                   </span>
-                  <span className="text-emerald-500 text-xs font-bold">
-                    <i className="fas fa-caret-up"></i> +4%
-                  </span>
                 </div>
               </div>
             </Link>

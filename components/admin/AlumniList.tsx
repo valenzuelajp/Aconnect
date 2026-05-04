@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+
 import { useState } from "react";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import SuccessModal from "@/components/modals/SuccessModal";

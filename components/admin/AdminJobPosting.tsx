@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function AdminJobPosting() {
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    job_title: "",
-    company: "",
-    description: "",
-    location: "",
-    salary_range: "",
-    qualifications: "",
-    contact_details: "",
+    job_title: '',
+    company: '',
+    description: '',
+    location: '',
+    salary_range: '',
+    qualifications: '',
+    contact_details: '',
   });
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function AdminJobPosting() {
   async function fetchJobs() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/jobs");
+      const res = await fetch('/api/admin/jobs');
       const data = await res.json();
       setJobs(data);
     } catch (error) {
@@ -37,22 +37,22 @@ export default function AdminJobPosting() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const res = await fetch("/api/admin/jobs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/admin/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
       if (res.ok) {
         setShowModal(false);
         fetchJobs();
         setFormData({
-          job_title: "",
-          company: "",
-          description: "",
-          location: "",
-          salary_range: "",
-          qualifications: "",
-          contact_details: "",
+          job_title: '',
+          company: '',
+          description: '',
+          location: '',
+          salary_range: '',
+          qualifications: '',
+          contact_details: '',
         });
       }
     } catch (error) {
@@ -61,11 +61,11 @@ export default function AdminJobPosting() {
   }
 
   async function handleDelete(id: number) {
-    if (!confirm("Are you sure you want to delete this job posting?")) return;
+    if (!confirm('Are you sure you want to delete this job posting?')) return;
     try {
-      const res = await fetch("/api/admin/jobs", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/admin/jobs', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id }),
       });
       if (res.ok) fetchJobs();

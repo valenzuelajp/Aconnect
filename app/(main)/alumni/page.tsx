@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import AlumniCard from "@/components/ui/AlumniCard";
-import PageHeader from "@/components/layout/PageHeader";
-import SearchFilter from "@/components/ui/SearchFilter";
+import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import AlumniCard from '@/components/ui/AlumniCard';
+import PageHeader from '@/components/layout/PageHeader';
+import SearchFilter from '@/components/ui/SearchFilter';
 
 export default function NetworkPage() {
   const { data: session } = useSession();
   const [alumni, setAlumni] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     fetchAlumni();
@@ -20,13 +20,13 @@ export default function NetworkPage() {
   const fetchAlumni = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/alumni");
+      const res = await fetch('/api/alumni');
       const data = await res.json();
       if (!data.error) {
         setAlumni(data);
       }
     } catch (error) {
-      console.error("Failed to fetch alumni:", error);
+      console.error('Failed to fetch alumni:', error);
     } finally {
       setLoading(false);
     }
@@ -38,7 +38,7 @@ export default function NetworkPage() {
       a.last_name.toLowerCase().includes(search.toLowerCase()) ||
       a.degree.toLowerCase().includes(search.toLowerCase());
 
-    if (filter === "all") return matchesSearch;
+    if (filter === 'all') return matchesSearch;
     return matchesSearch && a.connectionStatus === filter;
   });
 
@@ -51,10 +51,10 @@ export default function NetworkPage() {
   }
 
   const filterOptions = [
-    { id: "all", label: "All" },
-    { id: "connectable", label: "Discover" },
-    { id: "pending", label: "Pending" },
-    { id: "accepted", label: "Linked" },
+    { id: 'all', label: 'All' },
+    { id: 'connectable', label: 'Discover' },
+    { id: 'pending', label: 'Pending' },
+    { id: 'accepted', label: 'Linked' },
   ];
 
   return (

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import ChatModal from "@/components/modals/ChatModal";
+import React, { useState, useEffect } from 'react';
+import ChatModal from '@/components/modals/ChatModal';
 
 export default function MessagesPage() {
   const [friends, setFriends] = useState<any[]>([]);
@@ -15,13 +15,13 @@ export default function MessagesPage() {
   const fetchFriends = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/messages");
+      const res = await fetch('/api/messages');
       const data = await res.json();
       if (!data.error) {
         setFriends(data);
       }
     } catch (error) {
-      console.error("Failed to fetch friends:", error);
+      console.error('Failed to fetch friends:', error);
     } finally {
       setLoading(false);
     }
@@ -30,7 +30,7 @@ export default function MessagesPage() {
   const getImagePath = (friend: any) => {
     if (friend.profile_image)
       return `/assets/uploads/alumni/${friend.profile_image}`;
-    return `/assets/images/person-${friend.gender?.toLowerCase() === "female" ? "female" : "male"}.png`;
+    return `/assets/images/person-${friend.gender?.toLowerCase() === 'female' ? 'female' : 'male'}.png`;
   };
 
   return (
@@ -75,7 +75,7 @@ export default function MessagesPage() {
                       {friend.first_name} {friend.last_name}
                     </p>
                     <p className="text-xs text-[#6B7280] mt-1 flex items-center gap-2">
-                      <i className="fas fa-circle text-[6px] text-[#10B981]"></i>{" "}
+                      <i className="fas fa-circle text-[6px] text-[#10B981]"></i>{' '}
                       Active
                     </p>
                   </div>

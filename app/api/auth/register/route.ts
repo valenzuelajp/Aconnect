@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import { sendVerificationEmail } from "@/lib/email";
-import { Alumni } from "@/lib/models";
-import { Op } from "sequelize";
+import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
+import { sendVerificationEmail } from '@/lib/email';
+import { Alumni } from '@/lib/models';
+import { Op } from 'sequelize';
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { message: "Email or Student Number already registered" },
+        { message: 'Email or Student Number already registered' },
         { status: 400 },
       );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const token = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
-    const finalDegree = degree === "Other" ? degree_other : degree;
+    const finalDegree = degree === 'Other' ? degree_other : degree;
 
     await Alumni.create({
       first_name,
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       student_number,
       degree: finalDegree,
       sex,
-      status: "active",
+      status: 'active',
       email_verified: false,
       verification_token: token,
       year_admitted: 0,
@@ -60,22 +60,22 @@ export async function POST(req: NextRequest) {
     try {
       await sendVerificationEmail(email, token);
     } catch (emailError) {
-      console.error("Failed to send verification email:", emailError);
+      console.error('Failed to send verification email:', emailError);
       // We still proceed, but the user might need to resend later
     }
 
     return NextResponse.json(
       {
-        message: "Registration successful! Please verify your email.",
+        message: 'Registration successful! Please verify your email.',
         requiresVerification: true,
         email: email,
       },
       { status: 201 },
     );
   } catch (error: any) {
-    console.error("Registration error:", error);
+    console.error('Registration error:', error);
     return NextResponse.json(
-      { message: error.message || "Internal Server Error" },
+      { message: error.message || 'Internal Server Error' },
       { status: 500 },
     );
   }

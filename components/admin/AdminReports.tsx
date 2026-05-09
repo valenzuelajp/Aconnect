@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,10 +10,10 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
-import * as XLSX from "xlsx";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+} from 'chart.js';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 ChartJS.register(
   CategoryScale,
@@ -28,10 +28,10 @@ export default function AdminReports() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    grad_year: "",
-    status: "",
-    date_from: "",
-    date_to: "",
+    grad_year: '',
+    status: '',
+    date_from: '',
+    date_to: '',
   });
 
   useEffect(() => {
@@ -57,30 +57,30 @@ export default function AdminReports() {
     if (!data || !data.employment_rows) return;
 
     const worksheetData = data.employment_rows.map((row: any) => ({
-      "Alumni Name": `${row.alumni.last_name}, ${row.alumni.first_name}`,
+      'Alumni Name': `${row.alumni.last_name}, ${row.alumni.first_name}`,
       Email: row.alumni.email,
-      "Graduation Year": row.alumni.graduation_year,
+      'Graduation Year': row.alumni.graduation_year,
       Status: row.employment_status,
       Company: row.company_name,
-      "Job Title": row.job_title,
+      'Job Title': row.job_title,
       Promotions: row.promotion_count,
-      "Submitted At": new Date(row.created_at).toLocaleDateString(),
+      'Submitted At': new Date(row.created_at).toLocaleDateString(),
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Employment Report");
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Employment Report');
     XLSX.writeFile(
       workbook,
-      `Employment_Report_${new Date().toISOString().split("T")[0]}.xlsx`,
+      `Employment_Report_${new Date().toISOString().split('T')[0]}.xlsx`,
     );
   };
 
   const exportToPDF = () => {
     if (!data || !data.employment_rows) return;
 
-    const doc = new jsPDF("landscape");
-    doc.text("AConnect - Employment Report", 14, 15);
+    const doc = new jsPDF('landscape');
+    doc.text('AConnect - Employment Report', 14, 15);
 
     const tableData = data.employment_rows.map((row: any) => [
       `${row.alumni.last_name}, ${row.alumni.first_name}`,
@@ -95,22 +95,22 @@ export default function AdminReports() {
     autoTable(doc, {
       head: [
         [
-          "Alumni",
-          "Grad Year",
-          "Status",
-          "Company",
-          "Job Title",
-          "Promotions",
-          "Date",
+          'Alumni',
+          'Grad Year',
+          'Status',
+          'Company',
+          'Job Title',
+          'Promotions',
+          'Date',
         ],
       ],
       body: tableData,
       startY: 20,
-      theme: "grid",
+      theme: 'grid',
       headStyles: { fillColor: [112, 10, 10] },
     });
 
-    doc.save(`Employment_Report_${new Date().toISOString().split("T")[0]}.pdf`);
+    doc.save(`Employment_Report_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   if (loading || !data) {
@@ -125,14 +125,14 @@ export default function AdminReports() {
     labels: data.engagement_by_year.map((d: any) => d.graduation_year),
     datasets: [
       {
-        label: "Total Alumni",
+        label: 'Total Alumni',
         data: data.engagement_by_year.map((d: any) => d.total_alumni),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
       },
       {
-        label: "Active (30d)",
+        label: 'Active (30d)',
         data: data.engagement_by_year.map((d: any) => d.active_alumni),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
     ],
   };
@@ -177,7 +177,7 @@ export default function AdminReports() {
               responsive: true,
               maintainAspectRatio: false,
               plugins: {
-                legend: { position: "bottom" },
+                legend: { position: 'bottom' },
               },
             }}
           />
@@ -260,10 +260,10 @@ export default function AdminReports() {
             <button
               onClick={() => {
                 setFilters({
-                  grad_year: "",
-                  status: "",
-                  date_from: "",
-                  date_to: "",
+                  grad_year: '',
+                  status: '',
+                  date_from: '',
+                  date_to: '',
                 });
                 setTimeout(fetchReports, 0);
               }}
@@ -319,11 +319,11 @@ export default function AdminReports() {
                     <td className="py-4 px-2">
                       <span
                         className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${
-                          row.employment_status === "Employed"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : row.employment_status === "Self-employed"
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-red-100 text-red-700"
+                          row.employment_status === 'Employed'
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : row.employment_status === 'Self-employed'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-red-100 text-red-700'
                         }`}
                       >
                         {row.employment_status}

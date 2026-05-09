@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function AdminAccounts() {
   const [accounts, setAccounts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     fetchAccounts();
@@ -15,7 +15,7 @@ export default function AdminAccounts() {
   async function fetchAccounts() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/accounts");
+      const res = await fetch('/api/admin/accounts');
       const data = await res.json();
       setAccounts(data);
     } catch (error) {
@@ -26,11 +26,11 @@ export default function AdminAccounts() {
   }
 
   async function toggleStatus(id: number, currentStatus: string) {
-    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
     try {
       const res = await fetch(`/api/admin/accounts?id=${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       });
       if (res.ok) {
@@ -47,11 +47,11 @@ export default function AdminAccounts() {
 
   const filteredAccounts = accounts.filter((acc) => {
     const nameMatch =
-      (acc.first_name + " " + acc.last_name)
+      (acc.first_name + ' ' + acc.last_name)
         .toLowerCase()
         .includes(search.toLowerCase()) ||
       acc.email.toLowerCase().includes(search.toLowerCase());
-    const statusMatch = statusFilter === "all" || acc.status === statusFilter;
+    const statusMatch = statusFilter === 'all' || acc.status === statusFilter;
     return nameMatch && statusMatch;
   });
 
@@ -88,14 +88,14 @@ export default function AdminAccounts() {
             />
           </div>
           <div className="flex gap-2">
-            {["all", "active", "inactive"].map((f) => (
+            {['all', 'active', 'inactive'].map((f) => (
               <button
                 key={f}
                 onClick={() => setStatusFilter(f)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
                   statusFilter === f
-                    ? "bg-[#700A0A] text-white"
-                    : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
+                    ? 'bg-[#700A0A] text-white'
+                    : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 {f}
@@ -139,7 +139,7 @@ export default function AdminAccounts() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="text-sm font-medium text-slate-600">
-                      {acc.student_number || "N/A"}
+                      {acc.student_number || 'N/A'}
                     </div>
                   </td>
                   <td className="py-4 px-6 text-sm text-slate-500">
@@ -148,9 +148,9 @@ export default function AdminAccounts() {
                   <td className="py-4 px-6">
                     <span
                       className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${
-                        acc.status === "active"
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-red-100 text-red-700"
+                        acc.status === 'active'
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-red-100 text-red-700'
                       }`}
                     >
                       {acc.status}
@@ -160,12 +160,12 @@ export default function AdminAccounts() {
                     <button
                       onClick={() => toggleStatus(acc.id, acc.status)}
                       className={`text-xs font-bold px-4 py-2 rounded-lg border transition-all ${
-                        acc.status === "active"
-                          ? "border-red-200 text-red-600 hover:bg-red-50"
-                          : "border-emerald-200 text-emerald-600 hover:bg-emerald-50"
+                        acc.status === 'active'
+                          ? 'border-red-200 text-red-600 hover:bg-red-50'
+                          : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50'
                       }`}
                     >
-                      {acc.status === "active" ? "Deactivate" : "Activate"}
+                      {acc.status === 'active' ? 'Deactivate' : 'Activate'}
                     </button>
                   </td>
                 </tr>

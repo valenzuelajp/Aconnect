@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import DetailModal from "@/components/modals/DetailModal";
+import { useState, useEffect } from 'react';
+import DetailModal from '@/components/modals/DetailModal';
 
 interface CarouselProps {
   photos: {
@@ -41,12 +41,12 @@ const Carousel = ({ photos }: CarouselProps) => {
           <div
             key={photo.id}
             className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === current ? "opacity-100" : "opacity-0"
+              index === current ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <img
               src={`/assets/uploads/carousel/${photo.file_name}`}
-              alt={photo.title || "Carousel Image"}
+              alt={photo.title || 'Carousel Image'}
               className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
             />
             {(photo.title || photo.description) && (
@@ -98,7 +98,7 @@ const Carousel = ({ photos }: CarouselProps) => {
           {photos.map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${i === current ? "w-8 bg-white" : "w-1.5 bg-white/40 hover:bg-white/60"}`}
+              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${i === current ? 'w-8 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/60'}`}
               onClick={() => setCurrent(i)}
             />
           ))}
@@ -108,8 +108,8 @@ const Carousel = ({ photos }: CarouselProps) => {
       <DetailModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title={currentPhoto.title || "Image Details"}
-        content={currentPhoto.description || ""}
+        title={currentPhoto.title || 'Image Details'}
+        content={currentPhoto.description || ''}
         image={`/assets/uploads/carousel/${currentPhoto.file_name}`}
         type="Carousel Gallery"
       />

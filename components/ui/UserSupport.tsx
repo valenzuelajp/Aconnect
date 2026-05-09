@@ -1,10 +1,10 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect, useState } from 'react';
 
 export default function UserSupport() {
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ message: "" });
+  const [form, setForm] = useState({ message: '' });
 
   useEffect(() => {
     fetchMessages();
@@ -12,7 +12,7 @@ export default function UserSupport() {
 
   async function fetchMessages() {
     setLoading(true);
-    const res = await fetch("/api/support");
+    const res = await fetch('/api/support');
     const data = await res.json();
     setMessages(data);
     setLoading(false);
@@ -20,12 +20,12 @@ export default function UserSupport() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    await fetch("/api/support", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    await fetch('/api/support', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
-    setForm({ message: "" });
+    setForm({ message: '' });
     fetchMessages();
   }
 

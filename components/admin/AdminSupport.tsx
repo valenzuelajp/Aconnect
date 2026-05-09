@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function AdminSupport() {
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     fetchMessages();
@@ -15,7 +15,7 @@ export default function AdminSupport() {
   async function fetchMessages() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/support");
+      const res = await fetch('/api/admin/support');
       const data = await res.json();
       setMessages(data);
     } catch (error) {
@@ -26,11 +26,11 @@ export default function AdminSupport() {
   }
 
   async function toggleStatus(id: number, currentStatus: string) {
-    const newStatus = currentStatus === "solved" ? "open" : "solved";
+    const newStatus = currentStatus === 'solved' ? 'open' : 'solved';
     try {
       const res = await fetch(`/api/admin/support?id=${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       });
       if (res.ok) {
@@ -47,12 +47,12 @@ export default function AdminSupport() {
 
   const filteredMessages = messages.filter((msg) => {
     const nameMatch =
-      (msg.alumni?.first_name + " " + msg.alumni?.last_name)
+      (msg.alumni?.first_name + ' ' + msg.alumni?.last_name)
         .toLowerCase()
         .includes(search.toLowerCase()) ||
       msg.message.toLowerCase().includes(search.toLowerCase()) ||
       msg.alumni?.email.toLowerCase().includes(search.toLowerCase());
-    const statusMatch = statusFilter === "all" || msg.status === statusFilter;
+    const statusMatch = statusFilter === 'all' || msg.status === statusFilter;
     return nameMatch && statusMatch;
   });
 
@@ -89,14 +89,14 @@ export default function AdminSupport() {
             />
           </div>
           <div className="flex gap-2">
-            {["all", "open", "solved"].map((f) => (
+            {['all', 'open', 'solved'].map((f) => (
               <button
                 key={f}
                 onClick={() => setStatusFilter(f)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
                   statusFilter === f
-                    ? "bg-[#700A0A] text-white"
-                    : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
+                    ? 'bg-[#700A0A] text-white'
+                    : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 {f}
@@ -152,24 +152,24 @@ export default function AdminSupport() {
                     <td className="py-4 px-6">
                       <span
                         className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${
-                          msg.status === "solved"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-amber-100 text-amber-700"
+                          msg.status === 'solved'
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : 'bg-amber-100 text-amber-700'
                         }`}
                       >
-                        {msg.status || "open"}
+                        {msg.status || 'open'}
                       </span>
                     </td>
                     <td className="py-4 px-6 text-right">
                       <button
                         onClick={() => toggleStatus(msg.id, msg.status)}
                         className={`text-xs font-bold px-4 py-2 rounded-lg border transition-all ${
-                          msg.status === "solved"
-                            ? "border-slate-200 text-slate-600 hover:bg-slate-100"
-                            : "border-emerald-200 text-emerald-600 hover:bg-emerald-50"
+                          msg.status === 'solved'
+                            ? 'border-slate-200 text-slate-600 hover:bg-slate-100'
+                            : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50'
                         }`}
                       >
-                        {msg.status === "solved" ? "Reopen" : "Mark Solved"}
+                        {msg.status === 'solved' ? 'Reopen' : 'Mark Solved'}
                       </button>
                     </td>
                   </tr>

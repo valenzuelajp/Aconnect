@@ -9,7 +9,7 @@ interface JobCardProps {
 const JobCard = ({ job }: JobCardProps) => {
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const handleApply = (e: React.FormEvent) => {
+  const handleApply = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 

@@ -42,7 +42,7 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
     }
   };
 
-  const handleSend = async (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 

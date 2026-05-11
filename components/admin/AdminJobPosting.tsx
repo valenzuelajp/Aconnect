@@ -34,7 +34,7 @@ export default function AdminJobPosting() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const res = await fetch("/api/admin/jobs", {

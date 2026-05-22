@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 interface FilterOption {
   id: string;
@@ -22,7 +22,7 @@ const SearchFilter = ({
   filter,
   onFilterChange,
   filterOptions,
-  placeholder = "Search...",
+  placeholder = 'Search...',
 }: SearchFilterProps) => {
   return (
     <div className="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 mb-12 flex flex-col md:flex-row gap-2">
@@ -55,8 +55,8 @@ const SearchFilter = ({
             onClick={() => onFilterChange(f.id)}
             className={`text-xs font-bold px-4 py-2 rounded-xl transition ${
               filter === f.id
-                ? "bg-[#8B1538] text-white shadow-md shadow-rose-100"
-                : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+                ? 'bg-[#8B1538] text-white shadow-md shadow-rose-100'
+                : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
             }`}
           >
             {f.label}

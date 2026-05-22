@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -10,53 +10,53 @@ interface ConfirmModalProps {
   cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
-  type?: "danger" | "success" | "warning" | "info";
+  type?: 'danger' | 'success' | 'warning' | 'info';
 }
 
 export default function ConfirmModal({
   isOpen,
   title,
   message,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
   onConfirm,
   onCancel,
-  type = "warning",
+  type = 'warning',
 }: ConfirmModalProps) {
   if (!isOpen) return null;
 
   const colors = {
     danger: {
-      bg: "bg-red-50",
-      icon: "text-red-600",
-      iconBg: "bg-red-100",
-      button: "bg-red-600 hover:bg-red-700",
+      bg: 'bg-red-50',
+      icon: 'text-red-600',
+      iconBg: 'bg-red-100',
+      button: 'bg-red-600 hover:bg-red-700',
     },
     success: {
-      bg: "bg-green-50",
-      icon: "text-green-600",
-      iconBg: "bg-green-100",
-      button: "bg-green-600 hover:bg-green-700",
+      bg: 'bg-green-50',
+      icon: 'text-green-600',
+      iconBg: 'bg-green-100',
+      button: 'bg-green-600 hover:bg-green-700',
     },
     warning: {
-      bg: "bg-amber-50",
-      icon: "text-amber-600",
-      iconBg: "bg-amber-100",
-      button: "bg-amber-600 hover:bg-amber-700",
+      bg: 'bg-amber-50',
+      icon: 'text-amber-600',
+      iconBg: 'bg-amber-100',
+      button: 'bg-amber-600 hover:bg-amber-700',
     },
     info: {
-      bg: "bg-blue-50",
-      icon: "text-blue-600",
-      iconBg: "bg-blue-100",
-      button: "bg-blue-600 hover:bg-blue-700",
+      bg: 'bg-blue-50',
+      icon: 'text-blue-600',
+      iconBg: 'bg-blue-100',
+      button: 'bg-blue-600 hover:bg-blue-700',
     },
   };
 
   const icons = {
-    danger: "fa-exclamation-triangle",
-    success: "fa-check-circle",
-    warning: "fa-exclamation-circle",
-    info: "fa-info-circle",
+    danger: 'fa-exclamation-triangle',
+    success: 'fa-check-circle',
+    warning: 'fa-exclamation-circle',
+    info: 'fa-info-circle',
   };
 
   const currentColor = colors[type];

@@ -1,19 +1,19 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { writeFile } from "fs/promises";
-import path from "path";
-import { CarouselPhoto } from "@/lib/models";
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import { writeFile } from 'fs/promises';
+import path from 'path';
+import { CarouselPhoto } from '@/lib/models';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const photos = await CarouselPhoto.findAll({
-      order: [["uploaded_at", "DESC"]],
+      order: [['uploaded_at', 'DESC']],
     });
     return NextResponse.json(photos.map((photo) => photo.toJSON()));
   } catch (error: any) {
@@ -23,28 +23,28 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const formData = await request.formData();
-    const file = formData.get("file") as File;
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+    const file = formData.get('file') as File;
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
 
     if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = `${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
+    const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
     const uploadDir = path.join(
       process.cwd(),
-      "public",
-      "assets",
-      "uploads",
-      "carousel",
+      'public',
+      'assets',
+      'uploads',
+      'carousel',
     );
     const filePath = path.join(uploadDir, fileName);
 
@@ -64,21 +64,21 @@ export async function POST(request: NextRequest) {
       uploaded_at: new Date(),
     });
   } catch (error: any) {
-    console.error("Carousel upload error:", error);
+    console.error('Carousel upload error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
 export async function DELETE(request: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
-  if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+  if (!id) return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
 
   try {
     await CarouselPhoto.destroy({ where: { id: parseInt(id) } });

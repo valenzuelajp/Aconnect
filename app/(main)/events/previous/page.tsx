@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import EventCard from "@/components/EventCard";
+import React, { useState, useEffect } from 'react';
+import EventCard from '@/components/EventCard';
 
 export default function PreviousEventsPage() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [sort, setSort] = useState("recent");
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [sort, setSort] = useState('recent');
 
   useEffect(() => {
     fetchPreviousEvents();
@@ -17,13 +17,13 @@ export default function PreviousEventsPage() {
   const fetchPreviousEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/events?past=true");
+      const res = await fetch('/api/events?past=true');
       const data = await res.json();
       if (!data.error) {
         setEvents(data);
       }
     } catch (error) {
-      console.error("Failed to fetch events:", error);
+      console.error('Failed to fetch events:', error);
     } finally {
       setLoading(false);
     }
@@ -36,13 +36,13 @@ export default function PreviousEventsPage() {
         (e.description &&
           e.description.toLowerCase().includes(search.toLowerCase()));
       const matchesFilter =
-        filter === "all" || e.event_type?.toLowerCase() === filter;
+        filter === 'all' || e.event_type?.toLowerCase() === filter;
       return matchesSearch && matchesFilter;
     })
     .sort((a, b) => {
       const dateA = new Date(a.event_date).getTime();
       const dateB = new Date(b.event_date).getTime();
-      return sort === "recent" ? dateB - dateA : dateA - dateB;
+      return sort === 'recent' ? dateB - dateA : dateA - dateB;
     });
 
   return (
@@ -120,9 +120,9 @@ export default function PreviousEventsPage() {
             </select>
             <button
               onClick={() => {
-                setSearch("");
-                setFilter("all");
-                setSort("recent");
+                setSearch('');
+                setFilter('all');
+                setSort('recent');
               }}
               className="bg-slate-600 text-white text-xs font-bold px-6 py-2 rounded-xl hover:bg-slate-300 transition shadow-md shadow-slate-100"
             >

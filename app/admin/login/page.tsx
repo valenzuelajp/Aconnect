@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 const adminLoginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
+  username: z.string().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 type AdminLoginFormValues = z.infer<typeof adminLoginSchema>;
@@ -22,8 +22,8 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/dashboard");
+    if (status === 'authenticated') {
+      router.push('/dashboard');
     }
   }, [status, router]);
 
@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
     resolver: zodResolver(adminLoginSchema),
   });
 
-  if (status === "loading" || status === "authenticated") {
+  if (status === 'loading' || status === 'authenticated') {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f7f7f7]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#700A0A]"></div>
@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
 
-    const result = await signIn("admin", {
+    const result = await signIn('admin', {
       username: data.username,
       password: data.password,
       redirect: false,
@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
       setError(result.error);
       setLoading(false);
     } else {
-      router.push("/dashboard");
+      router.push('/dashboard');
       router.refresh();
     }
   };
@@ -102,10 +102,10 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <input
-                {...register("username")}
+                {...register('username')}
                 type="text"
                 placeholder="Username"
-                className={`w-full h-[48px] px-[15px] border rounded transition-all focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 outline-none border-[#ddd] ${errors.username ? "border-red-500" : ""}`}
+                className={`w-full h-[48px] px-[15px] border rounded transition-all focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 outline-none border-[#ddd] ${errors.username ? 'border-red-500' : ''}`}
               />
               {errors.username && (
                 <p className="text-red-500 text-xs mt-1">
@@ -116,10 +116,10 @@ export default function AdminLoginPage() {
 
             <div>
               <input
-                {...register("password")}
+                {...register('password')}
                 type="password"
                 placeholder="Password"
-                className={`w-full h-[48px] px-[15px] border rounded transition-all focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 outline-none border-[#ddd] ${errors.password ? "border-red-500" : ""}`}
+                className={`w-full h-[48px] px-[15px] border rounded transition-all focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 outline-none border-[#ddd] ${errors.password ? 'border-red-500' : ''}`}
               />
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">
@@ -133,7 +133,7 @@ export default function AdminLoginPage() {
               disabled={loading}
               className={`w-full h-[48px] bg-[#700A0A] text-white font-semibold rounded hover:bg-[#5a0808] transition-colors disabled:opacity-70 disabled:cursor-not-allowed`}
             >
-              {loading ? "Authenticating..." : "Login"}
+              {loading ? 'Authenticating...' : 'Login'}
             </button>
           </form>
 

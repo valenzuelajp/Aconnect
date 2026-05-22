@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function AdminActivityLog() {
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchLogs();
@@ -14,13 +14,13 @@ export default function AdminActivityLog() {
   async function fetchLogs() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/activity-log");
+      const res = await fetch('/api/admin/activity-log');
       const data = await res.json();
       if (!data.error) {
         setLogs(data);
       }
     } catch (error) {
-      console.error("Failed to fetch logs:", error);
+      console.error('Failed to fetch logs:', error);
     } finally {
       setLoading(false);
     }
@@ -28,7 +28,7 @@ export default function AdminActivityLog() {
 
   const filteredLogs = logs.filter(
     (log) =>
-      (log.alumni?.first_name + " " + log.alumni?.last_name)
+      (log.alumni?.first_name + ' ' + log.alumni?.last_name)
         .toLowerCase()
         .includes(search.toLowerCase()) ||
       log.activity.toLowerCase().includes(search.toLowerCase()),
@@ -97,12 +97,12 @@ export default function AdminActivityLog() {
                     className="hover:bg-slate-50/50 transition-colors"
                   >
                     <td className="py-4 px-6 text-sm text-slate-500 font-medium">
-                      {new Date(log.created_at).toLocaleString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
+                      {new Date(log.created_at).toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
                       })}
                     </td>
                     <td className="py-4 px-6">

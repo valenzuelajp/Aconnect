@@ -1,8 +1,14 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { Alumni, Certification, Connection, ConnectionRequest, Employment } from "@/lib/models";
-import { Op } from "sequelize";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import {
+  Alumni,
+  Certification,
+  Connection,
+  ConnectionRequest,
+  Employment,
+} from '@/lib/models';
+import { Op } from 'sequelize';
 
 export async function GET(
   request: Request,
@@ -10,7 +16,7 @@ export async function GET(
 ) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { id } = await params;
@@ -21,7 +27,7 @@ export async function GET(
     const alumnus = await Alumni.findByPk(targetId);
 
     if (!alumnus) {
-      return NextResponse.json({ error: "Alumni not found" }, { status: 404 });
+      return NextResponse.json({ error: 'Alumni not found' }, { status: 404 });
     }
 
     const employmentRows = await Employment.findAll({
@@ -30,7 +36,7 @@ export async function GET(
 
     const certificationRows = await Certification.findAll({
       where: { alumni_id: targetId },
-      order: [["created_at", "DESC"]],
+      order: [['created_at', 'DESC']],
     });
 
     const sentRequest = await ConnectionRequest.findOne({
@@ -50,16 +56,16 @@ export async function GET(
       },
     });
 
-    let connectionStatus = "connectable";
+    let connectionStatus = 'connectable';
     let requestId: any = null;
 
     if (connection) {
-      connectionStatus = "accepted";
+      connectionStatus = 'accepted';
     } else if (sentRequest) {
-      connectionStatus = "pending";
+      connectionStatus = 'pending';
       requestId = sentRequest.id;
     } else if (receivedRequest) {
-      connectionStatus = "received";
+      connectionStatus = 'received';
       requestId = receivedRequest.id;
     }
 

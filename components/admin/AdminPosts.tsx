@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function AdminPosts() {
   const [posts, setPosts] = useState<any[]>([]);
   const [carouselPhotos, setCarouselPhotos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showCarouselModal, setShowCarouselModal] = useState(false);
   const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    post_type: "announcements",
-    recipient_batch: "",
+    title: '',
+    content: '',
+    post_type: 'announcements',
+    recipient_batch: '',
     imageFile: null as File | null,
   });
   const [carouselFormData, setCarouselFormData] = useState({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     file: null as File | null,
   });
 
@@ -30,7 +30,7 @@ export default function AdminPosts() {
   async function fetchPosts() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/posts");
+      const res = await fetch('/api/admin/posts');
       const data = await res.json();
       setPosts(data);
     } catch (error) {
@@ -42,7 +42,7 @@ export default function AdminPosts() {
 
   async function fetchCarousel() {
     try {
-      const res = await fetch("/api/admin/carousel");
+      const res = await fetch('/api/admin/carousel');
       const data = await res.json();
       setCarouselPhotos(data);
     } catch (error) {
@@ -53,27 +53,27 @@ export default function AdminPosts() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const data = new FormData();
-    data.append("title", formData.title);
-    data.append("content", formData.content);
-    data.append("post_type", formData.post_type);
-    data.append("recipient_batch", formData.recipient_batch);
+    data.append('title', formData.title);
+    data.append('content', formData.content);
+    data.append('post_type', formData.post_type);
+    data.append('recipient_batch', formData.recipient_batch);
     if (formData.imageFile) {
-      data.append("file", formData.imageFile);
+      data.append('file', formData.imageFile);
     }
 
     try {
-      const res = await fetch("/api/admin/posts", {
-        method: "POST",
+      const res = await fetch('/api/admin/posts', {
+        method: 'POST',
         body: data,
       });
       if (res.ok) {
         setShowModal(false);
         fetchPosts();
         setFormData({
-          title: "",
-          content: "",
-          post_type: "announcements",
-          recipient_batch: "",
+          title: '',
+          content: '',
+          post_type: 'announcements',
+          recipient_batch: '',
           imageFile: null,
         });
       }
@@ -84,21 +84,21 @@ export default function AdminPosts() {
 
   async function handleCarouselSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!carouselFormData.file) return alert("Please select a file");
+    if (!carouselFormData.file) return alert('Please select a file');
 
     const data = new FormData();
-    data.append("file", carouselFormData.file);
-    data.append("title", carouselFormData.title);
-    data.append("description", carouselFormData.description);
+    data.append('file', carouselFormData.file);
+    data.append('title', carouselFormData.title);
+    data.append('description', carouselFormData.description);
 
     try {
-      const res = await fetch("/api/admin/carousel", {
-        method: "POST",
+      const res = await fetch('/api/admin/carousel', {
+        method: 'POST',
         body: data,
       });
       if (res.ok) {
         fetchCarousel();
-        setCarouselFormData({ title: "", description: "", file: null });
+        setCarouselFormData({ title: '', description: '', file: null });
       }
     } catch (error) {
       console.error(error);
@@ -106,10 +106,10 @@ export default function AdminPosts() {
   }
 
   async function handleDelete(id: number) {
-    if (!confirm("Are you sure you want to delete this post?")) return;
+    if (!confirm('Are you sure you want to delete this post?')) return;
     try {
       const res = await fetch(`/api/admin/posts?id=${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       if (res.ok) fetchPosts();
     } catch (error) {
@@ -118,10 +118,10 @@ export default function AdminPosts() {
   }
 
   async function handleCarouselDelete(id: number) {
-    if (!confirm("Remove this banner?")) return;
+    if (!confirm('Remove this banner?')) return;
     try {
       const res = await fetch(`/api/admin/carousel?id=${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       if (res.ok) fetchCarousel();
     } catch (error) {
@@ -223,11 +223,11 @@ export default function AdminPosts() {
                   <td className="py-4 px-6">
                     <span
                       className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${
-                        post.post_type === "news"
-                          ? "bg-blue-100 text-blue-700"
-                          : post.post_type === "announcements"
-                            ? "bg-amber-100 text-amber-700"
-                            : "bg-emerald-100 text-emerald-700"
+                        post.post_type === 'news'
+                          ? 'bg-blue-100 text-blue-700'
+                          : post.post_type === 'announcements'
+                            ? 'bg-amber-100 text-amber-700'
+                            : 'bg-emerald-100 text-emerald-700'
                       }`}
                     >
                       {post.post_type}
@@ -238,7 +238,7 @@ export default function AdminPosts() {
                   </td>
                   <td className="py-4 px-6 text-sm font-bold text-slate-600">
                     {post.admin_users_post_created_byToadmin_users
-                      ?.first_name || "Admin"}
+                      ?.first_name || 'Admin'}
                   </td>
                   <td className="py-4 px-6 text-right">
                     <button
@@ -303,7 +303,7 @@ export default function AdminPosts() {
                   <div className="text-sm font-bold text-slate-600">
                     {formData.imageFile
                       ? formData.imageFile.name
-                      : "Click to upload post image"}
+                      : 'Click to upload post image'}
                   </div>
                   <div className="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-widest">
                     Full 1080x1080 or 1599x1600 seen on site
@@ -498,7 +498,7 @@ export default function AdminPosts() {
                       <div className="text-sm font-bold text-slate-600">
                         {carouselFormData.file
                           ? carouselFormData.file.name
-                          : "Click to choose file or drag and drop"}
+                          : 'Click to choose file or drag and drop'}
                       </div>
                       <div className="text-[10px] text-slate-400 font-bold uppercase mt-2 tracking-widest">
                         Recommended size: 1920x600px (16:9 ratio)

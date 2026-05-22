@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import db from "@/lib/db";
+import { NextResponse } from 'next/server';
+import db from '@/lib/db';
 
 export async function POST(req: Request) {
   try {
@@ -7,19 +7,19 @@ export async function POST(req: Request) {
 
     if (!email || !code) {
       return NextResponse.json(
-        { error: "Email and code are required" },
+        { error: 'Email and code are required' },
         { status: 400 },
       );
     }
 
     const [rows]: any = await db.query(
-      "SELECT id FROM alumni WHERE email = ? AND verification_token = ?",
+      'SELECT id FROM alumni WHERE email = ? AND verification_token = ?',
       [email, code],
     );
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { error: "Invalid verification code" },
+        { error: 'Invalid verification code' },
         { status: 400 },
       );
     }
@@ -31,12 +31,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Email verified successfully!",
+      message: 'Email verified successfully!',
     });
   } catch (error: any) {
-    console.error("Verification error:", error);
+    console.error('Verification error:', error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: 'Internal server error' },
       { status: 500 },
     );
   }

@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
-import "./globals.css";
-import { Providers } from "@/components/layout/Providers";
+import type { Metadata } from 'next';
+import { Nunito } from 'next/font/google';
+import './globals.css';
+import { Providers } from '@/components/layout/Providers';
 
 const nunito = Nunito({
-  subsets: ["latin"],
-  variable: "--font-nunito",
-  weight: ["200", "400", "600", "700", "800"],
+  subsets: ['latin'],
+  variable: '--font-nunito',
+  weight: ['200', '400', '600', '700', '800'],
 });
 
 export const metadata: Metadata = {
-  title: "AConnect | Alumni & Career Platform",
+  title: 'AConnect | Alumni & Career Platform',
   description:
-    "Connect with your fellow alumni and unlock exclusive career opportunities.",
+    'Connect with your fellow alumni and unlock exclusive career opportunities.',
 };
 
 export default function RootLayout({

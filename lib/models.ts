@@ -1,8 +1,8 @@
-import { DataTypes } from "sequelize";
-import db from "@/lib/db";
+import { DataTypes } from 'sequelize';
+import db from '@/lib/db';
 
 export const Alumni = db.define(
-  "alumni",
+  'alumni',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -37,11 +37,11 @@ export const Alumni = db.define(
     verification_token: DataTypes.STRING,
     verification_sent_at: DataTypes.DATE,
   },
-  { tableName: "alumni" },
+  { tableName: 'alumni' },
 );
 
 export const AdminUser = db.define(
-  "admin_users",
+  'admin_users',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -56,11 +56,11 @@ export const AdminUser = db.define(
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
   },
-  { tableName: "admin_users" },
+  { tableName: 'admin_users' },
 );
 
 export const Employment = db.define(
-  "employment",
+  'employment',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -76,11 +76,11 @@ export const Employment = db.define(
     promotion_count: DataTypes.INTEGER,
     created_at: DataTypes.DATE,
   },
-  { tableName: "employment" },
+  { tableName: 'employment' },
 );
 
 export const Certification = db.define(
-  "certification",
+  'certification',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -98,11 +98,11 @@ export const Certification = db.define(
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },
-  { tableName: "certification" },
+  { tableName: 'certification' },
 );
 
 export const ConnectionRequest = db.define(
-  "connection_requests",
+  'connection_requests',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -114,11 +114,11 @@ export const ConnectionRequest = db.define(
     status: DataTypes.STRING,
     created_at: DataTypes.DATE,
   },
-  { tableName: "connection_requests" },
+  { tableName: 'connection_requests' },
 );
 
 export const Connection = db.define(
-  "connections",
+  'connections',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -130,11 +130,11 @@ export const Connection = db.define(
     status: DataTypes.STRING,
     created_at: DataTypes.DATE,
   },
-  { tableName: "connections" },
+  { tableName: 'connections' },
 );
 
 export const Event = db.define(
-  "events",
+  'events',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -154,11 +154,11 @@ export const Event = db.define(
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },
-  { tableName: "events" },
+  { tableName: 'events' },
 );
 
 export const Job = db.define(
-  "jobs",
+  'jobs',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -180,11 +180,11 @@ export const Job = db.define(
     updated_at: DataTypes.DATE,
     target_courses: DataTypes.TEXT,
   },
-  { tableName: "jobs" },
+  { tableName: 'jobs' },
 );
 
 export const Post = db.define(
-  "post",
+  'post',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -201,11 +201,11 @@ export const Post = db.define(
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },
-  { tableName: "post" },
+  { tableName: 'post' },
 );
 
 export const CarouselPhoto = db.define(
-  "carousel_photos",
+  'carousel_photos',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -217,11 +217,11 @@ export const CarouselPhoto = db.define(
     file_name: DataTypes.STRING,
     uploaded_at: DataTypes.DATE,
   },
-  { tableName: "carousel_photos" },
+  { tableName: 'carousel_photos' },
 );
 
 export const Message = db.define(
-  "messages",
+  'messages',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -233,11 +233,11 @@ export const Message = db.define(
     message: DataTypes.TEXT,
     sent_at: DataTypes.DATE,
   },
-  { tableName: "messages" },
+  { tableName: 'messages' },
 );
 
 export const SupportMessage = db.define(
-  "support_messages",
+  'support_messages',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -251,11 +251,11 @@ export const SupportMessage = db.define(
     status: DataTypes.STRING,
     created_at: DataTypes.DATE,
   },
-  { tableName: "support_messages" },
+  { tableName: 'support_messages' },
 );
 
 export const ActivityLog = db.define(
-  "activity_logs",
+  'activity_logs',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -266,11 +266,11 @@ export const ActivityLog = db.define(
     activity: DataTypes.TEXT,
     created_at: DataTypes.DATE,
   },
-  { tableName: "activity_logs" },
+  { tableName: 'activity_logs' },
 );
 
 export const EventRegistration = db.define(
-  "event_registrations",
+  'event_registrations',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -281,11 +281,11 @@ export const EventRegistration = db.define(
     alumni_id: DataTypes.INTEGER,
     registered_at: DataTypes.DATE,
   },
-  { tableName: "event_registrations" },
+  { tableName: 'event_registrations' },
 );
 
 export const EmailQueue = db.define(
-  "email_queue",
+  'email_queue',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -300,5 +300,5 @@ export const EmailQueue = db.define(
     created_at: DataTypes.DATE,
     send_after: DataTypes.DATE,
   },
-  { tableName: "email_queue" },
+  { tableName: 'email_queue' },
 );

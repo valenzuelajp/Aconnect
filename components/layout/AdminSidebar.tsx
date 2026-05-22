@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 const AdminSidebar = () => {
   const pathname = usePathname();
 
   const menuItems = [
-    { label: "Overview", href: "/admin", icon: "fa-th-large" },
-    { label: "Manage Accounts", href: "/admin/accounts", icon: "fa-users-cog" },
-    { label: "Career Center", href: "/admin/jobs", icon: "fa-briefcase" },
-    { label: "Event Manager", href: "/admin/events", icon: "fa-calendar-alt" },
+    { label: 'Overview', href: '/admin', icon: 'fa-th-large' },
+    { label: 'Manage Accounts', href: '/admin/accounts', icon: 'fa-users-cog' },
+    { label: 'Career Center', href: '/admin/jobs', icon: 'fa-briefcase' },
+    { label: 'Event Manager', href: '/admin/events', icon: 'fa-calendar-alt' },
     {
-      label: "Reports & Analytics",
-      href: "/admin/reports",
-      icon: "fa-file-invoice-dollar",
+      label: 'Reports & Analytics',
+      href: '/admin/reports',
+      icon: 'fa-file-invoice-dollar',
     },
-    { label: "Support Inbox", href: "/admin/support", icon: "fa-headset" },
-    { label: "Activity Logs", href: "/admin/activity-log", icon: "fa-history" },
+    { label: 'Support Inbox', href: '/admin/support', icon: 'fa-headset' },
+    { label: 'Activity Logs', href: '/admin/activity-log', icon: 'fa-history' },
   ];
 
   return (
@@ -55,13 +55,13 @@ const AdminSidebar = () => {
               href={item.href}
               className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group ${
                 isActive
-                  ? "bg-[#700A0A] text-white shadow-lg shadow-red-100"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                  ? 'bg-[#700A0A] text-white shadow-lg shadow-red-100'
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
               }`}
             >
               <span
                 className={`w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-300 ${
-                  isActive ? "bg-white/20" : "bg-slate-100 group-hover:bg-white"
+                  isActive ? 'bg-white/20' : 'bg-slate-100 group-hover:bg-white'
                 }`}
               >
                 <i className={`fas ${item.icon} text-lg`}></i>

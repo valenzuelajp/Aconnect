@@ -1,10 +1,10 @@
-import db from "@/lib/db";
-import AlumniList from "@/components/admin/AlumniList";
-import PageHeader from "@/components/layout/PageHeader";
+import db from '@/lib/db';
+import AlumniList from '@/components/admin/AlumniList';
+import PageHeader from '@/components/layout/PageHeader';
 
 export default async function AdminAlumniPage() {
   const [alumni]: any = await db.query(
-    "SELECT * FROM alumni ORDER BY created_at DESC",
+    'SELECT * FROM alumni ORDER BY created_at DESC',
   );
 
   return (

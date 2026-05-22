@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import AppHeader from "./AppHeader";
+import AppHeader from './AppHeader';
 
 const Navbar = () => {
   return <AppHeader />;

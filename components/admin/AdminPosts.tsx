@@ -50,7 +50,7 @@ export default function AdminPosts() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData();
     data.append('title', formData.title);
@@ -82,7 +82,7 @@ export default function AdminPosts() {
     }
   }
 
-  async function handleCarouselSubmit(e: React.FormEvent) {
+  async function handleCarouselSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!carouselFormData.file) return alert('Please select a file');
 

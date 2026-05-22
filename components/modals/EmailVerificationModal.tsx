@@ -48,7 +48,7 @@ export default function EmailVerificationModal({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const verificationCode = code.join('');
     if (verificationCode.length !== 6) {

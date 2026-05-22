@@ -48,7 +48,7 @@ export default function ProfilePage() {
     }
   };
 
-  const handleCertificationSubmit = async (e: React.FormEvent) => {
+  const handleCertificationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const data = new FormData();

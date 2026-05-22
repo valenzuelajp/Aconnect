@@ -11,7 +11,7 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setLoading(true);
     try {

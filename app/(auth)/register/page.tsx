@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useActionState, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { registerAction } from "@/lib/actions";
-import { SubmitButton } from "@/components/ui/SubmitButton";
+import { useActionState, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { registerAction } from '@/lib/actions';
+import { SubmitButton } from '@/components/ui/SubmitButton';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [state, action] = useActionState(registerAction, null);
-  const [selectedDegree, setSelectedDegree] = useState("");
+  const [selectedDegree, setSelectedDegree] = useState('');
 
   useEffect(() => {
     const s = state as any;
     if (s?.success) {
       // Redirect directly to login on success
-      router.push("/login?verified=true");
+      router.push('/login?verified=true');
     }
   }, [state, router]);
 
@@ -67,7 +67,7 @@ export default function RegisterPage() {
                   name="student_number"
                   type="text"
                   placeholder="Student Number (e.g., 2017-00001)"
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.student_number ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.student_number ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 />
                 {state?.error?.student_number && (
@@ -82,7 +82,7 @@ export default function RegisterPage() {
                   name="password"
                   type="password"
                   placeholder="Password"
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.password ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.password ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 />
                 {state?.error?.password && (
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                     name="first_name"
                     type="text"
                     placeholder="First Name"
-                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.first_name ? "border-red-500" : "border-[#ddd]"}`}
+                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.first_name ? 'border-red-500' : 'border-[#ddd]'}`}
                     required
                   />
                   {state?.error?.first_name && (
@@ -112,7 +112,7 @@ export default function RegisterPage() {
                     name="last_name"
                     type="text"
                     placeholder="Last Name"
-                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.last_name ? "border-red-500" : "border-[#ddd]"}`}
+                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.last_name ? 'border-red-500' : 'border-[#ddd]'}`}
                     required
                   />
                   {state?.error?.last_name && (
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                   name="email"
                   type="email"
                   placeholder="Email - (Do not use the SDCA Email)"
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.email ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.email ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 />
                 {state?.error?.email && (
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                   name="alternative_email"
                   type="email"
                   placeholder="Alternate Email"
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.alternative_email ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.alternative_email ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 />
                 {state?.error?.alternative_email && (
@@ -159,7 +159,7 @@ export default function RegisterPage() {
                     name="phone"
                     type="tel"
                     placeholder="Phone (09xxxxxxxxx)"
-                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.phone ? "border-red-500" : "border-[#ddd]"}`}
+                    className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 ${state?.error?.phone ? 'border-red-500' : 'border-[#ddd]'}`}
                     required
                   />
                   {state?.error?.phone && (
@@ -181,7 +181,7 @@ export default function RegisterPage() {
               <div>
                 <select
                   name="graduation_year"
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.graduation_year ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.graduation_year ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 >
                   <option value="">Graduation Year</option>
@@ -205,7 +205,7 @@ export default function RegisterPage() {
                 <select
                   name="degree"
                   onChange={(e) => setSelectedDegree(e.target.value)}
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.degree ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.degree ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 >
                   <option value="">-- Select Degree --</option>
@@ -262,7 +262,7 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              {selectedDegree === "Other" && (
+              {selectedDegree === 'Other' && (
                 <div>
                   <label className="text-sm font-semibold mb-1 block">
                     Please specify your degree
@@ -280,7 +280,7 @@ export default function RegisterPage() {
               <div>
                 <select
                   name="sex"
-                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.sex ? "border-red-500" : "border-[#ddd]"}`}
+                  className={`w-full h-[40px] px-[15px] border rounded outline-none focus:border-[#700A0A] focus:ring-1 focus:ring-[#700A0A]/20 bg-white ${state?.error?.sex ? 'border-red-500' : 'border-[#ddd]'}`}
                   required
                 >
                   <option value="">Sex</option>
@@ -313,7 +313,7 @@ export default function RegisterPage() {
 
           <div className="mt-4 pt-4 border-t border-[#eee] text-center">
             <p className="text-[0.85rem] text-[#6c757d]">
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Link
                 href="/login"
                 className="text-[#700A0A] font-semibold hover:underline"

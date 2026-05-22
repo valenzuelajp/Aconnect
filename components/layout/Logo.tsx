@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface LogoProps {
   href?: string;
 }
 
-const Logo = ({ href = "/" }: LogoProps) => {
+const Logo = ({ href = '/' }: LogoProps) => {
   return (
     <div className="logo-area">
       <Link href={href}>

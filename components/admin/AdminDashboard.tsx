@@ -1,9 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import Link from 'next/link';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,12 +20,12 @@ interface AdminDashboardProps {
 
 const AdminDashboard = ({ stats }: AdminDashboardProps) => {
   const chartData = {
-    labels: ["Active Community", "Pending/Inactive"],
+    labels: ['Active Community', 'Pending/Inactive'],
     datasets: [
       {
         data: [stats.activeUsers, stats.inactiveUsers],
-        backgroundColor: ["#10b981", "#ef4444"],
-        hoverBackgroundColor: ["#059669", "#dc2626"],
+        backgroundColor: ['#10b981', '#ef4444'],
+        hoverBackgroundColor: ['#059669', '#dc2626'],
         hoverOffset: 10,
         borderWidth: 0,
         borderRadius: 5,
@@ -37,15 +36,15 @@ const AdminDashboard = ({ stats }: AdminDashboardProps) => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: "82%",
+    cutout: '82%',
     plugins: {
       legend: {
-        position: "bottom" as const,
+        position: 'bottom' as const,
         labels: {
           usePointStyle: true,
           padding: 25,
-          font: { size: 12, weight: "bold" as any },
-          color: "#64748b",
+          font: { size: 12, weight: 'bold' as any },
+          color: '#64748b',
         },
       },
     },
@@ -53,32 +52,32 @@ const AdminDashboard = ({ stats }: AdminDashboardProps) => {
 
   const widgets = [
     {
-      label: "Community Events",
+      label: 'Community Events',
       value: stats.totalEvents,
-      icon: "fa-calendar-day",
-      color: "bg-blue-500",
-      href: "/admin/events",
+      icon: 'fa-calendar-day',
+      color: 'bg-blue-500',
+      href: '/admin/events',
     },
     {
-      label: "Platform Posts",
+      label: 'Platform Posts',
       value: stats.totalPosts,
-      icon: "fa-rss",
-      color: "bg-rose-500",
-      href: "/admin/posting",
+      icon: 'fa-rss',
+      color: 'bg-rose-500',
+      href: '/admin/posting',
     },
     {
-      label: "Job Opportunities",
+      label: 'Job Opportunities',
       value: stats.totalJobs,
-      icon: "fa-briefcase",
-      color: "bg-amber-500",
-      href: "/admin/jobs",
+      icon: 'fa-briefcase',
+      color: 'bg-amber-500',
+      href: '/admin/jobs',
     },
     {
-      label: "Verified Alumni",
+      label: 'Verified Alumni',
       value: stats.totalAlumni,
-      icon: "fa-user-graduate",
-      color: "bg-emerald-500",
-      href: "/admin/alumni",
+      icon: 'fa-user-graduate',
+      color: 'bg-emerald-500',
+      href: '/admin/alumni',
     },
   ];
 

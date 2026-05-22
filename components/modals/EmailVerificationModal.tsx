@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 
 interface EmailVerificationModalProps {
   email: string;
@@ -13,9 +13,9 @@ export default function EmailVerificationModal({
   email,
   isOpen,
   onVerified,
-}: Omit<EmailVerificationModalProps, "onClose">) {
-  const [code, setCode] = useState(["", "", "", "", "", ""]);
-  const [error, setError] = useState("");
+}: Omit<EmailVerificationModalProps, 'onClose'>) {
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const inputs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -43,26 +43,26 @@ export default function EmailVerificationModal({
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
-    if (e.key === "Backspace" && !code[index] && index > 0) {
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
       inputs.current[index - 1]?.focus();
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const verificationCode = code.join("");
+    const verificationCode = code.join('');
     if (verificationCode.length !== 6) {
-      setError("Please enter the full 6-digit code.");
+      setError('Please enter the full 6-digit code.');
       return;
     }
 
     setLoading(true);
-    setError("");
+    setError('');
 
     try {
-      const res = await fetch("/api/auth/verify-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, code: verificationCode }),
       });
 
@@ -71,10 +71,10 @@ export default function EmailVerificationModal({
       if (data.success) {
         onVerified();
       } else {
-        setError(data.error || "Verification failed. Please try again.");
+        setError(data.error || 'Verification failed. Please try again.');
       }
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -127,13 +127,13 @@ export default function EmailVerificationModal({
               {loading ? (
                 <i className="fas fa-circle-notch animate-spin"></i>
               ) : (
-                "Verify Account"
+                'Verify Account'
               )}
             </button>
 
             <div className="text-center">
               <p className="text-sm text-slate-500">
-                Didn't receive the code?{" "}
+                Didn't receive the code?{' '}
                 <button
                   type="button"
                   className="text-[#8B1538] font-bold hover:underline"

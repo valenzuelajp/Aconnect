@@ -1,31 +1,31 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import db from "@/lib/db";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import db from '@/lib/db';
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
 
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);
-  const grad_year = searchParams.get("grad_year");
-  const status = searchParams.get("status");
-  const date_from = searchParams.get("date_from");
-  const date_to = searchParams.get("date_to");
+  const grad_year = searchParams.get('grad_year');
+  const status = searchParams.get('status');
+  const date_from = searchParams.get('date_from');
+  const date_to = searchParams.get('date_to');
 
   try {
     const [alumniByYear]: any = await db.query(
-      "SELECT graduation_year, COUNT(*) as count FROM alumni GROUP BY graduation_year ORDER BY graduation_year DESC",
+      'SELECT graduation_year, COUNT(*) as count FROM alumni GROUP BY graduation_year ORDER BY graduation_year DESC',
     );
 
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const [activeByYear]: any = await db.query(
-      "SELECT graduation_year, COUNT(*) as count FROM alumni WHERE last_login >= ? GROUP BY graduation_year",
+      'SELECT graduation_year, COUNT(*) as count FROM alumni WHERE last_login >= ? GROUP BY graduation_year',
       [thirtyDaysAgo],
     );
 
@@ -51,23 +51,23 @@ export async function GET(request: Request) {
     const params: any[] = [];
 
     if (grad_year) {
-      sql += " AND a.graduation_year = ?";
+      sql += ' AND a.graduation_year = ?';
       params.push(parseInt(grad_year));
     }
     if (status) {
-      sql += " AND e.employment_status = ?";
+      sql += ' AND e.employment_status = ?';
       params.push(status);
     }
     if (date_from) {
-      sql += " AND e.created_at >= ?";
+      sql += ' AND e.created_at >= ?';
       params.push(new Date(date_from));
     }
     if (date_to) {
-      sql += " AND e.created_at <= ?";
+      sql += ' AND e.created_at <= ?';
       params.push(new Date(date_to));
     }
 
-    sql += " ORDER BY e.created_at DESC";
+    sql += ' ORDER BY e.created_at DESC';
 
     const [rows]: any = await db.query(sql, params);
 
@@ -86,7 +86,7 @@ export async function GET(request: Request) {
       employment_rows,
     });
   } catch (error: any) {
-    console.error("Admin reports API error:", error);
+    console.error('Admin reports API error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

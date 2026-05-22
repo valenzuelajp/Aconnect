@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import DetailModal from "@/components/modals/DetailModal";
+import { useState } from 'react';
+import DetailModal from '@/components/modals/DetailModal';
 
 interface Post {
   id: number;
@@ -44,7 +44,7 @@ const PostSection = ({ type, posts }: PostSectionProps) => {
           {current.image ? (
             <img
               src={`/assets/uploads/post/${current.image}`}
-              alt={current.title || ""}
+              alt={current.title || ''}
               className="max-w-full max-h-full object-contain block z-10 transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
@@ -70,19 +70,19 @@ const PostSection = ({ type, posts }: PostSectionProps) => {
                 {type}
               </span>
               <span className="text-[#6B7280] text-[10px] font-bold">
-                {new Date(current.created_at).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "2-digit",
-                  year: "numeric",
+                {new Date(current.created_at).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: '2-digit',
+                  year: 'numeric',
                 })}
               </span>
             </div>
 
             <div
-              className={`transition-opacity duration-300 ${animating ? "opacity-0" : "opacity-100"}`}
+              className={`transition-opacity duration-300 ${animating ? 'opacity-0' : 'opacity-100'}`}
             >
               <h4 className="text-[1.15rem] font-bold text-[#1F2937] mt-[8px] line-clamp-2 leading-[1.3] group-hover:text-[#8B1538] transition-colors">
-                {current.title || "No Recent Updates"}
+                {current.title || 'No Recent Updates'}
               </h4>
             </div>
           </div>
@@ -107,8 +107,8 @@ const PostSection = ({ type, posts }: PostSectionProps) => {
       <DetailModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title={current.title || "Post Details"}
-        content={current.content || ""}
+        title={current.title || 'Post Details'}
+        content={current.content || ''}
         image={
           current.image ? `/assets/uploads/post/${current.image}` : undefined
         }

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import EventCard from "@/components/ui/EventCard";
+import React, { useState, useEffect } from 'react';
+import EventCard from '@/components/ui/EventCard';
 
 export default function EventsPage() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [sort, setSort] = useState("closest");
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [sort, setSort] = useState('closest');
 
   useEffect(() => {
     fetchEvents();
@@ -17,13 +17,13 @@ export default function EventsPage() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/events");
+      const res = await fetch('/api/events');
       const data = await res.json();
       if (!data.error) {
         setEvents(data);
       }
     } catch (error) {
-      console.error("Failed to fetch events:", error);
+      console.error('Failed to fetch events:', error);
     } finally {
       setLoading(false);
     }
@@ -36,13 +36,13 @@ export default function EventsPage() {
         (e.description &&
           e.description.toLowerCase().includes(search.toLowerCase()));
       const matchesFilter =
-        filter === "all" || e.event_type?.toLowerCase() === filter;
+        filter === 'all' || e.event_type?.toLowerCase() === filter;
       return matchesSearch && matchesFilter;
     })
     .sort((a, b) => {
       const dateA = new Date(a.event_date).getTime();
       const dateB = new Date(b.event_date).getTime();
-      return sort === "closest" ? dateA - dateB : dateB - dateA;
+      return sort === 'closest' ? dateA - dateB : dateB - dateA;
     });
 
   return (
@@ -120,9 +120,9 @@ export default function EventsPage() {
             </select>
             <button
               onClick={() => {
-                setSearch("");
-                setFilter("all");
-                setSort("closest");
+                setSearch('');
+                setFilter('all');
+                setSort('closest');
               }}
               className="bg-rose-700 text-white text-xs font-bold px-6 py-2 rounded-xl hover:bg-rose-800 transition shadow-md shadow-rose-100"
             >

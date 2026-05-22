@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface JobCardProps {
   job: any;
@@ -60,13 +60,13 @@ const JobCard = ({ job }: JobCardProps) => {
                   <p className="text-sm text-[#1F2937] flex items-center gap-2">
                     <strong className="text-[#8B1538]">
                       <i className="fas fa-map-marker-alt mr-2"></i>Location:
-                    </strong>{" "}
+                    </strong>{' '}
                     {job.location}
                   </p>
                   <p className="text-sm text-[#1F2937] flex items-center gap-2">
                     <strong className="text-[#D4A574]">
                       <i className="fas fa-coins mr-2"></i>Salary:
-                    </strong>{" "}
+                    </strong>{' '}
                     {job.salary_range}
                   </p>
                 </div>
@@ -108,7 +108,7 @@ const JobCard = ({ job }: JobCardProps) => {
                     />
                     <i className="fas fa-cloud-arrow-up text-4xl text-[#D4A574] group-hover:scale-110 transition-transform mb-3 block"></i>
                     <p className="text-sm font-bold text-[#1F2937]">
-                      {file ? file.name : "Click to upload or drag & drop"}
+                      {file ? file.name : 'Click to upload or drag & drop'}
                     </p>
                     <p className="text-xs text-[#6B7280] mt-1">PDF ONLY</p>
                   </label>

@@ -1,4 +1,4 @@
-import AdminSupport from "@/components/admin/AdminSupport";
+import AdminSupport from '@/components/admin/AdminSupport';
 export default function AdminSupportPage() {
   return <AdminSupport />;
 }

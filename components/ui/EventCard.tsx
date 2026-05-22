@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface EventCardProps {
   event: any;
@@ -15,16 +15,16 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
     e.stopPropagation();
     setLoading(true);
     try {
-      const res = await fetch("/api/events/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/events/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ eventId: event.id }),
       });
       if (res.ok) {
         onAction();
       }
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error('Registration failed:', error);
     } finally {
       setLoading(false);
     }
@@ -35,20 +35,20 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
     const future = new Date(dateString);
     const diff = future.getTime() - now.getTime();
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    if (days === 0) return "Starting Today";
-    if (days === 1) return "Starts Tomorrow";
+    if (days === 0) return 'Starting Today';
+    if (days === 1) return 'Starts Tomorrow';
     return `In ${days} days`;
   };
 
   const date = new Date(event.event_date);
-  const dateStr = date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
+  const dateStr = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
   });
-  const fullDateStr = date.toLocaleString("en-US", {
-    dateStyle: "full",
-    timeStyle: "short",
+  const fullDateStr = date.toLocaleString('en-US', {
+    dateStyle: 'full',
+    timeStyle: 'short',
   });
 
   return (
@@ -73,7 +73,7 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
         <div className="flex-grow">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-600">
-              {event.event_type || "General"}
+              {event.event_type || 'General'}
             </span>
             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
             <span className="text-xs font-bold text-rose-700">
@@ -104,7 +104,7 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
               >
                 <path d="M17.657 16.727L12 21l-5.657-4.273A8 8 0 1117.657 16.727z" />
               </svg>
-              {event.location || "Remote"}
+              {event.location || 'Remote'}
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
               disabled={loading}
               className="w-full bg-rose-700 text-white text-xs font-bold px-6 py-2.5 rounded-xl hover:bg-rose-800 transition shadow-md shadow-rose-100"
             >
-              {loading ? "Processing..." : "Register Now"}
+              {loading ? 'Processing...' : 'Register Now'}
             </button>
           )}
         </div>
@@ -200,7 +200,7 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
                     Where
                   </p>
                   <p className="text-sm font-bold text-slate-700 mt-1">
-                    {event.location || "TBA"}
+                    {event.location || 'TBA'}
                   </p>
                 </div>
               </div>
@@ -211,18 +211,18 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
                 </h4>
                 <div className="text-slate-600 text-sm leading-relaxed max-h-40 overflow-y-auto custom-scrollbar">
                   {event.description ||
-                    "Join us for this upcoming session. Detailed agenda will be shared shortly."}
+                    'Join us for this upcoming session. Detailed agenda will be shared shortly.'}
                 </div>
               </div>
 
               <div className="mt-10 pt-6 border-t border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold border border-slate-200 uppercase">
-                    {(event.contact_person || "O").charAt(0)}
+                    {(event.contact_person || 'O').charAt(0)}
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-700">
-                      {event.contact_person || "Organizer"}
+                      {event.contact_person || 'Organizer'}
                     </p>
                     <p className="text-[10px] text-slate-500 font-medium">
                       Event Host
@@ -256,7 +256,7 @@ const EventCard = ({ event, onAction }: EventCardProps) => {
                       disabled={loading}
                       className="bg-rose-700 text-white text-xs font-bold px-8 py-3 rounded-xl hover:bg-rose-800 transition shadow-lg shadow-rose-100"
                     >
-                      {loading ? "Registering..." : "Confirm Registration"}
+                      {loading ? 'Registering...' : 'Confirm Registration'}
                     </button>
                   )}
                 </div>

@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import Navbar from "@/components/layout/Navbar";
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import Navbar from '@/components/layout/Navbar';
 
 export default async function AdminLayout({
   children,
@@ -10,8 +10,8 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions);
 
-  if (!session || (session.user as any).role !== "administrator") {
-    redirect("/dashboard");
+  if (!session || (session.user as any).role !== 'administrator') {
+    redirect('/dashboard');
   }
 
   return (

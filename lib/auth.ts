@@ -1,19 +1,18 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { AdminUser, Alumni } from "@/lib/models";
+import { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcryptjs';
+import { AdminUser, Alumni } from '@/lib/models';
 
-const authSecret =
-  process.env.NEXTAUTH_SECRET || "aconnect-development-secret";
+const authSecret = process.env.NEXTAUTH_SECRET || 'aconnect-development-secret';
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      id: "alumni",
-      name: "Alumni Login",
+      id: 'alumni',
+      name: 'Alumni Login',
       credentials: {
-        student_number: { label: "Student Number", type: "text" },
-        password: { label: "Password", type: "password" },
+        student_number: { label: 'Student Number', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.student_number || !credentials?.password) return null;
@@ -23,31 +22,34 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          throw new Error("Unregistered Student Number");
+          throw new Error('Unregistered Student Number');
         }
 
         const alumni = user.get({ plain: true }) as any;
 
-        const isValid = await bcrypt.compare(credentials.password, alumni.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          alumni.password,
+        );
         if (!isValid) {
-          throw new Error("Invalid Password");
+          throw new Error('Invalid Password');
         }
 
         return {
           id: alumni.id.toString(),
           name: `${alumni.first_name} ${alumni.last_name}`,
           email: alumni.email,
-          role: "alumni",
+          role: 'alumni',
           student_number: alumni.student_number,
         };
       },
     }),
     CredentialsProvider({
-      id: "admin",
-      name: "Admin Login",
+      id: 'admin',
+      name: 'Admin Login',
       credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
+        username: { label: 'Username', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
@@ -57,21 +59,24 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          throw new Error("Unregistered Admin Username");
+          throw new Error('Unregistered Admin Username');
         }
 
         const admin = user.get({ plain: true }) as any;
 
-        const isValid = await bcrypt.compare(credentials.password, admin.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          admin.password,
+        );
         if (!isValid) {
-          throw new Error("Invalid Password");
+          throw new Error('Invalid Password');
         }
 
         return {
           id: admin.id.toString(),
           name: `${admin.first_name} ${admin.last_name}`,
           email: admin.email,
-          role: "administrator",
+          role: 'administrator',
         };
       },
     }),
@@ -95,7 +100,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   secret: authSecret,
 };

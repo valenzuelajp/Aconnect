@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface ChatModalProps {
   friend: any;
@@ -11,23 +11,17 @@ interface ChatModalProps {
 const ChatModal = ({ friend, onClose }: ChatModalProps) => {
   const { data: session } = useSession();
   const [messages, setMessages] = useState<any[]>([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const currentUserId = parseInt((session as any)?.user?.id || "0");
+  const currentUserId = parseInt((session as any)?.user?.id || '0');
 
   useEffect(() => {
     fetchMessages();
     const interval = setInterval(fetchMessages, 3000);
     return () => clearInterval(interval);
   }, [friend.id]);
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const fetchMessages = async () => {
     try {
@@ -38,7 +32,7 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
         setLoading(false);
       }
     } catch (error) {
-      console.error("Failed to fetch messages:", error);
+      console.error('Failed to fetch messages:', error);
     }
   };
 
@@ -47,12 +41,12 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
     if (!newMessage.trim()) return;
 
     const msg = newMessage;
-    setNewMessage("");
+    setNewMessage('');
 
     try {
-      const res = await fetch("/api/messages/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/messages/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           receiverId: friend.id,
           message: msg,
@@ -62,13 +56,13 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
         fetchMessages();
       }
     } catch (error) {
-      console.error("Failed to send message:", error);
+      console.error('Failed to send message:', error);
     }
   };
 
   const getImagePath = (f: any) => {
     if (f.profile_image) return `/assets/uploads/alumni/${f.profile_image}`;
-    return `/assets/images/person-${f.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
+    return `/assets/images/person-${f.sex?.toLowerCase() === 'female' ? 'female' : 'male'}.png`;
   };
 
   return (
@@ -110,13 +104,13 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
           messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex ${msg.sender_id === currentUserId ? "justify-end" : "justify-start"}`}
+              className={`flex ${msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}
             >
               <div
                 className={`max-w-[75%] p-3.5 rounded-2xl text-sm shadow-sm ${
                   msg.sender_id === currentUserId
-                    ? "bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white rounded-tr-none"
-                    : "bg-white text-[#1F2937] border border-[#E5E7EB] rounded-tl-none"
+                    ? 'bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white rounded-tr-none'
+                    : 'bg-white text-[#1F2937] border border-[#E5E7EB] rounded-tl-none'
                 }`}
               >
                 <p className="leading-relaxed whitespace-pre-wrap">
@@ -125,13 +119,13 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
                 <div
                   className={`text-[10px] mt-2 opacity-60 text-right ${
                     msg.sender_id === currentUserId
-                      ? "text-white"
-                      : "text-[#6B7280]"
+                      ? 'text-white'
+                      : 'text-[#6B7280]'
                   }`}
                 >
                   {new Date(msg.sent_at).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                    hour: '2-digit',
+                    minute: '2-digit',
                   })}
                 </div>
               </div>
@@ -146,7 +140,7 @@ const ChatModal = ({ friend, onClose }: ChatModalProps) => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
+              if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSend(e);
               }

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 
 export default function UserSupport() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -18,7 +18,7 @@ export default function UserSupport() {
     setLoading(false);
   }
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await fetch("/api/support", {
       method: "POST",

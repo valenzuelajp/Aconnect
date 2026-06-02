@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { Alumni, Employment } from "@/lib/models";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import { Alumni, Employment } from '@/lib/models';
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const user = session.user as any;
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   try {
     const { type, ...payload } = data;
 
-    if (type === "basic") {
+    if (type === 'basic') {
       await Alumni.update(
         {
           first_name: payload.first_name,
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         },
         { where: { id: currentAlumniId } },
       );
-    } else if (type === "employment") {
+    } else if (type === 'employment') {
       const existingRow = await Employment.findOne({
         where: { alumni_id: currentAlumniId },
       });
@@ -72,23 +72,23 @@ export async function POST(req: Request) {
             : 0,
         });
       }
-    } else if (type === "skills") {
+    } else if (type === 'skills') {
       await Alumni.update(
         {
           soft_skills: Array.isArray(payload.soft_skills)
-            ? payload.soft_skills.join(",")
+            ? payload.soft_skills.join(',')
             : payload.soft_skills,
           technical_skills: Array.isArray(payload.technical_skills)
-            ? payload.technical_skills.join(",")
+            ? payload.technical_skills.join(',')
             : payload.technical_skills,
         },
         { where: { id: currentAlumniId } },
       );
     }
 
-    return NextResponse.json({ status: "success" });
+    return NextResponse.json({ status: 'success' });
   } catch (error) {
-    console.error("Profile update error:", error);
-    return NextResponse.json({ error: "Update failed" }, { status: 500 });
+    console.error('Profile update error:', error);
+    return NextResponse.json({ error: 'Update failed' }, { status: 500 });
   }
 }

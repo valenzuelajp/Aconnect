@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 interface AlumniCardProps {
   alumnus: any;
@@ -16,9 +16,9 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
   const handleAction = async (action: string) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/alumni/connection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/alumni/connection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action,
           targetId: alumnus.id,
@@ -29,7 +29,7 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
         onAction();
       }
     } catch (error) {
-      console.error("Connection action failed:", error);
+      console.error('Connection action failed:', error);
     } finally {
       setLoading(false);
     }
@@ -38,7 +38,7 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
   const getImagePath = () => {
     if (alumnus.profile_image)
       return `/assets/uploads/alumni/${alumnus.profile_image}`;
-    return `/assets/images/person-${alumnus.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
+    return `/assets/images/person-${alumnus.sex?.toLowerCase() === 'female' ? 'female' : 'male'}.png`;
   };
 
   return (
@@ -59,7 +59,7 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
 
         <div className="px-5 pb-5 pt-3 text-center flex-grow">
           <div className="text-[0.85rem] text-[#8B1538] font-bold uppercase tracking-wider mb-2">
-            {alumnus.degree || "SDCA Alumni"}
+            {alumnus.degree || 'SDCA Alumni'}
           </div>
           <h5 className="text-lg font-bold text-slate-900 mb-3 capitalize">
             {alumnus.first_name} {alumnus.last_name}
@@ -77,10 +77,10 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
             <i className="fas fa-eye"></i> View
           </Link>
 
-          {alumnus.connectionStatus === "accepted" ? (
+          {alumnus.connectionStatus === 'accepted' ? (
             <button
               disabled={loading}
-              onClick={() => handleAction("remove_connection")}
+              onClick={() => handleAction('remove_connection')}
               className="flex-1 bg-[#D4A574] text-[#8B1538] px-3 py-2.5 rounded-lg text-sm font-bold hover:bg-red-50 hover:text-red-800 transition-all flex items-center justify-center gap-2 relative overflow-hidden group/btn"
             >
               <i className="fas fa-check group-hover/btn:hidden"></i>
@@ -88,11 +88,11 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
               <i className="fas fa-times hidden group-hover/btn:block"></i>
               <span className="hidden group-hover/btn:block">Unlink</span>
             </button>
-          ) : alumnus.connectionStatus === "pending" ? (
-            alumnus.senderId === parseInt((session as any)?.user?.id || "0") ? (
+          ) : alumnus.connectionStatus === 'pending' ? (
+            alumnus.senderId === parseInt((session as any)?.user?.id || '0') ? (
               <button
                 disabled={loading}
-                onClick={() => handleAction("cancel_request")}
+                onClick={() => handleAction('cancel_request')}
                 className="flex-1 bg-[#D4A574] text-[#8B1538] px-3 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2"
                 title="Click to cancel"
               >
@@ -102,14 +102,14 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
               <div className="flex-1 flex gap-2">
                 <button
                   disabled={loading}
-                  onClick={() => handleAction("accept_request")}
+                  onClick={() => handleAction('accept_request')}
                   className="flex-1 bg-[#10B981] text-white p-2 rounded-lg hover:brightness-110 transition-all"
                 >
                   <i className="fas fa-check"></i>
                 </button>
                 <button
                   disabled={loading}
-                  onClick={() => handleAction("decline_request")}
+                  onClick={() => handleAction('decline_request')}
                   className="flex-1 bg-[#EF4444] text-white p-2 rounded-lg hover:brightness-110 transition-all"
                 >
                   <i className="fas fa-times"></i>
@@ -119,7 +119,7 @@ const AlumniCard = ({ alumnus, onAction }: AlumniCardProps) => {
           ) : (
             <button
               disabled={loading}
-              onClick={() => handleAction("send_request")}
+              onClick={() => handleAction('send_request')}
               className="flex-1 bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white px-3 py-2.5 rounded-lg text-sm font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2"
             >
               <i className="fas fa-user-plus"></i> Connect

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [formData, setFormData] = useState<any>({});
-  const [certTab, setCertTab] = useState<"credly" | "manual">("credly");
+  const [certTab, setCertTab] = useState<'credly' | 'manual'>('credly');
   const [certificationImage, setCertificationImage] = useState<File | null>(
     null,
   );
@@ -23,7 +23,7 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/profile");
+      const res = await fetch('/api/profile');
       const data = await res.json();
       if (!data.error) {
         setAlumni(data);
@@ -31,49 +31,49 @@ export default function ProfilePage() {
 
         setFormData({
           ...data,
-          alternative_phone: data.alternative_phone || "",
-          alternative_email: data.alternative_email || "",
-          phone: data.phone || "",
-          email: data.email || "",
-          degree: data.degree || "",
-          graduation_year: data.graduation_year || "",
-          first_name: data.first_name || "",
-          last_name: data.last_name || "",
+          alternative_phone: data.alternative_phone || '',
+          alternative_email: data.alternative_email || '',
+          phone: data.phone || '',
+          email: data.email || '',
+          degree: data.degree || '',
+          graduation_year: data.graduation_year || '',
+          first_name: data.first_name || '',
+          last_name: data.last_name || '',
         });
       }
     } catch (error) {
-      console.error("Failed to fetch profile:", error);
+      console.error('Failed to fetch profile:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCertificationSubmit = async (e: React.FormEvent) => {
+  const handleCertificationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const data = new FormData();
 
       // If editing, append ID
       if (formData.id) {
-        data.append("id", formData.id);
+        data.append('id', formData.id);
       }
 
-      if (certTab === "credly") {
+      if (certTab === 'credly') {
         // Parse Credly Embed Code if provided
         let processedUrl = formData.credential_url;
         // Basic cleanup of whitespace
         if (processedUrl) processedUrl = processedUrl.trim();
 
-        if (processedUrl && processedUrl.includes("data-share-badge-id")) {
+        if (processedUrl && processedUrl.includes('data-share-badge-id')) {
           const match = processedUrl.match(/data-share-badge-id="([^"]+)"/);
           if (match && match[1]) {
             processedUrl = `https://www.credly.com/badges/${match[1]}/public_url`;
           }
-        } else if (processedUrl && processedUrl.includes("<iframe")) {
+        } else if (processedUrl && processedUrl.includes('<iframe')) {
           const match = processedUrl.match(/src="([^"]+)"/);
           if (match && match[1]) {
-            if (match[1].includes("embedded_badge")) {
-              const id = match[1].split("embedded_badge/")[1];
+            if (match[1].includes('embedded_badge')) {
+              const id = match[1].split('embedded_badge/')[1];
               processedUrl = `https://www.credly.com/badges/${id}/public_url`;
             } else {
               processedUrl = match[1];
@@ -81,27 +81,27 @@ export default function ProfilePage() {
           }
         }
 
-        data.append("name", formData.name);
-        data.append("issuing_org", formData.issuing_org);
-        data.append("credential_url", processedUrl);
-        data.append("credential_id", formData.credential_id || "");
-        if (formData.issue_date) data.append("issue_date", formData.issue_date);
+        data.append('name', formData.name);
+        data.append('issuing_org', formData.issuing_org);
+        data.append('credential_url', processedUrl);
+        data.append('credential_id', formData.credential_id || '');
+        if (formData.issue_date) data.append('issue_date', formData.issue_date);
         if (formData.expiration_date)
-          data.append("expiration_date", formData.expiration_date);
+          data.append('expiration_date', formData.expiration_date);
       } else {
         // Manual fields
-        data.append("name", formData.name);
-        data.append("issuing_org", "Manual Entry");
-        data.append("issue_date", formData.issue_date);
-        data.append("expiration_date", formData.expiration_date || "");
+        data.append('name', formData.name);
+        data.append('issuing_org', 'Manual Entry');
+        data.append('issue_date', formData.issue_date);
+        data.append('expiration_date', formData.expiration_date || '');
         if (certificationImage) {
-          data.append("certification_image", certificationImage);
+          data.append('certification_image', certificationImage);
         }
       }
 
-      const method = formData.id ? "PUT" : "POST";
+      const method = formData.id ? 'PUT' : 'POST';
 
-      const res = await fetch("/api/profile/certifications", {
+      const res = await fetch('/api/profile/certifications', {
         method: method,
         body: data,
       });
@@ -114,15 +114,15 @@ export default function ProfilePage() {
         setTimeout(() => setShowSuccessNotification(false), 3000);
       }
     } catch (error) {
-      console.error("Failed to save certification:", error);
+      console.error('Failed to save certification:', error);
     }
   };
 
   const handleDeleteCertification = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this certification?")) return;
+    if (!confirm('Are you sure you want to delete this certification?')) return;
     try {
       const res = await fetch(`/api/profile/certifications?id=${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       if (res.ok) {
         fetchProfile();
@@ -130,7 +130,7 @@ export default function ProfilePage() {
         setTimeout(() => setShowSuccessNotification(false), 3000);
       }
     } catch (error) {
-      console.error("Failed to delete certification:", error);
+      console.error('Failed to delete certification:', error);
     }
   };
 
@@ -140,30 +140,30 @@ export default function ProfilePage() {
       name: cert.name,
       issuing_org: cert.issuing_org,
       issue_date: cert.issue_date
-        ? new Date(cert.issue_date).toISOString().split("T")[0]
-        : "",
+        ? new Date(cert.issue_date).toISOString().split('T')[0]
+        : '',
       expiration_date: cert.expiration_date
-        ? new Date(cert.expiration_date).toISOString().split("T")[0]
-        : "",
-      credential_id: cert.credential_id || "",
-      credential_url: cert.credential_url || "",
+        ? new Date(cert.expiration_date).toISOString().split('T')[0]
+        : '',
+      credential_id: cert.credential_id || '',
+      credential_url: cert.credential_url || '',
     });
 
     // Determine tab based on URL or org
-    if (cert.credential_url && cert.credential_url.includes("credly.com")) {
-      setCertTab("credly");
+    if (cert.credential_url && cert.credential_url.includes('credly.com')) {
+      setCertTab('credly');
     } else {
-      setCertTab("manual");
+      setCertTab('manual');
     }
 
-    setActiveModal("certification");
+    setActiveModal('certification');
   };
 
   const handleUpdate = async (type: string, payload: any) => {
     try {
-      const res = await fetch("/api/profile/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/profile/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, ...payload }),
       });
       if (res.ok) {
@@ -176,18 +176,18 @@ export default function ProfilePage() {
         }, 3000);
       }
     } catch (error) {
-      console.error("Update failed:", error);
+      console.error('Update failed:', error);
     }
   };
 
   const getImagePath = () => {
     if (alumni?.profile_image)
       return `/assets/uploads/alumni/${alumni.profile_image}`;
-    return `/assets/images/person-${alumni?.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
+    return `/assets/images/person-${alumni?.sex?.toLowerCase() === 'female' ? 'female' : 'male'}.png`;
   };
 
   const isCredly = (url: string) => {
-    return url && url.includes("credly.com");
+    return url && url.includes('credly.com');
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,12 +195,12 @@ export default function ProfilePage() {
     if (!file) return;
 
     const uploadFormData = new FormData();
-    uploadFormData.append("file", file);
+    uploadFormData.append('file', file);
 
     try {
       setLoading(true);
-      const res = await fetch("/api/profile/upload-image", {
-        method: "POST",
+      const res = await fetch('/api/profile/upload-image', {
+        method: 'POST',
         body: uploadFormData,
       });
       const data = await res.json();
@@ -208,7 +208,7 @@ export default function ProfilePage() {
         fetchProfile();
       }
     } catch (error) {
-      console.error("Image upload failed:", error);
+      console.error('Image upload failed:', error);
     } finally {
       setLoading(false);
     }
@@ -252,23 +252,23 @@ export default function ProfilePage() {
                 {alumni.first_name} {alumni.last_name}
               </h1>
               <p className="text-lg text-[#6B7280] font-medium mb-3">
-                {alumni.degree || "Degree Not Set"}
+                {alumni.degree || 'Degree Not Set'}
               </p>
               <div className="flex flex-wrap gap-5 text-sm text-[#6B7280]">
                 <span className="flex items-center gap-2">
-                  <i className="fas fa-graduation-cap text-[#D4A574]"></i>{" "}
-                  Graduated {alumni.graduation_year || "N/A"}
+                  <i className="fas fa-graduation-cap text-[#D4A574]"></i>{' '}
+                  Graduated {alumni.graduation_year || 'N/A'}
                 </span>
                 <span className="flex items-center gap-2">
-                  <i className="fas fa-id-badge text-[#D4A574]"></i> ID:{" "}
-                  {alumni.student_number || "N/A"}
+                  <i className="fas fa-id-badge text-[#D4A574]"></i> ID:{' '}
+                  {alumni.student_number || 'N/A'}
                 </span>
               </div>
             </div>
             <button
               onClick={() => {
                 setFormData(alumni);
-                setActiveModal("basic");
+                setActiveModal('basic');
               }}
               className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white px-6 py-3 rounded-xl font-bold text-sm shadow-sm hover:-translate-y-0.5 hover:shadow-lg transition-all flex items-center gap-2"
             >
@@ -282,7 +282,7 @@ export default function ProfilePage() {
                 Email
               </p>
               <p className="font-bold text-[#1F2937] break-all">
-                {alumni.email || "Not Set"}
+                {alumni.email || 'Not Set'}
               </p>
             </div>
             <div>
@@ -290,7 +290,7 @@ export default function ProfilePage() {
                 Alternate Email
               </p>
               <p className="font-bold text-[#1F2937] break-all">
-                {alumni.alternative_email || "Not Set"}
+                {alumni.alternative_email || 'Not Set'}
               </p>
             </div>
             <div>
@@ -298,7 +298,7 @@ export default function ProfilePage() {
                 Phone
               </p>
               <p className="font-bold text-[#1F2937]">
-                {alumni.phone || "Not Set"}
+                {alumni.phone || 'Not Set'}
               </p>
             </div>
           </div>
@@ -316,7 +316,7 @@ export default function ProfilePage() {
               <button
                 onClick={() => {
                   setFormData(employment);
-                  setActiveModal("employment");
+                  setActiveModal('employment');
                 }}
                 className="text-[#8B1538] border-2 border-[#8B1538] px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-[#8B1538] hover:text-white transition-all"
               >
@@ -338,24 +338,24 @@ export default function ProfilePage() {
                   </p>
                   <div className="flex gap-6 text-xs text-[#6B7280] mb-4">
                     <span className="flex items-center gap-1.5">
-                      <i className="fas fa-clock text-[#D4A574]"></i>{" "}
+                      <i className="fas fa-clock text-[#D4A574]"></i>{' '}
                       {employment.year_of_service} year(s)
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <i className="fas fa-arrow-up text-[#D4A574]"></i>{" "}
+                      <i className="fas fa-arrow-up text-[#D4A574]"></i>{' '}
                       {employment.promotion_count} promotion(s)
                     </span>
                   </div>
                   <span
                     className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                      employment.employment_status === "Employed"
-                        ? "bg-emerald-100 text-emerald-800"
-                        : employment.employment_status === "Self-employed"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-red-100 text-red-800"
+                      employment.employment_status === 'Employed'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : employment.employment_status === 'Self-employed'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-red-100 text-red-800'
                     }`}
                   >
-                    <i className="fas fa-circle text-[6px]"></i>{" "}
+                    <i className="fas fa-circle text-[6px]"></i>{' '}
                     {employment.employment_status}
                   </span>
                 </div>
@@ -382,10 +382,10 @@ export default function ProfilePage() {
               <button
                 onClick={() => {
                   setFormData({
-                    soft_skills: alumni.soft_skills?.split(",") || [],
-                    technical_skills: alumni.technical_skills?.split(",") || [],
+                    soft_skills: alumni.soft_skills?.split(',') || [],
+                    technical_skills: alumni.technical_skills?.split(',') || [],
                   });
-                  setActiveModal("skills");
+                  setActiveModal('skills');
                 }}
                 className="text-[#8B1538] border-2 border-[#8B1538] px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-[#8B1538] hover:text-white transition-all"
               >
@@ -400,12 +400,12 @@ export default function ProfilePage() {
                 </h6>
                 <div className="flex flex-wrap gap-2">
                   {alumni.soft_skills ? (
-                    alumni.soft_skills.split(",").map((s: string) => (
+                    alumni.soft_skills.split(',').map((s: string) => (
                       <span
                         key={s}
                         className="bg-gradient-to-br from-[#8B1538]/5 to-[#D4A574]/5 border border-[#E5E7EB] text-[#1F2937] px-4 py-2 rounded-full text-xs font-bold hover:border-[#8B1538] transition-all"
                       >
-                        <i className="fas fa-check-circle text-[#8B1538] mr-2"></i>{" "}
+                        <i className="fas fa-check-circle text-[#8B1538] mr-2"></i>{' '}
                         {s.trim()}
                       </span>
                     ))
@@ -424,12 +424,12 @@ export default function ProfilePage() {
                 </h6>
                 <div className="flex flex-wrap gap-2">
                   {alumni.technical_skills ? (
-                    alumni.technical_skills.split(",").map((s: string) => (
+                    alumni.technical_skills.split(',').map((s: string) => (
                       <span
                         key={s}
                         className="bg-gradient-to-br from-[#8B1538]/5 to-[#D4A574]/5 border border-[#E5E7EB] text-[#1F2937] px-4 py-2 rounded-full text-xs font-bold hover:border-[#8B1538] transition-all"
                       >
-                        <i className="fas fa-code text-[#8B1538] mr-2"></i>{" "}
+                        <i className="fas fa-code text-[#8B1538] mr-2"></i>{' '}
                         {s.trim()}
                       </span>
                     ))
@@ -447,21 +447,21 @@ export default function ProfilePage() {
           <section className="bg-white p-8 rounded-2xl shadow-sm border border-[#E5E7EB] hover:shadow-md transition-all">
             <div className="flex justify-between items-center mb-6 pb-4 border-b-2 border-[#D4A574]">
               <h3 className="text-xl font-bold text-[#1F2937] flex items-center gap-3">
-                <i className="fas fa-certificate text-[#8B1538]"></i>{" "}
+                <i className="fas fa-certificate text-[#8B1538]"></i>{' '}
                 Certifications
               </h3>
               <button
                 onClick={() => {
                   setFormData({
-                    name: "",
-                    issuing_org: "",
-                    issue_date: "",
-                    expiration_date: "",
-                    credential_id: "",
-                    credential_url: "",
+                    name: '',
+                    issuing_org: '',
+                    issue_date: '',
+                    expiration_date: '',
+                    credential_id: '',
+                    credential_url: '',
                   });
                   setCertificationImage(null);
-                  setActiveModal("certification");
+                  setActiveModal('certification');
                 }}
                 className="text-[#8B1538] border-2 border-[#8B1538] px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-[#8B1538] hover:text-white transition-all"
               >
@@ -489,14 +489,14 @@ export default function ProfilePage() {
                         </p>
                         <div className="flex gap-4 mt-2 text-[10px] font-black text-[#9CA3AF] uppercase tracking-widest">
                           <span>
-                            Issued:{" "}
+                            Issued:{' '}
                             {cert.issue_date
                               ? new Date(cert.issue_date).toLocaleDateString()
-                              : "N/A"}
+                              : 'N/A'}
                           </span>
                           {cert.expiration_date && (
                             <span>
-                              Expires:{" "}
+                              Expires:{' '}
                               {new Date(
                                 cert.expiration_date,
                               ).toLocaleDateString()}
@@ -517,7 +517,7 @@ export default function ProfilePage() {
                             {isCredly(cert.credential_url) && (
                               <div className="mt-2 border rounded-xl overflow-hidden shadow-sm max-w-[340px] bg-white">
                                 <iframe
-                                  src={`${cert.credential_url.replace("/public_url", "")}/embed`}
+                                  src={`${cert.credential_url.replace('/public_url', '')}/embed`}
                                   width="340"
                                   height="270"
                                   className="border-0"
@@ -565,7 +565,7 @@ export default function ProfilePage() {
       </div>
 
       {}
-      {activeModal === "basic" && (
+      {activeModal === 'basic' && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl">
             <div className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white p-6 flex justify-between items-center">
@@ -603,7 +603,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.first_name || ""}
+                    value={formData.first_name || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, first_name: e.target.value })
                     }
@@ -616,7 +616,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.last_name || ""}
+                    value={formData.last_name || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, last_name: e.target.value })
                     }
@@ -630,7 +630,7 @@ export default function ProfilePage() {
                 </label>
                 <input
                   type="text"
-                  value={formData.middle_name || ""}
+                  value={formData.middle_name || ''}
                   onChange={(e) =>
                     setFormData({ ...formData, middle_name: e.target.value })
                   }
@@ -645,7 +645,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.degree || ""}
+                    value={formData.degree || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, degree: e.target.value })
                     }
@@ -658,7 +658,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="number"
-                    value={formData.graduation_year || ""}
+                    value={formData.graduation_year || ''}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -676,7 +676,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="email"
-                    value={formData.email || ""}
+                    value={formData.email || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
@@ -689,7 +689,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="email"
-                    value={formData.alternative_email || ""}
+                    value={formData.alternative_email || ''}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -707,7 +707,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.phone || ""}
+                    value={formData.phone || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
@@ -720,7 +720,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.alternative_phone || ""}
+                    value={formData.alternative_phone || ''}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -739,7 +739,7 @@ export default function ProfilePage() {
                   Cancel
                 </button>
                 <button
-                  onClick={() => handleUpdate("basic", formData)}
+                  onClick={() => handleUpdate('basic', formData)}
                   className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white px-8 py-2.5 rounded-xl font-bold text-sm"
                 >
                   Save Changes
@@ -750,7 +750,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {activeModal === "employment" && (
+      {activeModal === 'employment' && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl">
             <div className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white p-6 flex justify-between items-center">
@@ -767,7 +767,7 @@ export default function ProfilePage() {
                   Employment Status
                 </label>
                 <select
-                  value={formData.employment_status || ""}
+                  value={formData.employment_status || ''}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -789,7 +789,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.job_title || ""}
+                    value={formData.job_title || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, job_title: e.target.value })
                     }
@@ -802,7 +802,7 @@ export default function ProfilePage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.company_name || ""}
+                    value={formData.company_name || ''}
                     onChange={(e) =>
                       setFormData({ ...formData, company_name: e.target.value })
                     }
@@ -815,7 +815,7 @@ export default function ProfilePage() {
                   Job Description
                 </label>
                 <textarea
-                  value={formData.job_description || ""}
+                  value={formData.job_description || ''}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -867,7 +867,7 @@ export default function ProfilePage() {
                   Cancel
                 </button>
                 <button
-                  onClick={() => handleUpdate("employment", formData)}
+                  onClick={() => handleUpdate('employment', formData)}
                   className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white px-8 py-2.5 rounded-xl font-bold text-sm"
                 >
                   Save Changes
@@ -878,20 +878,20 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {activeModal === "skills" && (
+      {activeModal === 'skills' && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           {}
         </div>
       )}
 
-      {activeModal === "certification" && (
+      {activeModal === 'certification' && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-[2rem] w-full max-w-xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
             <div className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white p-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 -mr-16 -mt-16 rounded-full"></div>
               <h5 className="text-2xl font-black flex items-center gap-4 relative z-10">
-                <i className="fas fa-award text-amber-400"></i>{" "}
-                {formData.id ? "Edit Certification" : "New Certification"}
+                <i className="fas fa-award text-amber-400"></i>{' '}
+                {formData.id ? 'Edit Certification' : 'New Certification'}
               </h5>
               <p className="text-rose-100 text-sm opacity-80 mt-1">
                 Add your professional licenses and credentials
@@ -905,14 +905,14 @@ export default function ProfilePage() {
             </div>
             <div className="flex border-b border-gray-100">
               <button
-                onClick={() => setCertTab("credly")}
-                className={`flex-1 py-4 text-sm font-bold uppercase tracking-widest transition-all ${certTab === "credly" ? "text-[#8B1538] border-b-2 border-[#8B1538] bg-rose-50/30" : "text-gray-400 hover:text-gray-600"}`}
+                onClick={() => setCertTab('credly')}
+                className={`flex-1 py-4 text-sm font-bold uppercase tracking-widest transition-all ${certTab === 'credly' ? 'text-[#8B1538] border-b-2 border-[#8B1538] bg-rose-50/30' : 'text-gray-400 hover:text-gray-600'}`}
               >
                 <i className="fas fa-link mr-2"></i> Credly Badge
               </button>
               <button
-                onClick={() => setCertTab("manual")}
-                className={`flex-1 py-4 text-sm font-bold uppercase tracking-widest transition-all ${certTab === "manual" ? "text-[#8B1538] border-b-2 border-[#8B1538] bg-rose-50/30" : "text-gray-400 hover:text-gray-600"}`}
+                onClick={() => setCertTab('manual')}
+                className={`flex-1 py-4 text-sm font-bold uppercase tracking-widest transition-all ${certTab === 'manual' ? 'text-[#8B1538] border-b-2 border-[#8B1538] bg-rose-50/30' : 'text-gray-400 hover:text-gray-600'}`}
               >
                 <i className="fas fa-file-upload mr-2"></i> Manual Entry
               </button>
@@ -921,7 +921,7 @@ export default function ProfilePage() {
               onSubmit={handleCertificationSubmit}
               className="p-8 space-y-5 bg-white"
             >
-              {certTab === "credly" ? (
+              {certTab === 'credly' ? (
                 <div className="space-y-4">
                   <div className="bg-amber-50 border border-amber-100 p-4 rounded-xl flex items-start gap-3">
                     <i className="fas fa-info-circle text-amber-500 mt-0.5"></i>
@@ -943,7 +943,7 @@ export default function ProfilePage() {
                       required
                       type="text"
                       placeholder='<div data-share-badge-id="..."></div> or URL'
-                      value={formData.credential_url || ""}
+                      value={formData.credential_url || ''}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
@@ -961,7 +961,7 @@ export default function ProfilePage() {
                       required
                       type="text"
                       placeholder="e.g. AWS Certified Cloud Practitioner"
-                      value={formData.name || ""}
+                      value={formData.name || ''}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
@@ -976,7 +976,7 @@ export default function ProfilePage() {
                       required
                       type="text"
                       placeholder="e.g. Amazon Web Services"
-                      value={formData.issuing_org || ""}
+                      value={formData.issuing_org || ''}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
@@ -997,7 +997,7 @@ export default function ProfilePage() {
                       required
                       type="text"
                       placeholder="e.g. Project Management Professional"
-                      value={formData.name || ""}
+                      value={formData.name || ''}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
@@ -1012,7 +1012,7 @@ export default function ProfilePage() {
                       <input
                         required
                         type="date"
-                        value={formData.issue_date || ""}
+                        value={formData.issue_date || ''}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -1028,7 +1028,7 @@ export default function ProfilePage() {
                       </label>
                       <input
                         type="date"
-                        value={formData.expiration_date || ""}
+                        value={formData.expiration_date || ''}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -1041,7 +1041,7 @@ export default function ProfilePage() {
                   </div>
                   <div>
                     <label className="text-[10px] font-black text-[#4B5563] uppercase tracking-[0.2em] ml-1 mb-2 block">
-                      Upload Certificate Image{" "}
+                      Upload Certificate Image{' '}
                       <span className="text-gray-400 font-normal normal-case ml-1">
                         (Optional)
                       </span>
@@ -1057,7 +1057,7 @@ export default function ProfilePage() {
                       />
                       {certificationImage ? (
                         <div className="text-[#8B1538] font-bold flex items-center justify-center gap-2">
-                          <i className="fas fa-check-circle"></i>{" "}
+                          <i className="fas fa-check-circle"></i>{' '}
                           {certificationImage.name}
                         </div>
                       ) : (
@@ -1086,7 +1086,7 @@ export default function ProfilePage() {
                   type="submit"
                   className="flex-[2] bg-gradient-to-r from-[#8B1538] to-[#6B0F2A] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg shadow-rose-200 hover:-translate-y-0.5 transition-all"
                 >
-                  {formData.id ? "Save Changes" : "Add Certification"}
+                  {formData.id ? 'Save Changes' : 'Add Certification'}
                 </button>
               </div>
             </form>
@@ -1128,7 +1128,7 @@ export default function ProfilePage() {
             <div className="h-1 bg-emerald-100">
               <div
                 className="h-full bg-emerald-500 animate-[shrink_3s_linear]"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
               ></div>
             </div>
           </div>

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 const AlumniDashboard = () => {
   return (
@@ -16,7 +16,7 @@ const AlumniDashboard = () => {
                 className="w-full h-[300px] md:h-[500px] lg:h-[600px] object-cover hover:scale-[1.02] transition-transform duration-500"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
-                    "https://placehold.co/1200x500/8B1538/FFFFFF?text=SDCA+Heritage";
+                    'https://placehold.co/1200x500/8B1538/FFFFFF?text=SDCA+Heritage';
                 }}
               />
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white">
@@ -33,7 +33,7 @@ const AlumniDashboard = () => {
                 </span>
                 <strong className="text-[#8B1538]">
                   St. Dominic College of Asia (SDCA)
-                </strong>{" "}
+                </strong>{' '}
                 traces its roots to the establishment of St. Dominic Medical
                 Center in 1991 by founders Don Gregorio and Doña Dominga
                 Andaman. In 2003, what began as a healthcare vision evolved into
@@ -43,10 +43,10 @@ const AlumniDashboard = () => {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8">
                 {[
-                  { label: "Years of Excellence", value: "30+" },
-                  { label: "Specialized Schools", value: "5" },
-                  { label: "Academic Programs", value: "50+" },
-                  { label: "Commitment to Quality", value: "100%" },
+                  { label: 'Years of Excellence', value: '30+' },
+                  { label: 'Specialized Schools', value: '5' },
+                  { label: 'Academic Programs', value: '50+' },
+                  { label: 'Commitment to Quality', value: '100%' },
                 ].map((stat) => (
                   <div
                     key={stat.label}
@@ -61,7 +61,7 @@ const AlumniDashboard = () => {
               </div>
 
               <p className="text-[1.02rem] leading-relaxed text-[#1F2937]">
-                Under the visionary leadership of{" "}
+                Under the visionary leadership of{' '}
                 <strong>Dr. Gregorio A. Andaman, Jr.</strong>, SDCA has embraced
                 the battlecry "
                 <span className="text-[#8B1538] font-bold">
@@ -84,54 +84,54 @@ const AlumniDashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
                     {
-                      icon: "fas fa-heartbeat",
-                      title: "School of Nursing & Allied Health Studies",
+                      icon: 'fas fa-heartbeat',
+                      title: 'School of Nursing & Allied Health Studies',
                       items: [
-                        "BS Nursing",
-                        "BS Radiologic Technology",
-                        "BS Physical Therapy",
+                        'BS Nursing',
+                        'BS Radiologic Technology',
+                        'BS Physical Therapy',
                       ],
                     },
                     {
-                      icon: "fas fa-flask",
-                      title: "School of Medical Laboratory Science",
+                      icon: 'fas fa-flask',
+                      title: 'School of Medical Laboratory Science',
                       items: [
-                        "BS Biology",
-                        "BS Pharmacy",
-                        "BS Medical Laboratory Science",
+                        'BS Biology',
+                        'BS Pharmacy',
+                        'BS Medical Laboratory Science',
                       ],
                     },
                     {
-                      icon: "fas fa-calculator",
-                      title: "School of Accountancy, Sciences & Education",
+                      icon: 'fas fa-calculator',
+                      title: 'School of Accountancy, Sciences & Education',
                       items: [
-                        "BS Accountancy",
-                        "BS Psychology",
-                        "BS Education",
+                        'BS Accountancy',
+                        'BS Psychology',
+                        'BS Education',
                       ],
                     },
                     {
-                      icon: "fas fa-utensils",
-                      title: "School of International Hospitality & Tourism",
+                      icon: 'fas fa-utensils',
+                      title: 'School of International Hospitality & Tourism',
                       items: [
-                        "BS Tourism Management",
-                        "BS Hospitality Management",
-                        "Culinary Arts",
+                        'BS Tourism Management',
+                        'BS Hospitality Management',
+                        'Culinary Arts',
                       ],
                     },
                     {
-                      icon: "fas fa-laptop",
-                      title: "School of Business & Computer Studies",
+                      icon: 'fas fa-laptop',
+                      title: 'School of Business & Computer Studies',
                       items: [
-                        "BS Business Administration",
-                        "BS Information Technology",
-                        "BA Communication",
+                        'BS Business Administration',
+                        'BS Information Technology',
+                        'BA Communication',
                       ],
                     },
                     {
-                      icon: "fas fa-graduation-cap",
-                      title: "Graduate Studies & Medicine",
-                      items: ["MBA", "MA in Psychology", "Doctor of Medicine"],
+                      icon: 'fas fa-graduation-cap',
+                      title: 'Graduate Studies & Medicine',
+                      items: ['MBA', 'MA in Psychology', 'Doctor of Medicine'],
                     },
                   ].map((school) => (
                     <div
@@ -155,11 +155,11 @@ const AlumniDashboard = () => {
               </div>
 
               <p className="text-[1.02rem] leading-relaxed text-[#1F2937]">
-                Our commitment to excellence is reflected in our{" "}
+                Our commitment to excellence is reflected in our{' '}
                 <strong>PACUCOA accreditation</strong> for multiple programs and
                 our consistent achievement of high passing rates in licensure
-                examinations. From our <strong>Basic Education Unit</strong>{" "}
-                (Preschool to Senior High School) to our{" "}
+                examinations. From our <strong>Basic Education Unit</strong>{' '}
+                (Preschool to Senior High School) to our{' '}
                 <strong>Graduate Studies</strong>, we prepare students not just
                 for careers, but for meaningful contributions to society through
                 holistic development and community service.

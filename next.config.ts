@@ -1,27 +1,27 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["sequelize"],
+  serverExternalPackages: ['sequelize'],
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/login",
+        source: '/',
+        destination: '/login',
         permanent: false,
       },
       {
-        source: "/admin/accounts",
-        destination: "/admin/alumni",
+        source: '/admin/accounts',
+        destination: '/admin/alumni',
         permanent: true,
       },
       {
-        source: "/admin/posts",
-        destination: "/admin/posting",
+        source: '/admin/posts',
+        destination: '/admin/posting',
         permanent: true,
       },
       {
-        source: "/admin/users",
-        destination: "/admin/alumni",
+        source: '/admin/users',
+        destination: '/admin/alumni',
         permanent: true,
       },
     ];

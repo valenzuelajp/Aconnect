@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 interface DetailModalProps {
   isOpen: boolean;
@@ -60,10 +60,10 @@ export default function DetailModal({
             {date && (
               <p className="text-sm font-medium opacity-90 mt-2 flex items-center gap-2">
                 <i className="far fa-calendar-alt"></i>
-                {new Date(date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
+                {new Date(date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
                 })}
               </p>
             )}

@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { Alumni, Certification, Employment } from "@/lib/models";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import { Alumni, Certification, Employment } from '@/lib/models';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const user = session.user as any;
@@ -17,7 +17,7 @@ export async function GET() {
     const alumni = await Alumni.findByPk(currentAlumniId);
 
     if (!alumni) {
-      return NextResponse.json({ error: "Alumni not found" }, { status: 404 });
+      return NextResponse.json({ error: 'Alumni not found' }, { status: 404 });
     }
 
     const employmentRows = await Employment.findAll({
@@ -34,9 +34,9 @@ export async function GET() {
       certifications: certificationRows.map((entry) => entry.toJSON()),
     });
   } catch (error) {
-    console.error("Error fetching profile:", error);
+    console.error('Error fetching profile:', error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: 'Internal Server Error' },
       { status: 500 },
     );
   }

@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { useActionState, useEffect, Suspense } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { SubmitButton } from "@/components/ui/SubmitButton";
+import { useActionState, useEffect, Suspense } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { SubmitButton } from '@/components/ui/SubmitButton';
 
 function LoginForm() {
   const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/dashboard");
+    if (status === 'authenticated') {
+      router.push('/dashboard');
     }
   }, [status, router]);
 
   async function loginHandler(prevState: any, formData: FormData) {
-    const student_number = formData.get("student_number") as string;
-    const password = formData.get("password") as string;
+    const student_number = formData.get('student_number') as string;
+    const password = formData.get('password') as string;
 
     if (!student_number || !password) {
-      return { error: "Student number and password are required" };
+      return { error: 'Student number and password are required' };
     }
 
-    const result = await signIn("alumni", {
+    const result = await signIn('alumni', {
       student_number,
       password,
       redirect: false,
@@ -33,7 +33,7 @@ function LoginForm() {
     if (result?.error) {
       return { error: result.error };
     } else {
-      router.push("/dashboard");
+      router.push('/dashboard');
       router.refresh();
       return { success: true };
     }
@@ -41,7 +41,7 @@ function LoginForm() {
 
   const [state, action] = useActionState(loginHandler, null);
 
-  if (status === "loading" || status === "authenticated") {
+  if (status === 'loading' || status === 'authenticated') {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f7f7f7]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#700A0A]"></div>
@@ -106,13 +106,12 @@ function LoginForm() {
               />
             </div>
 
-
             <SubmitButton>Log in to AConnect</SubmitButton>
           </form>
 
           <div className="mt-8 pt-4 border-t border-[#eee] text-center">
             <p className="text-[0.9rem] text-[#6c757d]">
-              New to AConnect?{" "}
+              New to AConnect?{' '}
               <Link
                 href="/register"
                 className="text-[#700A0A] font-semibold hover:underline"

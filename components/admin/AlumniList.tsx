@@ -1,10 +1,9 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import ConfirmModal from "@/components/modals/ConfirmModal";
-import SuccessModal from "@/components/modals/SuccessModal";
+import Image from 'next/image';
+import { useState } from 'react';
+import ConfirmModal from '@/components/modals/ConfirmModal';
+import SuccessModal from '@/components/modals/SuccessModal';
 
 interface AlumniListProps {
   initialAlumni: any[];
@@ -18,7 +17,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
   const [showSuccess, setShowSuccess] = useState<{
     show: boolean;
     message: string;
-  }>({ show: false, message: "" });
+  }>({ show: false, message: '' });
   const [isResending, setIsResending] = useState(false);
 
   const viewAlumniDetails = (alum: any) => {
@@ -31,9 +30,9 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
 
     setIsResending(true);
     try {
-      const res = await fetch("/api/admin/resend-verification", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/admin/resend-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ alumniId: selectedAlumni.id }),
       });
 
@@ -43,14 +42,14 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
         setShowResendConfirm(false);
         setShowSuccess({
           show: true,
-          message: data.message || "Verification email sent successfully!",
+          message: data.message || 'Verification email sent successfully!',
         });
       } else {
-        alert(`Error: ${data.error || "Failed to send email"}`);
+        alert(`Error: ${data.error || 'Failed to send email'}`);
       }
     } catch (error) {
-      console.error("Error resending email:", error);
-      alert("Failed to send verification email. Please try again.");
+      console.error('Error resending email:', error);
+      alert('Failed to send verification email. Please try again.');
     } finally {
       setIsResending(false);
     }
@@ -116,28 +115,28 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-[#8B1538] font-medium font-mono">
-                    {alum.student_number || "N/A"}
+                    {alum.student_number || 'N/A'}
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-700">
-                      {alum.degree || "N/A"}
+                      {alum.degree || 'N/A'}
                     </div>
                     <div className="text-xs text-gray-400">
-                      {alum.school || "N/A"}
+                      {alum.school || 'N/A'}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {alum.graduation_year || "N/A"}
+                    {alum.graduation_year || 'N/A'}
                   </td>
                   <td className="px-6 py-4">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
                         alum.email_verified
-                          ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                          : "bg-amber-50 text-amber-600 border-amber-100"
+                          ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                          : 'bg-amber-50 text-amber-600 border-amber-100'
                       }`}
                     >
-                      {alum.email_verified ? "Verified" : "Pending"}
+                      {alum.email_verified ? 'Verified' : 'Pending'}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-center">
@@ -199,8 +198,8 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                 </div>
                 <div>
                   <h4 className="text-2xl font-bold text-gray-900">
-                    {selectedAlumni.first_name}{" "}
-                    {selectedAlumni.middle_name || ""}{" "}
+                    {selectedAlumni.first_name}{' '}
+                    {selectedAlumni.middle_name || ''}{' '}
                     {selectedAlumni.last_name}
                   </h4>
                   <p className="text-gray-600">{selectedAlumni.email}</p>
@@ -217,7 +216,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     Phone
                   </label>
                   <p className="text-gray-900">
-                    {selectedAlumni.phone || "N/A"}
+                    {selectedAlumni.phone || 'N/A'}
                   </p>
                 </div>
                 <div>
@@ -225,7 +224,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     Alternative Email
                   </label>
                   <p className="text-gray-900">
-                    {selectedAlumni.alternative_email || "N/A"}
+                    {selectedAlumni.alternative_email || 'N/A'}
                   </p>
                 </div>
                 <div>
@@ -233,7 +232,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     Degree
                   </label>
                   <p className="text-gray-900">
-                    {selectedAlumni.degree || "N/A"}
+                    {selectedAlumni.degree || 'N/A'}
                   </p>
                 </div>
                 <div>
@@ -241,7 +240,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     Graduation Year
                   </label>
                   <p className="text-gray-900">
-                    {selectedAlumni.graduation_year || "N/A"}
+                    {selectedAlumni.graduation_year || 'N/A'}
                   </p>
                 </div>
                 <div>
@@ -249,7 +248,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     Sex
                   </label>
                   <p className="text-gray-900 capitalize">
-                    {selectedAlumni.sex || "N/A"}
+                    {selectedAlumni.sex || 'N/A'}
                   </p>
                 </div>
                 <div>
@@ -260,13 +259,13 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         selectedAlumni.email_verified
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-amber-100 text-amber-700"
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-amber-100 text-amber-700'
                       }`}
                     >
                       {selectedAlumni.email_verified
-                        ? "Verified"
-                        : "Pending Verification"}
+                        ? 'Verified'
+                        : 'Pending Verification'}
                     </span>
                   </p>
                 </div>
@@ -293,7 +292,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
                     className="w-full bg-gradient-to-r from-[#8B1538] to-[#6B0F2A] text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <i className="fas fa-envelope"></i>
-                    {isResending ? "Sending..." : "Resend Verification Email"}
+                    {isResending ? 'Sending...' : 'Resend Verification Email'}
                   </button>
                   <p className="text-xs text-gray-500 text-center mt-2">
                     Send a new verification code to {selectedAlumni.email}
@@ -322,7 +321,7 @@ export default function AlumniList({ initialAlumni }: AlumniListProps) {
         isOpen={showSuccess.show}
         title="Email Sent!"
         message={showSuccess.message}
-        onClose={() => setShowSuccess({ show: false, message: "" })}
+        onClose={() => setShowSuccess({ show: false, message: '' })}
       />
     </>
   );

@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import ConfirmModal from "@/components/modals/ConfirmModal";
-import SuccessModal from "@/components/modals/SuccessModal";
+import { useEffect, useState } from 'react';
+import ConfirmModal from '@/components/modals/ConfirmModal';
+import SuccessModal from '@/components/modals/SuccessModal';
 
 export default function AdminEvents() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    event_name: "",
-    event_date: "",
-    event_time_duration: "",
-    location: "",
-    contact_person: "",
-    description: "",
+    event_name: '',
+    event_date: '',
+    event_time_duration: '',
+    location: '',
+    contact_person: '',
+    description: '',
   });
   const [eventImage, setEventImage] = useState<File | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<{
@@ -25,7 +25,7 @@ export default function AdminEvents() {
   const [showSuccess, setShowSuccess] = useState<{
     show: boolean;
     message: string;
-  }>({ show: false, message: "" });
+  }>({ show: false, message: '' });
 
   useEffect(() => {
     fetchEvents();
@@ -34,7 +34,7 @@ export default function AdminEvents() {
   async function fetchEvents() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/events");
+      const res = await fetch('/api/admin/events');
       const data = await res.json();
       setEvents(data);
     } catch (error) {
@@ -44,22 +44,22 @@ export default function AdminEvents() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const data = new FormData();
-      data.append("event_name", formData.event_name);
-      data.append("event_date", formData.event_date);
-      data.append("event_time_duration", formData.event_time_duration);
-      data.append("location", formData.location);
-      data.append("contact_person", formData.contact_person);
-      data.append("description", formData.description);
+      data.append('event_name', formData.event_name);
+      data.append('event_date', formData.event_date);
+      data.append('event_time_duration', formData.event_time_duration);
+      data.append('location', formData.location);
+      data.append('contact_person', formData.contact_person);
+      data.append('description', formData.description);
       if (eventImage) {
-        data.append("event_image", eventImage);
+        data.append('event_image', eventImage);
       }
 
-      const res = await fetch("/api/admin/events", {
-        method: "POST",
+      const res = await fetch('/api/admin/events', {
+        method: 'POST',
         body: data,
       });
 
@@ -67,22 +67,22 @@ export default function AdminEvents() {
         setShowModal(false);
         fetchEvents();
         setFormData({
-          event_name: "",
-          event_date: "",
-          event_time_duration: "",
-          location: "",
-          contact_person: "",
-          description: "",
+          event_name: '',
+          event_date: '',
+          event_time_duration: '',
+          location: '',
+          contact_person: '',
+          description: '',
         });
         setEventImage(null);
-        setShowSuccess({ show: true, message: "Event created successfully!" });
+        setShowSuccess({ show: true, message: 'Event created successfully!' });
       } else {
         const errorData = await res.json();
-        alert(`Error creating event: ${errorData.error || "Unknown error"}`);
-        console.error("Server error:", errorData);
+        alert(`Error creating event: ${errorData.error || 'Unknown error'}`);
+        console.error('Server error:', errorData);
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error('Error submitting form:', error);
       alert(`Failed to create event: ${error}`);
     }
   }
@@ -95,12 +95,12 @@ export default function AdminEvents() {
     if (!confirmDelete.id) return;
     try {
       const res = await fetch(`/api/admin/events?id=${confirmDelete.id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       if (res.ok) {
         fetchEvents();
         setConfirmDelete({ show: false, id: null });
-        setShowSuccess({ show: true, message: "Event deleted successfully!" });
+        setShowSuccess({ show: true, message: 'Event deleted successfully!' });
       }
     } catch (error) {
       console.error(error);
@@ -197,7 +197,7 @@ export default function AdminEvents() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="text-sm text-slate-600 font-medium flex items-center gap-1">
-                      <i className="fas fa-map-marker-alt text-rose-500"></i>{" "}
+                      <i className="fas fa-map-marker-alt text-rose-500"></i>{' '}
                       {event.location}
                     </div>
                   </td>
@@ -366,7 +366,7 @@ export default function AdminEvents() {
         isOpen={showSuccess.show}
         title="Success!"
         message={showSuccess.message}
-        onClose={() => setShowSuccess({ show: false, message: "" })}
+        onClose={() => setShowSuccess({ show: false, message: '' })}
       />
     </div>
   );

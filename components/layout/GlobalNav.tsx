@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface NavItem {
   label: string;
@@ -25,9 +25,9 @@ const GlobalNav = ({ isAdmin, navItems }: GlobalNavProps) => {
             <Link
               href="/dashboard"
               className={`flex flex-col items-center justify-center min-w-[84px] h-full text-[13px] transition-all duration-200 border-b-2 pt-[4px] ${
-                pathname === "/dashboard"
-                  ? "text-black border-black"
-                  : "text-[#666] border-transparent hover:text-black"
+                pathname === '/dashboard'
+                  ? 'text-black border-black'
+                  : 'text-[#666] border-transparent hover:text-black'
               }`}
             >
               <i className="fas fa-chart-line text-[20px] mb-[4px]"></i>
@@ -40,13 +40,13 @@ const GlobalNav = ({ isAdmin, navItems }: GlobalNavProps) => {
           <li className="flex h-full items-center relative group">
             <div
               className={`flex flex-col items-center justify-center min-w-[84px] h-full text-[13px] transition-all duration-200 border-b-2 pt-[4px] cursor-pointer ${
-                pathname.startsWith("/admin/alumni") ||
-                pathname.startsWith("/admin/jobs") ||
-                pathname.startsWith("/admin/events") ||
-                pathname.startsWith("/admin/posting") ||
-                pathname.startsWith("/admin/analytics")
-                  ? "text-black border-black"
-                  : "text-[#666] border-transparent hover:text-black"
+                pathname.startsWith('/admin/alumni') ||
+                pathname.startsWith('/admin/jobs') ||
+                pathname.startsWith('/admin/events') ||
+                pathname.startsWith('/admin/posting') ||
+                pathname.startsWith('/admin/analytics')
+                  ? 'text-black border-black'
+                  : 'text-[#666] border-transparent hover:text-black'
               }`}
             >
               <i className="fas fa-tasks text-[20px] mb-[4px]"></i>
@@ -86,10 +86,10 @@ const GlobalNav = ({ isAdmin, navItems }: GlobalNavProps) => {
           <li className="flex h-full items-center relative group">
             <div
               className={`flex flex-col items-center justify-center min-w-[84px] h-full text-[13px] transition-all duration-200 border-b-2 pt-[4px] cursor-pointer ${
-                pathname.startsWith("/admin/users") ||
-                pathname.startsWith("/admin/logs")
-                  ? "text-black border-black"
-                  : "text-[#666] border-transparent hover:text-black"
+                pathname.startsWith('/admin/users') ||
+                pathname.startsWith('/admin/logs')
+                  ? 'text-black border-black'
+                  : 'text-[#666] border-transparent hover:text-black'
               }`}
             >
               <i className="fas fa-cogs text-[20px] mb-[4px]"></i>
@@ -112,9 +112,9 @@ const GlobalNav = ({ isAdmin, navItems }: GlobalNavProps) => {
             <Link
               href="/admin/support"
               className={`flex flex-col items-center justify-center min-w-[84px] h-full text-[13px] transition-all duration-200 border-b-2 pt-[4px] ${
-                pathname === "/admin/support"
-                  ? "text-black border-black"
-                  : "text-[#666] border-transparent hover:text-black"
+                pathname === '/admin/support'
+                  ? 'text-black border-black'
+                  : 'text-[#666] border-transparent hover:text-black'
               }`}
             >
               <i className="fas fa-headset text-[20px] mb-[4px]"></i>
@@ -128,9 +128,9 @@ const GlobalNav = ({ isAdmin, navItems }: GlobalNavProps) => {
             <Link
               href="/admin/analytics"
               className={`flex flex-col items-center justify-center min-w-[84px] h-full text-[13px] transition-all duration-200 border-b-2 pt-[4px] ${
-                pathname === "/admin/analytics"
-                  ? "text-black border-black"
-                  : "text-[#666] border-transparent hover:text-black"
+                pathname === '/admin/analytics'
+                  ? 'text-black border-black'
+                  : 'text-[#666] border-transparent hover:text-black'
               }`}
             >
               <i className="fas fa-chart-bar text-[20px] mb-[4px]"></i>
@@ -155,8 +155,8 @@ const GlobalNav = ({ isAdmin, navItems }: GlobalNavProps) => {
                 href={item.href}
                 className={`flex flex-col items-center justify-center min-w-[84px] h-full text-[13px] transition-all duration-200 border-b-2 pt-[4px] ${
                   isActive
-                    ? "text-black border-black"
-                    : "text-[#666] border-transparent hover:text-black"
+                    ? 'text-black border-black'
+                    : 'text-[#666] border-transparent hover:text-black'
                 }`}
               >
                 <i className={`fas ${item.icon} text-[20px] mb-[4px]`}></i>

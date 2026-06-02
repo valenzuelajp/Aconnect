@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { Certification } from "@/lib/models";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import { Certification } from '@/lib/models';
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const certifications = await Certification.findAll({
       where: { alumni_id: parseInt((session.user as any).id) },
-      order: [["created_at", "DESC"]],
+      order: [['created_at', 'DESC']],
     });
     return NextResponse.json(certifications.map((cert) => cert.toJSON()));
   } catch (error: any) {
@@ -26,13 +26,13 @@ async function handleImageUpload(file: File): Promise<string | null> {
   if (!file || file.size === 0) return null;
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
+  const filename = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
   const uploadDir = path.join(
     process.cwd(),
-    "public",
-    "assets",
-    "uploads",
-    "certifications",
+    'public',
+    'assets',
+    'uploads',
+    'certifications',
   );
 
   try {
@@ -48,18 +48,18 @@ async function handleImageUpload(file: File): Promise<string | null> {
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const formData = await request.formData();
-    const name = formData.get("name") as string;
-    const issuing_org = formData.get("issuing_org") as string;
-    const issue_date = formData.get("issue_date") as string;
-    const expiration_date = formData.get("expiration_date") as string;
-    const credential_id = formData.get("credential_id") as string;
-    const credential_url = formData.get("credential_url") as string;
-    const certification_image = formData.get("certification_image") as File;
+    const name = formData.get('name') as string;
+    const issuing_org = formData.get('issuing_org') as string;
+    const issue_date = formData.get('issue_date') as string;
+    const expiration_date = formData.get('expiration_date') as string;
+    const credential_id = formData.get('credential_id') as string;
+    const credential_url = formData.get('credential_url') as string;
+    const certification_image = formData.get('certification_image') as File;
 
     const imageName = await handleImageUpload(certification_image);
 
@@ -74,9 +74,9 @@ export async function POST(request: Request) {
       certification_image: imageName,
     });
 
-    return NextResponse.json({ message: "Certification added" });
+    return NextResponse.json({ message: 'Certification added' });
   } catch (error: any) {
-    console.error("Error adding certification:", error);
+    console.error('Error adding certification:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -84,22 +84,22 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const formData = await request.formData();
-    const id = formData.get("id") as string;
-    const name = formData.get("name") as string;
-    const issuing_org = formData.get("issuing_org") as string;
-    const issue_date = formData.get("issue_date") as string;
-    const expiration_date = formData.get("expiration_date") as string;
-    const credential_id = formData.get("credential_id") as string;
-    const credential_url = formData.get("credential_url") as string;
-    const certification_image = formData.get("certification_image") as File;
+    const id = formData.get('id') as string;
+    const name = formData.get('name') as string;
+    const issuing_org = formData.get('issuing_org') as string;
+    const issue_date = formData.get('issue_date') as string;
+    const expiration_date = formData.get('expiration_date') as string;
+    const credential_id = formData.get('credential_id') as string;
+    const credential_url = formData.get('credential_url') as string;
+    const certification_image = formData.get('certification_image') as File;
 
     if (!id) {
-      return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+      return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
     }
 
     let imageName = undefined;
@@ -126,9 +126,9 @@ export async function PUT(request: Request) {
       },
     );
 
-    return NextResponse.json({ message: "Certification updated" });
+    return NextResponse.json({ message: 'Certification updated' });
   } catch (error: any) {
-    console.error("Error updating certification:", error);
+    console.error('Error updating certification:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -136,15 +136,15 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
+    const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+      return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
     }
 
     await Certification.destroy({

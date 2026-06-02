@@ -1,22 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { Job } from "@/lib/models";
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
+import { Job } from '@/lib/models';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const jobs = await Job.findAll({ order: [["created_at", "DESC"]] });
+  const jobs = await Job.findAll({ order: [['created_at', 'DESC']] });
   return NextResponse.json(jobs.map((job) => job.toJSON()));
 }
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const data = await req.json();
@@ -50,12 +50,12 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { searchParams } = new URL(req.url);
-  let id = searchParams.get("id");
+  let id = searchParams.get('id');
 
   if (!id) {
     try {
@@ -64,7 +64,7 @@ export async function DELETE(req: NextRequest) {
     } catch {}
   }
 
-  if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+  if (!id) return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
 
   try {
     await Job.destroy({ where: { id: parseInt(id as string) } });
@@ -76,8 +76,8 @@ export async function DELETE(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any).role !== "administrator") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session || (session.user as any).role !== 'administrator') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const data = await req.json();

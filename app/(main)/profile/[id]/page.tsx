@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function PeerProfilePage() {
   const { id } = useParams();
@@ -25,10 +25,10 @@ export default function PeerProfilePage() {
       if (!data.error) {
         setAlumnus(data);
       } else if (data.isOwnProfile) {
-        router.push("/profile");
+        router.push('/profile');
       }
     } catch (error) {
-      console.error("Failed to fetch peer profile:", error);
+      console.error('Failed to fetch peer profile:', error);
     } finally {
       setLoading(false);
     }
@@ -37,9 +37,9 @@ export default function PeerProfilePage() {
   const handleConnectionAction = async (action: string) => {
     setActionLoading(true);
     try {
-      const res = await fetch("/api/alumni/connection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/alumni/connection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action,
           targetId: parseInt(id as string),
@@ -50,7 +50,7 @@ export default function PeerProfilePage() {
         fetchPeerProfile();
       }
     } catch (error) {
-      console.error("Connection action failed:", error);
+      console.error('Connection action failed:', error);
     } finally {
       setActionLoading(false);
     }
@@ -59,7 +59,7 @@ export default function PeerProfilePage() {
   const getImagePath = () => {
     if (alumnus?.profile_image)
       return `/assets/uploads/alumni/${alumnus.profile_image}`;
-    return `/assets/images/person-${alumnus?.sex?.toLowerCase() === "female" ? "female" : "male"}.png`;
+    return `/assets/images/person-${alumnus?.sex?.toLowerCase() === 'female' ? 'female' : 'male'}.png`;
   };
 
   if (loading || !alumnus) {
@@ -108,15 +108,15 @@ export default function PeerProfilePage() {
                 {alumnus.first_name} {alumnus.last_name}
               </h1>
               <p className="text-lg text-[#6B7280] font-medium mb-3">
-                {alumnus.degree || "Alumni"}
+                {alumnus.degree || 'Alumni'}
               </p>
               <div className="flex flex-wrap gap-5 text-sm text-[#6B7280]">
                 <span className="flex items-center gap-2">
-                  <i className="fas fa-graduation-cap text-[#D4A574]"></i>{" "}
-                  Graduated {alumnus.graduation_year || "N/A"}
+                  <i className="fas fa-graduation-cap text-[#D4A574]"></i>{' '}
+                  Graduated {alumnus.graduation_year || 'N/A'}
                 </span>
                 <span className="flex items-center gap-2">
-                  <i className="fas fa-id-badge text-[#D4A574]"></i> Class of{" "}
+                  <i className="fas fa-id-badge text-[#D4A574]"></i> Class of{' '}
                   {alumnus.year_admitted}
                 </span>
               </div>
@@ -124,14 +124,14 @@ export default function PeerProfilePage() {
 
             {}
             <div className="flex gap-3">
-              {alumnus.connectionStatus === "accepted" ? (
+              {alumnus.connectionStatus === 'accepted' ? (
                 <button className="bg-emerald-50 text-emerald-700 px-6 py-3 rounded-xl font-bold text-sm border-2 border-emerald-100 flex items-center gap-2">
                   <i className="fas fa-check-circle"></i> Linked
                 </button>
-              ) : alumnus.connectionStatus === "pending" ? (
+              ) : alumnus.connectionStatus === 'pending' ? (
                 <button
                   disabled={actionLoading}
-                  onClick={() => handleConnectionAction("cancel_request")}
+                  onClick={() => handleConnectionAction('cancel_request')}
                   className="bg-amber-50 text-amber-700 px-6 py-3 rounded-xl font-bold text-sm border-2 border-amber-100 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-100 transition-all flex items-center gap-2 group"
                 >
                   <i className="fas fa-clock group-hover:hidden"></i>
@@ -141,18 +141,18 @@ export default function PeerProfilePage() {
                     Cancel Request
                   </span>
                 </button>
-              ) : alumnus.connectionStatus === "received" ? (
+              ) : alumnus.connectionStatus === 'received' ? (
                 <div className="flex gap-2">
                   <button
                     disabled={actionLoading}
-                    onClick={() => handleConnectionAction("accept_request")}
+                    onClick={() => handleConnectionAction('accept_request')}
                     className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-sm hover:brightness-110 transition-all flex items-center gap-2"
                   >
                     Accept
                   </button>
                   <button
                     disabled={actionLoading}
-                    onClick={() => handleConnectionAction("decline_request")}
+                    onClick={() => handleConnectionAction('decline_request')}
                     className="bg-rose-600 text-white px-4 py-3 rounded-xl font-bold text-sm shadow-sm hover:brightness-110 transition-all"
                   >
                     <i className="fas fa-times"></i>
@@ -161,7 +161,7 @@ export default function PeerProfilePage() {
               ) : (
                 <button
                   disabled={actionLoading}
-                  onClick={() => handleConnectionAction("send_request")}
+                  onClick={() => handleConnectionAction('send_request')}
                   className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] text-white px-8 py-3 rounded-xl font-bold text-sm shadow-sm hover:-translate-y-0.5 hover:shadow-lg transition-all flex items-center gap-2"
                 >
                   <i className="fas fa-user-plus"></i> Connect
@@ -192,7 +192,7 @@ export default function PeerProfilePage() {
                   </p>
                   <p className="text-sm text-[#4B5563] leading-relaxed line-clamp-3">
                     {employment.job_description ||
-                      "Currently pursuing professional growth in this role."}
+                      'Currently pursuing professional growth in this role.'}
                   </p>
                 </div>
               </div>
@@ -236,7 +236,7 @@ export default function PeerProfilePage() {
                         rel="noopener noreferrer"
                         className="text-[10px] font-bold text-[#8B1538] uppercase tracking-widest hover:underline"
                       >
-                        Verify Credential{" "}
+                        Verify Credential{' '}
                         <i className="fas fa-external-link-alt ml-1"></i>
                       </a>
                     )}
@@ -258,7 +258,7 @@ export default function PeerProfilePage() {
             </h3>
             <div className="flex flex-wrap gap-2">
               {alumnus.technical_skills ? (
-                alumnus.technical_skills.split(",").map((skill: string) => (
+                alumnus.technical_skills.split(',').map((skill: string) => (
                   <span
                     key={skill}
                     className="px-4 py-2 bg-slate-100 text-[#1F2937] rounded-xl text-xs font-bold border border-slate-200"

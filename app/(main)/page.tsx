@@ -1,8 +1,8 @@
-import db from "@/lib/db";
-import Carousel from "@/components/ui/Carousel";
-import PostSection from "@/components/ui/PostSection";
+import db from '@/lib/db';
+import Carousel from '@/components/ui/Carousel';
+import PostSection from '@/components/ui/PostSection';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   let photos: any[] = [];
@@ -10,22 +10,22 @@ export default async function Home() {
 
   try {
     const [photoRows]: any = await db.query(
-      "SELECT * FROM carousel_photos ORDER BY uploaded_at DESC",
+      'SELECT * FROM carousel_photos ORDER BY uploaded_at DESC',
     );
     photos = photoRows;
 
     const [postRows]: any = await db.query(
-      "SELECT * FROM post ORDER BY created_at DESC",
+      'SELECT * FROM post ORDER BY created_at DESC',
     );
     allPosts = postRows;
   } catch (error) {
-    console.error("Database fetch error:", error);
+    console.error('Database fetch error:', error);
   }
 
   const groupedPosts: Record<string, any[]> = {
-    announcements: allPosts.filter((p: any) => p.post_type === "announcements"),
-    news: allPosts.filter((p: any) => p.post_type === "news"),
-    stories: allPosts.filter((p: any) => p.post_type === "stories"),
+    announcements: allPosts.filter((p: any) => p.post_type === 'announcements'),
+    news: allPosts.filter((p: any) => p.post_type === 'news'),
+    stories: allPosts.filter((p: any) => p.post_type === 'stories'),
   };
 
   return (

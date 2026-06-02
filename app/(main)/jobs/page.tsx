@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import JobCard from "@/components/ui/JobCard";
+import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import JobCard from '@/components/ui/JobCard';
 
 export default function JobsPage() {
   const { data: session } = useSession();
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
+  const [search, setSearch] = useState('');
+  const [location, setLocation] = useState('');
 
   useEffect(() => {
     fetchJobs();
@@ -25,7 +25,7 @@ export default function JobsPage() {
         setJobs(data);
       }
     } catch (error) {
-      console.error("Failed to fetch jobs:", error);
+      console.error('Failed to fetch jobs:', error);
     } finally {
       setLoading(false);
     }
